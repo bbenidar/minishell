@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/04/30 14:23:39 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/04/30 18:41:17 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ char	*ft_strdup(const char *s1);
 // ---------------------------------PRINC FUNCT-------------------------------//
 //parsing/first_check.c
 void ft_first_check(char *str);
+int check_space(char *str);
 
 #endif
