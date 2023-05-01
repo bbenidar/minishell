@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/04/30 18:54:19 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:02:55 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,51 @@ int check_space(char *str)
     return (0);
 }
 
-void ft_first_check(char *str)
+static int ft_skip_qoutes(char *str)
+{
+    int i;
+    char c;
+
+    c = *str;
+    if (c != 34 || c != 39)
+        return (0);
+    i = 1;
+    while(str[i] && str[i] != c)
+        i++;  
+    return (i);    
+}
+
+static int check_pipe(char *str)
+{
+    while(*str)
+    {
+        if(*str == 124 && *(str + 1) != 124)
+        {
+            str++;
+            while(*str == 32)
+                str++;
+            if (!*str || *str == 124)
+                return (1);  
+        }
+        str += ft_skip_qoutes(str);
+        if (*str)
+            return (0);
+            
+    }
+}
+
+int ft_first_check(char *str)
 {
     while(*str == ' ')
         str++;
     if(check_space(str))
-         return ;  
-    if (ft_check_quotes(str))
-        {      
-            printf("\033[0;31mERROR :Unclosed quotes\033[0m\n");
-            return ;  
-        } 
+         return (1);  
+    if (ft_check_quotes(str))   
+        printf("\033[0;31mERROR :Unclosed quotes\033[0m\n"); 
+    else if (*str == 124 || check_pipe(str))
+        printf("\033[0;31mERROR :PIPE ERROR[0m\n");
+
+    else
+        return (0);
+    return(1);   
 }

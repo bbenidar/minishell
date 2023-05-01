@@ -6,11 +6,24 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:20:07 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/04/30 14:27:30 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/01 13:25:57 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
+
+t_stack	*ft_new_node(void)
+{
+	t_stack	*begin;
+
+	begin = (t_stack *)malloc(sizeof(t_stack));
+	if (!begin)
+		return (NULL);
+	begin->word = 0;
+	begin->key = -1;
+	begin->next = NULL;
+	return (begin);
+}
 
 int	ft_strlen(const char *str)
 {
@@ -40,4 +53,11 @@ char	*ft_strdup(const char *s1)
 		i++;
 	}
 	return (p);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+		return (1);
+	return (0);
 }

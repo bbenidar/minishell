@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/04/30 18:41:28 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/01 11:36:06 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,20 @@ void begin()
     while(42)
     {
         line = readline(" \033[0;33mminishell ✗ \033[0m");
-        // if (ft_strlen(line))
-        //     printf("");
-        ft_first_check(line);
+        if(!line)
+        {
+            printf("EXITE");
+            break;
+        }
+        if(line && *line && !ft_first_check(line))
+            lexical_function(line);
         if (!check_space(line))
             add_history(line);
     }
 }
 
-int main(int ac, char **av)
+#include <string.h>
+int main(int ac, char **av, char **env)
 {
     av[1] = 0;
     if (ac != 1)
@@ -42,5 +47,6 @@ int main(int ac, char **av)
     printf("\033[0;32m/*                                                    ###   ########          */\n");
     printf("\033[0;32m/*                                                                            */\n");
     printf("\033[0;32m/* ************************************************************************** */\n");
+
     begin();
 }
