@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/01 16:02:55 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:47:38 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,28 @@ static int check_pipe(char *str)
         }
         str += ft_skip_qoutes(str);
         if (*str)
-            return (0);
-            
+            str++;     
     }
+    return (0);
+}
+
+int check_logical(char *str)
+{
+    while(*str)
+    {
+        if((*str == 38 && *(str + 1) == 38) || (*str == 114 && *(str + 1) == 114))
+        {
+            str += 2;
+            while(*str == 32)
+                str++;
+            if(*str == 38 && *(str + 1) == 38) //hna mhtaj function tchiki liya yak makayn ("<>|")!
+                return (1);
+            
+        }
+        if(*str)
+                str++;
+    }
+    return (0);
 }
 
 int ft_first_check(char *str)
@@ -87,8 +106,23 @@ int ft_first_check(char *str)
         printf("\033[0;31mERROR :Unclosed quotes\033[0m\n"); 
     else if (*str == 124 || check_pipe(str))
         printf("\033[0;31mERROR :PIPE ERROR[0m\n");
+    else if (check_logical(str))
+        printf("\033[0;31mERROR :LOGICAL ERROR[0m\n");
 
     else
         return (0);
     return(1);   
+}
+
+// had lfunction tal ghedda o ndir lih fichier bo7dha 
+
+int check_character(char c, char *check)
+{
+    while(*check)
+    {
+        if(c == *check)
+            return (1);
+        check++;
+    }
+    return (0);
 }

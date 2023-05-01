@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/01 11:36:06 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:37:32 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,17 @@ void begin()
             printf("EXITE");
             break;
         }
-        if(line && *line && !ft_first_check(line))
-            lexical_function(line);
         if (!check_space(line))
             add_history(line);
+        // if(line && *line && !
+        ft_first_check(line);
+            // lexical_function(line); matms7ich hadi!!
+        
     }
 }
 
 #include <string.h>
-int main(int ac, char **av, char **env)
+int main(int ac, char **av)
 {
     av[1] = 0;
     if (ac != 1)
