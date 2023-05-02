@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:20:07 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/01 13:25:57 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/02 10:28:19 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-
 
 char	*ft_strdup(const char *s1)
 {

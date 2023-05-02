@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/01 21:47:38 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:08:23 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ static int check_pipe(char *str)
 {
     while(*str)
     {
-        if(*str == 124 && *(str + 1) != 124)
+        if((*str == 124 && *(str + 1) != 124) || (*str == 38 && *(str + 1) != 38))
         {
             str++;
             while(*str == 32)
                 str++;
-            if (!*str || *str == 124)
+            if (!*str || *str == 124 || ( *(str - 1) == ' ' && *str == 38))
                 return (1);  
         }
         str += ft_skip_qoutes(str);
@@ -86,12 +86,12 @@ int check_logical(char *str)
             str += 2;
             while(*str == 32)
                 str++;
-            if(*str == 38 && *(str + 1) == 38) //hna mhtaj function tchiki liya yak makayn ("<>|")!
+            if(check_character(*str, "<>|") || (*str == 38 || *(str + 1) == 38)) //hna mhtaj function tchiki liya yak makayn ("<>|")!
                 return (1);
             
         }
         if(*str)
-                str++;
+            str++;
     }
     return (0);
 }
@@ -105,24 +105,10 @@ int ft_first_check(char *str)
     if (ft_check_quotes(str))   
         printf("\033[0;31mERROR :Unclosed quotes\033[0m\n"); 
     else if (*str == 124 || check_pipe(str))
-        printf("\033[0;31mERROR :PIPE ERROR[0m\n");
+        printf("\033[0;31mminishell: parse error near `|`\033[0m\n");
     else if (check_logical(str))
         printf("\033[0;31mERROR :LOGICAL ERROR[0m\n");
-
     else
         return (0);
     return(1);   
-}
-
-// had lfunction tal ghedda o ndir lih fichier bo7dha 
-
-int check_character(char c, char *check)
-{
-    while(*check)
-    {
-        if(c == *check)
-            return (1);
-        check++;
-    }
-    return (0);
 }

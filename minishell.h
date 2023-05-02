@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/01 13:26:15 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/02 10:19:34 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	ft_isalpha(int c);
 //parsing/first_check.c
 int ft_first_check(char *str);
 int check_space(char *str);
+//parsing/check_utils.c
+int check_character(char c, char *check);
 //lexical/lexical_func
 void lexical_function(char *line);
 

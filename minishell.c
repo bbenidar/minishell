@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/01 21:37:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/02 11:00:45 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void begin()
     char *line;
     while(42)
     {
-        line = readline(" \033[0;33mminishell ✗ \033[0m");
+        line = readline(" \033[0;33m➜ minishell ✗ \033[0m");
         if(!line)
         {
             printf("EXITE");
