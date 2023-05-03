@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:29:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/04/30 14:27:25 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/03 10:39:28 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 
 
-char	*ft_substr(char const *s, unsigned int start,
-		size_t len)
+char	*ft_substr(char const *s, int start,
+		int len)
 {
 	char			*src;
-	unsigned int	i;
-	unsigned int	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;

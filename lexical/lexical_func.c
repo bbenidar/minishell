@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/02 18:26:22 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:29:57 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,29 @@ char *dell_space(char *line)
         if(line[j] != ' ')
         {
             str[i] = line[j];
-            j++;
+            i++;
         }
-        i++;
+        j++;
     }
     str[i] = '\0';
     return (str);
 }
 void lexical_function(char *line)
 {
-    t_stack wrd;
+    // t_stack wrd;
     char *str;
+    char **src;
     int i;
-    int j;
+    // int j;
     i = 0;
-    j = 0;
+    // j = 0;
     
     str = dell_space(line);
+    src = ft_split_opera(line);
     
-    
+    while(src[i])
+    {
+        printf("src : %s\n", src[i]);
+        i++;
+    }   
 }

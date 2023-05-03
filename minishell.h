@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/02 10:19:34 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:43:48 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct b_stack
 //util/utils1.c
 int	ft_strlen(const char *str);
 char	**ft_split(char const *s, char c);
+char	*ft_substr(char const *s, int start,
+		int len);
 //util/utils2.c
 char	*ft_strdup(const char *s1);
 int	ft_isalpha(int c);
@@ -48,5 +50,6 @@ int check_space(char *str);
 int check_character(char c, char *check);
 //lexical/lexical_func
 void lexical_function(char *line);
+char	**ft_split_opera(char const *s);
 
 #endif
