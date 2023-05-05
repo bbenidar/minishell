@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/03 18:20:01 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:45:17 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,29 @@ static int check_pipe(char *str)
     return (0);
 }
 
+static int check_redir(char *str)
+{
+    while(*str)
+    {
+        if((*str == 60 && *(str + 1) != 60) || (*str == 62 && *(str + 1) != 62))
+        {
+            str++;
+            while(*str == 32)
+                str++;
+            if (!*str || *str == 60 || *str == 62)
+                return (1);  
+            
+        }
+        str += ft_skip_qoutes(str);
+        if(((*str == 60 && *(str + 1) == 60) || (*str == 62 && *(str + 1) == 62)) && check_character(*(str + 2), "<>|")) //hna mhtaj function tchiki liya yak makayn ("<>|")!
+                return (1);
+        
+        if (*str)
+            str++;     
+    }
+    return (0);
+}
+
 int check_logical(char *str)
 {
     while(*str)
@@ -110,7 +133,10 @@ int ft_first_check(char *str)
         printf("\033[0;31mminishell: parse error near `|`\033[0m\n");
     else if (check_logical(str))
         printf("\033[0;31mminishell: LOGICAL ERROR (logic operation not handled)\033[0m\n\n");
+    else if (check_redir(str))
+        printf("\033[0;31mminishell: syntax error near unexpected token `<'\033[0m\n\n");
     else
         return (0);
     return(1);   
 }
+
