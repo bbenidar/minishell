@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/05 20:30:12 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/05 20:38:00 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char *dell_space(char *line)
     i = 0;
     while(line[j])
     {
-        if(str[i] != 34 && str[i] != 39)
+        if(line[j] != 34 && line[j] != 39)
         {
             str[i] = line[j];
             i++;
