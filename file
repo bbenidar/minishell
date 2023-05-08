@@ -1,0 +1,12 @@
+Makefile
+README.md
+a.out
+file
+hadik.c
+lexical
+minishell
+minishell.c
+minishell.h
+minishell.o
+parsing
+utils
