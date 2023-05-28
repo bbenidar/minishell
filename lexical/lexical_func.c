@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/07 17:58:36 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/27 21:41:37 by messoufi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,88 +102,124 @@ int check_any_redire(char *str ,t_stack **wrd)
    
 }
 
+int ft_check_foro(char *str)
+{
+    int i = 0;
+
+    if(str[i] == '-' && str[i+1] == '\0')
+        return (0);
+    else
+        return (1);
+}
+
+char *merge_str(char **str)
+{
+    int i;
+    i = 1;
+    char *line;
+    line = ft_strjoin(str[0], " ");
+    while(str[i])
+    {
+        line = ft_strjoin(line, str[i]);
+        line = ft_strjoin(line, " ");
+        i++;
+    }
+    return (line);
+}
+
+
+
+t_stack *split_in_list(char *str)
+{
+    char **src;
+    t_stack *wrd;
+    t_stack *head;
+    
+    wrd = NULL;
+    int i = 0;
+    int j = 1;
+    src = ft_split(str, ' ');
+    wrd = ft_my_lstnew(src[0], COMMAND);
+    i++;
+    head = wrd;
+    while(src[i])
+    {
+        if(j == 0)
+        {
+            wrd->next = ft_my_lstnew(src[i], COMMAND);
+            j = 1;
+        }   
+        else if(!ft_strncmp(src[i], "|", 1))
+        {
+            wrd->next = ft_my_lstnew("|", PIPE);
+            j = 0;
+        }
+        else
+            wrd->next = ft_my_lstnew(src[i], OPTION);
+        printf("%d : %s\n",i+1, src[i]);
+        wrd = wrd->next;
+        i++;
+    }
+//     if(src)
+//     {
+//         if(!ft_strncmp(src[i], "|", 1))
+//             wrd = ft_my_lstnew("|", PIPE);
+//         wrd = ft_my_lstnew(src[i], COMMAND);
+//         i++;
+//     }
+            
+            
+//     while(src[i])
+//     {
+        
+//        if (ft_check_foro(src[i]))
+//             wrd->next = ft_my_lstnew(src[i], OPTION);
+//         else
+//             wrd->next = ft_my_lstnew(src[i], FILE_APP);
+//         i++;
+//     }
+//     printf("______________________\n");
+return (head);
+}
 void lexical_function(char *line)
 {
-    t_stack *wrd;
     t_stack *head;
     char *str;
     char **src;
     int i;
-    int j;
-    int start;
+    // int j;
+    // int start;
     int redir;
-    int end;
+    // int end;
     
     i = 0;
     redir = 0;
     
-    head = ft_my_lstnew(0, 0);
-    wrd = head;
+  
+    
     str = dell_space(line);
     src = ft_split_opera(str);
     free(str);
-    
-    while(src[i])
-    {
-        j = 0;
-        while(src[i][j])
-        {
-            while (src[i][j] == ' ' || src[i][j] == '\t')
-                j++;
-            if(src[i][j])
-                start = j;
-            if(src[i][j] == '|')
-            { 
-                wrd = wrd->next;
-                printf("ana hna\n");
-                wrd->next = ft_my_lstnew("|", PIPE);
-                    printf("ana hna 2:  %s | key : %d\n", head->word, head->key);
-
-                ;
-                j++;
-            }
-            while (src[i][j] && (src[i][j] != ' ' && src[i][j] != '\t'))
-            {
-                j++;
-                end = j;
-            }
-           wrd->word = ft_substr(src[i], start, end - start);
-           wrd->key = COMMAND;
-           while(src[i][j])
-           {
-            redir = 0;
-            while (src[i][j] == ' ' || src[i][j] == '\t')
-                j++;
-            if(src[i][j] == '>' || (src[i][j] == '<'))
-            {
-                printf("hna : \n");
-                redir = check_any_redire(src[i] + j, &wrd);
-            }
-                
-            if (redir)
-                j += redir;
-            start = j;
-            while (src[i][j]!= '\0' && (src[i][j] != ' ' || src[i][j] != '\t'))
-            {
-                j++; 
-                end = j;
-            }
-            if (j != start)
-                wrd->next = ft_my_lstnew(ft_substr(src[i], start, end - start), FILE_IN);
-            j++; 
-           }
-           j++;      
-        }
-        wrd = wrd->next;
-        //   printf("src : %s\n", src[i]);
-        i++;
-    }
-    
+    str = merge_str(src);
+    head = split_in_list(str);
     while(head)
     {
-        printf("wrd : %s | key : %d\n", head->word, head->key);
+        printf("wrd :%s key %d\n", head->word, head->key);
         head = head->next;
-    }  
+    }
+    // while(src[i])
+    // {
+    //     split_in_list(src[i], &wrd->next);
+        
+    //     //   printf("src : %s\n", src[i]);
+    //     i++;
+    // }
+    
+    // while(head)
+    // {
+    //     printf("wrd : %s | key : %d\n", head->word, head->key);
+    //     head = head->next;
+    // }  
 }
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/05 15:45:17 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/17 11:04:49 by messoufi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static int ft_skip_qoutes(char *str)
     char c;
 
     c = *str;
-    if (c != 34 || c != 39)
+    // if (c != 34 || c != 39)
+    if (c != 34 && c != 39)
         return (0);
     i = 1;
     while(str[i] && str[i] != c)
