@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/24 11:45:09 by messoufi         ###   ########.fr       */
+/*   Updated: 2023/05/28 13:17:48 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ enum				t_type
 {
 	COMMAND = 1,
 	OPTION,
-	SPACES,
 	RED_APP,
 	RED_OUT,
 	RED_IN,

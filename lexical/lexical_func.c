@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/27 21:41:37 by messoufi         ###   ########.fr       */
+/*   Updated: 2023/05/28 13:12:25 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,11 @@ t_stack *split_in_list(char *str)
         else if(!ft_strncmp(src[i], "|", 1))
         {
             wrd->next = ft_my_lstnew("|", PIPE);
+            j = 0;
+        }
+        else if(!ft_strncmp(src[i], "<<", 2))
+        {
+            wrd->next = ft_my_lstnew("<<", RED_HER);
             j = 0;
         }
         else
