@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/28 16:26:23 by messoufi         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:13:56 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,21 +156,25 @@ t_stack *split_in_list(char *str)
             wrd->next = ft_my_lstnew("|", PIPE);
             j = 0;
         }
-        else if(!ft_strncmp(src[i], "<<", 2))
+        else if(!ft_strncmp(src[i], "<<", 2) || (!ft_strncmp(src[i], "<", 1)))
         {
-            wrd->next = ft_my_lstnew("<<", RED_HER);
-            j = 0;
+            if (!ft_strncmp(src[i], "<<", 2))
+                wrd->next = ft_my_lstnew("<<", RED_HER);
+            else
+                wrd->next = ft_my_lstnew("<", RED_IN);
         }
         else if(!ft_strncmp(src[i], ">>", 2) || (!ft_strncmp(src[i], ">", 1)))
         {
             if (!ft_strncmp(src[i], ">>", 2))
                 wrd->next = ft_my_lstnew(">>", FILE_IN);
             else
-                wrd->next = ft_my_lstnew(">", RED_APP);
-            j = 0;
+                wrd->next = ft_my_lstnew(">", RED_OUT);
         }
-        else
+        else if(src[i][0] == '-')
             wrd->next = ft_my_lstnew(src[i], OPTION);
+        else
+            wrd->next = ft_my_lstnew(src[i], FILE_IN);
+            
         wrd = wrd->next;
         i++;
     }
@@ -183,10 +187,7 @@ void lexical_function(char *line)
     char *str;
     char **src;
     int i;
-    // int j;
-    // int start;
     int redir;
-    // int end;
     
     i = 0;
     redir = 0;

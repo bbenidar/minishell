@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/28 16:02:30 by messoufi         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:13:04 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@
 enum				t_type
 {
 	COMMAND = 1,
-	OPTION,
-	RED_APP,
-	RED_OUT,
-	RED_IN,
-	RED_HER,
+	OPTION, //-
+	RED_APP, // >>
+	RED_OUT, // >
+	RED_IN, // <
+	RED_HER, // <<
+	
 	FILE_IN,
 	FILE_OUT,
 	FILE_APP,
