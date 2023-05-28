@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   splite_utile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:27:38 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/03 15:00:13 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:31:51 by messoufi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
 
-static int    count_wrd(char const *s)
+static int    count_wrd(char const *s, char h)
 {
     int    i;
     int    j;
@@ -27,13 +27,13 @@ static int    count_wrd(char const *s)
     b = 0;
     while (s[b])
     {
-        if ((s[b] != '|' ) && j == 0)
+        if ((s[b] != h ) && j == 0)
         {
             j = 1;
             i++;
             r = 0;
         }
-        else if (s[b] == '|' && r == 0 )
+        else if (s[b] == h && r == 0 )
         {
             r = 1;
             c++;
@@ -77,7 +77,7 @@ static char	**free_splits(char **split)
 	return (split);
 }
 
-char	**ft_split_opera(char const *s)
+char	**ft_split_opera(char const *s, char h)
 {
 	char	**p;
 	size_t	i;
@@ -87,16 +87,16 @@ char	**ft_split_opera(char const *s)
 	r = 0;
 	if (!s)
 		return (0);
-	p = malloc(sizeof(char *) * (count_wrd(s) + 1));
+	p = malloc(sizeof(char *) * (count_wrd(s, h) + 1));
 	if (!p)
 		return (0);
 	while (*s)
 	{
-		while (*s && (*s == '|'))
+		while (*s && (*s == h))
 		{
 			if(r == 0)
 			{
-				p[i] = ft_substr(s, 0, count_split_inv(s, '|'));
+				p[i] = ft_substr(s, 0, count_split_inv(s, h));
 				r = 1;
 				i++;
 			}
@@ -104,13 +104,13 @@ char	**ft_split_opera(char const *s)
 		}
 		if (*s)
 		{
-			p[i] = ft_substr(s, 0, count_split(s, '|'));
+			p[i] = ft_substr(s, 0, count_split(s, h));
 			if (!p[i])
 				return (free_splits(p));
 			i++;
 			r = 0;
 		}
-		while (*s && (*s != '|'))
+		while (*s && (*s != h))
 			s++;
 	}
 	p[i] = 0;

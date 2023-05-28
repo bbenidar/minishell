@@ -6,7 +6,7 @@
 #    By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/05/27 14:32:09 by messoufi         ###   ########.fr        #
+#    Updated: 2023/05/28 16:01:51 by messoufi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ FLAGS = -Wall -Wextra -Werror
 
 SRC =  ./parsing/first_check.c ./parsing/check_utils.c minishell.c \
 		./lexical/lexical_func.c ./utils/utils1.c ./utils/utils2.c ./utils/utils3.c \
-		./parsing/splite_utile.c 
+		./parsing/splite_utile.c ./utils/free_fnc.c
 
 OBG = ${SRC:.c=.o}
 

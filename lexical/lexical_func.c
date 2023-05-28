@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/28 13:12:25 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:26:23 by messoufi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,12 @@ t_stack *split_in_list(char *str)
     int j = 1;
     src = ft_split(str, ' ');
     wrd = ft_my_lstnew(src[0], COMMAND);
+    printf("%d : %s\n",i+1, src[i]);
     i++;
     head = wrd;
     while(src[i])
     {
+        printf("%d : %s\n",i+1, src[i]);
         if(j == 0)
         {
             wrd->next = ft_my_lstnew(src[i], COMMAND);
@@ -159,31 +161,20 @@ t_stack *split_in_list(char *str)
             wrd->next = ft_my_lstnew("<<", RED_HER);
             j = 0;
         }
+        else if(!ft_strncmp(src[i], ">>", 2) || (!ft_strncmp(src[i], ">", 1)))
+        {
+            if (!ft_strncmp(src[i], ">>", 2))
+                wrd->next = ft_my_lstnew(">>", FILE_IN);
+            else
+                wrd->next = ft_my_lstnew(">", RED_APP);
+            j = 0;
+        }
         else
             wrd->next = ft_my_lstnew(src[i], OPTION);
-        printf("%d : %s\n",i+1, src[i]);
         wrd = wrd->next;
         i++;
     }
-//     if(src)
-//     {
-//         if(!ft_strncmp(src[i], "|", 1))
-//             wrd = ft_my_lstnew("|", PIPE);
-//         wrd = ft_my_lstnew(src[i], COMMAND);
-//         i++;
-//     }
-            
-            
-//     while(src[i])
-//     {
-        
-//        if (ft_check_foro(src[i]))
-//             wrd->next = ft_my_lstnew(src[i], OPTION);
-//         else
-//             wrd->next = ft_my_lstnew(src[i], FILE_APP);
-//         i++;
-//     }
-//     printf("______________________\n");
+
 return (head);
 }
 void lexical_function(char *line)
@@ -203,8 +194,11 @@ void lexical_function(char *line)
   
     
     str = dell_space(line);
-    src = ft_split_opera(str);
+    src = ft_split_opera(str, '|');
     free(str);
+    str = merge_str(src);
+    free_tab(src);
+    src = ft_split_opera(str, '>');
     str = merge_str(src);
     head = split_in_list(str);
     while(head)
@@ -212,19 +206,7 @@ void lexical_function(char *line)
         printf("wrd :%s key %d\n", head->word, head->key);
         head = head->next;
     }
-    // while(src[i])
-    // {
-    //     split_in_list(src[i], &wrd->next);
-        
-    //     //   printf("src : %s\n", src[i]);
-    //     i++;
-    // }
     
-    // while(head)
-    // {
-    //     printf("wrd : %s | key : %d\n", head->word, head->key);
-    //     head = head->next;
-    // }  
 }
 
 

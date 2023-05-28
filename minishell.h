@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/28 13:17:48 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:02:30 by messoufi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char				*ft_strjoin(char const *s1, char const *s2);
 int					is_numeric(const char *str);
 void				free_tab(char **tab);
 int					ft_strcmp(char *s1, char *s2);
+//util/free_fnc.c
+void free_tab(char **str);
 // ---------------------------------PRINC FUNCT-------------------------------//
 //parsing/first_check.c
 int					ft_first_check(char *str);
@@ -93,7 +95,7 @@ int					check_space(char *str);
 int					check_character(char c, char *check);
 //lexical/lexical_func.c
 void				lexical_function(char *line);
-char				**ft_split_opera(char const *s);
+char				**ft_split_opera(char const *s, char h);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 
 // ---------------------------------EXEC FUNCT-------------------------------//
