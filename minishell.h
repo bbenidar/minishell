@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/28 18:13:04 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:53:45 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ enum				t_type
 	RED_OUT, // >
 	RED_IN, // <
 	RED_HER, // <<
-	
+	LIMITER,
 	FILE_IN,
 	FILE_OUT,
 	FILE_APP,
@@ -64,11 +64,19 @@ typedef struct s_var
 
 typedef struct s_stack
 {
-	char			*content;
 	char			*word;
 	int				key;
 	struct s_stack	*next;
 }					t_stack;
+
+typedef struct s_last
+{
+	char			*command;
+	char			**option;
+	int				input;
+	int				output;
+	struct s_stack	*next;
+}					t_last;
 
 // ---------------------------------UTILS FUNCT-------------------------------//
 //util/utils1.c
@@ -98,7 +106,8 @@ int					check_character(char c, char *check);
 void				lexical_function(char *line);
 char				**ft_split_opera(char const *s, char h);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-
+t_stack	*ft_my_lstnew(char *content, int key);
+t_last	*ft_new_last_list(char *command);
 // ---------------------------------EXEC FUNCT-------------------------------//
 //execution/unset.c
 char				**remove_line_from_array(char **array, char *line);

@@ -1,43 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   linked_list_creation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 12:13:23 by messoufi          #+#    #+#             */
-/*   Updated: 2023/05/30 16:33:24 by bbenidar         ###   ########.fr       */
+/*   Created: 2023/05/30 12:13:43 by bbenidar          #+#    #+#             */
+/*   Updated: 2023/05/30 13:07:31 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_newline(char *arg)
+t_stack	*ft_my_lstnew(char *content, int key)
 {
-	if (arg != NULL && arg[0] == '-' && arg[1] == 'n' && arg[2] == '\0')
-	{
-		return (true);
-	}
-	return (false);
+	t_stack	*n;
+
+	n = (t_stack *)malloc(sizeof(*n));
+	if (!n)
+		return (0);
+	n->word = content;
+    n->key = key;
+	n -> next = NULL;
+	return (n);
 }
 
-int	ft_echo(char **arg)
+t_last	*ft_new_last_list(char *command)
 {
-	int	nbr;
-	int	i;
+	t_last	*n;
 
-	nbr = false;
-	i = -1;
-	while (ft_newline(arg[++i]))
-		nbr = true;
-	while (arg[i])
-	{
-		printf("%s", arg[i]);
-		if (arg[i + 1] != NULL)
-			printf(" ");
-		i++;
-	}
-	if (nbr == false)
-		printf("\n");
-	return (0);
+	n = (t_last *)malloc(sizeof(*n));
+	if (!n)
+		return (0);
+	n->command = command;
+    n->option = NULL;
+    n->input = 0;
+    n->output = 0;
+	n -> next = NULL;
+	return (n);
 }
