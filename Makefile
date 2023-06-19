@@ -13,7 +13,7 @@
 NAME = MINISHELL
 
 CC	= cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -g #-Werror
 
 SRC =  ./parsing/first_check.c ./parsing/check_utils.c minishell.c \
 		./lexical/lexical_func.c  ./lexical/linked_list_creation.c ./utils/utils1.c ./utils/utils2.c ./utils/utils3.c \

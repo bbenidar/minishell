@@ -210,21 +210,54 @@ int option_len(t_stack *list)
     int i;
 
     i = 0;
-    while(list->key != 11)
+    while(list && (list->key != 11))
     {
-        if(list->key == 2)
+        if(list->key == 2 || list->key == 1)
             i++;
         list = list->next;
     }
     return (i);
 }
 
-char **ft_option(int i)
-{
-    char **str;
+// char **ft_add_tab(char **str, char *src)
+// {
+//     char **tab;
+//     int i = 0;
 
-    str = (char **)malloc(sizeof(char) * i);
-    return (str);
+//     while(str[i])
+//         i++;
+//     tab = malloc(sizeof(char *) * i + 1);
+//     tab[i] = strdup(src);
+
+// }
+
+void ft_option(t_stack *list,int i, t_last *str)
+{
+    t_stack *tmp;
+    char *src = ft_strdup("");
+    int j;
+
+    j = 0;
+    tmp = list;
+
+    str->word = (char **)malloc(sizeof(char) * i + 1);
+    if( !str->word)
+    {
+        printf("allocat error");
+        exit(1);
+    }
+        
+    while(tmp && tmp->key != PIPE)
+    {
+        if(tmp->key == COMMAND  || tmp->key == OPTION)
+        {
+            src = ft_strjoin(src, tmp->word);
+            src = ft_strjoin(src, "&");
+        }  
+        tmp = tmp->next;
+        j++;
+    }
+    str->word = ft_split(src, '&');
 }
 
 int open_filw_fd(char *word, int key)
@@ -240,46 +273,91 @@ int open_filw_fd(char *word, int key)
 int ft_her_and_out_file(char *word, int key)
 {
     int fd;
-    if(key == LIMITER)
-        fd = open("/tmp/herdoc",O_CREAT,O_RDWR);
-    else
-        fd = open(word,O_RDONLY);
+     printf("******************\n");
+    
+        fd = open("txtxtx",O_CREAT | O_RDWR, 0777);
+        printf("******************\n");
     return (fd);
 }
-t_stack *ft_last_list_get_ready(t_stack *head)
+
+// endak tbdli had lfunction 
+t_last *ft_last_list_get_ready(t_stack *head)
 {
     t_last *last;
     t_last *ret;
+    t_stack *tmp;
+    t_stack *tmp2;
+    t_stack *tmp3;
+    tmp = head;
+    tmp2 = head;
     int i;
+    int flag;
+
+    while(tmp2)
+    {
+        printf("ymp kwy : %d || tmp word : %s\n", tmp2->key, tmp2->word);
+        tmp2 = tmp2->next;
+    }
+    flag = 1;
     i = option_len(head);
-    last = ft_new_last_list(0);
-    while(head)
+    last = ft_new_last_list(tmp->word);
+    ret = last;
+
+   while(tmp)
     {
         
-        while(head->key != 11)
+        flag = 1;
+        i = option_len(head);
+        while( tmp && tmp->key != PIPE)
         {
-            last->option = ft_option(option_len(head));
-            if(head->key == 1)
-                last->command = head->word;
-            if(head->key == 2)
-            {
-                *last->option = ft_strdup(head->word);
-                last->option++;
-            }
-            if(head->key == 9 || head->key == 10)
-                last->input = open_filw_fd(head->word, head->key);
-            if(head->key == 7 || head->key == 8)
-                last->output = ft_her_and_out_file(head->word,  head->key);
             
+            if(flag == 1)
+            {
+                tmp3 = tmp;
+               ft_option(tmp, i, last);
+               flag = 0;
+               tmp = tmp3;
+            }
+            if(tmp->key == 9 || tmp->key == 10)
+                last->input = open_filw_fd(head->word, head->key);
+            if(tmp->key == 7)
+            {
+                last->output = ft_her_and_out_file(head->word,  head->key);
+            }
                 
+            tmp = tmp->next;
         }
+        
+        if(tmp && tmp->key == PIPE)
+        {
+            tmp = tmp->next;
+            last->next = ft_new_last_list(tmp->word);
+            last = last->next;
+        }
+            
     }
+    i = 0;
+    while(ret)
+    {
+        i =0;
+        printf("____________________________________\n");
+        while(ret->word[i])
+        {
+            
+            printf("|  command : %s ", ret->word[i]);
+            i++;
+        }
+        printf("| fd input : %d   | fd out : %d |\n", ret->input, ret->output);
+            
+        ret = ret->next;
+    }
+    return (ret);
 }
 
 void lexical_function(char *line)
 {
     t_stack *head;
-    // t_stack *last;
+    t_last *last;
     char *str;
     char **src;
     int i;
@@ -302,12 +380,12 @@ void lexical_function(char *line)
     free(str);
     if (!cheking_(head))
         return ;
-    while(head)
-    {
-        printf("wrd :%s key %d\n", head->word, head->key);
-        head = head->next;
-    }
-    // last = ft_last_list_get_ready(head);
+    // while(head)
+    // {
+    //     printf("wrd :%s key %d\n", head->word, head->key);
+    //     head = head->next;
+    // }
+    last = ft_last_list_get_ready(head);
     
 }
 

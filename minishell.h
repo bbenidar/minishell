@@ -71,11 +71,10 @@ typedef struct s_stack
 
 typedef struct s_last
 {
-	char			*command;
-	char			**option;
+	char			**word;
 	int				input;
 	int				output;
-	struct s_stack	*next;
+	struct s_last	*next;
 }					t_last;
 
 // ---------------------------------UTILS FUNCT-------------------------------//
@@ -103,11 +102,12 @@ int					check_space(char *str);
 //parsing/check_utils.c
 int					check_character(char c, char *check);
 //lexical/lexical_func.c
+void ft_option(t_stack *list,int i, t_last *str);
 void				lexical_function(char *line);
 char				**ft_split_opera(char const *s, char h);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 t_stack	*ft_my_lstnew(char *content, int key);
-t_last	*ft_new_last_list(char *command);
+t_last	*ft_new_last_list();
 // ---------------------------------EXEC FUNCT-------------------------------//
 //execution/unset.c
 char				**remove_line_from_array(char **array, char *line);

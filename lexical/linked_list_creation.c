@@ -25,15 +25,14 @@ t_stack	*ft_my_lstnew(char *content, int key)
 	return (n);
 }
 
-t_last	*ft_new_last_list(char *command)
+t_last	*ft_new_last_list()
 {
 	t_last	*n;
 
 	n = (t_last *)malloc(sizeof(*n));
 	if (!n)
 		return (0);
-	n->command = command;
-    n->option = NULL;
+	n->word = NULL;
     n->input = 0;
     n->output = 0;
 	n -> next = NULL;
