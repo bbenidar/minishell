@@ -73,6 +73,7 @@ typedef struct s_last
 {
 	char			**word;
 	int				input;
+	int				input_heredoc;
 	int				output;
 	struct s_last	*next;
 }					t_last;
@@ -86,6 +87,7 @@ char				*ft_substr(char const *s, int start, int len);
 char				*ft_strdup(const char *s1);
 int					ft_isalpha(int c);
 //util/utils3.c
+int	ft_strcmp(char *s1, char *s2);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 char				*ft_strjoin(char const *s1, char const *s2);

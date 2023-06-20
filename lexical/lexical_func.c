@@ -260,24 +260,42 @@ void ft_option(t_stack *list,int i, t_last *str)
     str->word = ft_split(src, '&');
 }
 
-int open_filw_fd(char *word, int key)
+int open_fd_out(char *word, int key)
 {
     int fd;
      printf("ana hna : %s", word);
     if(key == FILE_APP)
         fd = open(word,O_CREAT | O_APPEND, 0777);
-    else if(key == FILE_OUT)
-        fd = open("txtxtx",O_CREAT | O_TRUNC, 0777);
-    else if(key == LIMITER)
-        fd = open("",O_CREAT | O_RDWR, 0777);
     else
-        fd = open(word,O_CREAT| O_TRUNC, 0777);
+        fd = open("txtxtx",O_CREAT | O_TRUNC, 0777);
         
-
     return (fd);
 }
 
-// endak tbdli had lfunction 
+void ft_herdoc(t_stack *list)
+{
+    int fd;
+    char *her;
+
+    fd = open("/tmp/here",O_CREAT | O_RDWR, 0777);
+    while(1)
+    {
+        her = readline("> ");
+        if (!ft_strcmp(her, list->next->word))
+            break;
+    }
+    list->next->key = FILE_IN;
+}
+
+void ft_check_for_herdoc(t_stack *list)
+{
+    while(list)
+    {
+        if (list->key == RED_HER)
+            ft_herdoc(list);
+        list = list->next;
+    }
+} 
 t_last *ft_last_list_get_ready(t_stack *head)
 {
     t_last *last;
@@ -290,11 +308,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
     int i;
     int flag;
 
-    while(tmp2)
-    {
-        printf("ymp kwy : %d || tmp word : %s\n", tmp2->key, tmp2->word);
-        tmp2 = tmp2->next;
-    }
+    ft_check_for_herdoc(tmp2);
     flag = 1;
     i = option_len(head);
     last = ft_new_last_list(tmp->word);
@@ -315,8 +329,10 @@ t_last *ft_last_list_get_ready(t_stack *head)
                flag = 0;
                tmp = tmp3;
             }
-            if(tmp->key >= 7 && tmp->key <= 10)
-                last->input = open_filw_fd(tmp->word, tmp->key);
+            if(tmp->key == FILE_IN )
+                last->input = open(tmp->word, O_RDONLY, 0777);
+            if(tmp->key == FILE_OUT || tmp->key == FILE_APP)
+                last->input = open_fd_out(tmp->word, tmp->key);
                 
             tmp = tmp->next;
         }
@@ -340,7 +356,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
             printf("|  command : %s ", ret->word[i]);
             i++;
         }
-        printf("| fd input : %d   | fd out : %d |\n", ret->input, ret->output);
+        printf("| fd input : %d   | fd out : %d | | fd herdok : %d |\n", ret->input, ret->output, ret->input_heredoc);
             
         ret = ret->next;
     }

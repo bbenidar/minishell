@@ -34,6 +34,7 @@ t_last	*ft_new_last_list()
 		return (0);
 	n->word = NULL;
     n->input = 0;
+    n->input_heredoc = 0;
     n->output = 0;
 	n -> next = NULL;
 	return (n);
