@@ -15,7 +15,7 @@
 void begin()
 {
     char *line;
-    while(42)
+    while(1337)
     {
         line = readline("➜ minishell ✗ ");
         if(!line)

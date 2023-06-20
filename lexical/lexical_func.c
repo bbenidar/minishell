@@ -263,20 +263,17 @@ void ft_option(t_stack *list,int i, t_last *str)
 int open_filw_fd(char *word, int key)
 {
     int fd;
+     printf("ana hna : %s", word);
     if(key == FILE_APP)
-        fd = open(word,O_CREAT,O_APPEND);
+        fd = open(word,O_CREAT | O_APPEND, 0777);
+    else if(key == FILE_OUT)
+        fd = open("txtxtx",O_CREAT | O_TRUNC, 0777);
+    else if(key == LIMITER)
+        fd = open("",O_CREAT | O_RDWR, 0777);
     else
-        fd = open(word,O_CREAT,O_TRUNC);
-    return (fd);
-}
+        fd = open(word,O_CREAT| O_TRUNC, 0777);
+        
 
-int ft_her_and_out_file(char *word, int key)
-{
-    int fd;
-     printf("******************\n");
-    
-        fd = open("txtxtx",O_CREAT | O_RDWR, 0777);
-        printf("******************\n");
     return (fd);
 }
 
@@ -318,12 +315,8 @@ t_last *ft_last_list_get_ready(t_stack *head)
                flag = 0;
                tmp = tmp3;
             }
-            if(tmp->key == 9 || tmp->key == 10)
-                last->input = open_filw_fd(head->word, head->key);
-            if(tmp->key == 7)
-            {
-                last->output = ft_her_and_out_file(head->word,  head->key);
-            }
+            if(tmp->key >= 7 && tmp->key <= 10)
+                last->input = open_filw_fd(tmp->word, tmp->key);
                 
             tmp = tmp->next;
         }

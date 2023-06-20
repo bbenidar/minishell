@@ -27,6 +27,8 @@ static int  ft_check_quotes(char *str)
             a *= -1;
         if (str[i] == 39 && a == -1)
             b *= -1;
+        if (str[i] == ' ' && (a != -1 || b != -1))
+            str[i] *= -1;
         i++;
    }
     if (a == 1 || b == 1)
@@ -37,7 +39,7 @@ static int  ft_check_quotes(char *str)
 
 int check_space(char *str)
 {
-    while(*str == ' ')
+    while(*str == ' ' || *str == '\t')
         str++;
     if(!*str)
         return (1);
