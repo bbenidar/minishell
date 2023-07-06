@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/06 13:28:48 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:37:49 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,7 +358,10 @@ t_last *ft_last_list_get_ready(t_stack *head)
             i++;
         }
         printf("| fd input : %d   | fd out : %d | | fd herdok : %d |\n", ret->input, ret->output, ret->input_heredoc);
-            
+        // the input file takes the file descriptor of the out put file, must fix
+        // when getting a input file , the input file variable gets a negative value, must look into it;
+        // the arguments should be specified as command arguments not as commands
+        // the heredoc does not get a specifier that indicates that there is a heredoc
         ret = ret->next;
     }
     return (ret);
