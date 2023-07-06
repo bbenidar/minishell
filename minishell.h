@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/30 13:53:45 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/06 15:41:52 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 int					is_numeric(const char *str);
 void				free_tab(char **tab);
 int					ft_strcmp(char *s1, char *s2);
+char	*ft_itoa(unsigned int n);
 //util/free_fnc.c
 void free_tab(char **str);
 // ---------------------------------PRINC FUNCT-------------------------------//

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/06 13:37:49 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/06 18:04:47 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,12 +271,38 @@ int open_fd_out(char *word, int key)
     return (fd);
 }
 
-void ft_herdoc(t_stack *list)
+//_______________________random number string __________________________//
+// char *ft_rand()
+// {
+//     char *rand;
+//     int fd = open("/dev/urandom", O_RDONLY);
+//     unsigned int randomNumber;
+//     if (fd < 0) {
+//         printf("Failed to open /dev/urandom\n");
+//         return (NULL);
+//     }
+
+//     unsigned int result = read(fd, &randomNumber, sizeof(randomNumber));
+//     close(fd);
+//     if (result < 0) {
+//         printf("Failed to read /dev/urandom\n");
+//         return (NULL);
+//     }
+//     rand = ft_itoa(randomNumber);
+//     return (rand);
+// }
+//_________________________________________________________________________//
+
+int ft_herdoc(t_stack *list)
 {
     int fd;
+    static int rand;
     char *her;
+    char *name;
 
-    fd = open("/tmp/here",O_CREAT | O_RDWR, 0777);
+    her = ft_itoa(rand++);
+    name = ft_strjoin("/tmp/heredoc", her);
+    fd = open(name, O_CREAT | O_RDWR, 0777);
     while(1)
     {
         her = readline("> ");
@@ -285,7 +311,7 @@ void ft_herdoc(t_stack *list)
         ft_putstr_fd(her, fd);
         ft_putstr_fd("\n", fd);
     }
-    list->next->key = FILE_IN;
+    return(fd);
 }
 
 void ft_check_for_herdoc(t_stack *list)
@@ -293,7 +319,11 @@ void ft_check_for_herdoc(t_stack *list)
     while(list)
     {
         if (list->key == RED_HER)
+        {
+            list->key = RED_OUT;
             ft_herdoc(list);
+        }
+            
         list = list->next;
     }
 } 
@@ -334,6 +364,8 @@ t_last *ft_last_list_get_ready(t_stack *head)
                 last->input = open(tmp->word, O_RDONLY, 0777);
             if(tmp->key == FILE_OUT || tmp->key == FILE_APP)
                 last->input = open_fd_out(tmp->word, tmp->key);
+            if(tmp->key == RED_HER)
+                last->output = ft_herdoc(tmp);
                 
             tmp = tmp->next;
         }
@@ -357,10 +389,9 @@ t_last *ft_last_list_get_ready(t_stack *head)
             printf("|  command : %s ", ret->word[i]);
             i++;
         }
-        printf("| fd input : %d   | fd out : %d | | fd herdok : %d |\n", ret->input, ret->output, ret->input_heredoc);
+        printf("| fd input : %d   | fd out : %d |\n", ret->input, ret->output);
         // the input file takes the file descriptor of the out put file, must fix
         // when getting a input file , the input file variable gets a negative value, must look into it;
-        // the arguments should be specified as command arguments not as commands
         // the heredoc does not get a specifier that indicates that there is a heredoc
         ret = ret->next;
     }
