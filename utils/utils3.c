@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: messoufi <messoufi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 11:20:17 by messoufi          #+#    #+#             */
-/*   Updated: 2023/05/27 14:13:24 by messoufi         ###   ########.fr       */
+/*   Created: 2023/07/06 13:21:07 by bbenidar          #+#    #+#             */
+/*   Updated: 2023/07/06 13:26:56 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -72,16 +73,4 @@ t_stack	*ft_lstlast(t_stack *lst)
 		lst = lst -> next;
 	}
 	return (0);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
-	{
-		i++;
-	}
-	return (s1[i] - s2[i]);
 }

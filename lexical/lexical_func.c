@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/30 17:10:57 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:28:48 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,6 @@ void ft_option(t_stack *list,int i, t_last *str)
 int open_fd_out(char *word, int key)
 {
     int fd;
-     printf("ana hna : %s", word);
     if(key == FILE_APP)
         fd = open(word,O_CREAT | O_APPEND, 0777);
     else
@@ -283,6 +282,8 @@ void ft_herdoc(t_stack *list)
         her = readline("> ");
         if (!ft_strcmp(her, list->next->word))
             break;
+        ft_putstr_fd(her, fd);
+        ft_putstr_fd("\n", fd);
     }
     list->next->key = FILE_IN;
 }
@@ -349,7 +350,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
     while(ret)
     {
         i =0;
-        printf("____________________________________\n");
+        printf("________________________________________________________________________________________________________\n");
         while(ret->word[i])
         {
             
