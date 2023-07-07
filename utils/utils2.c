@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:20:07 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/06 13:20:51 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/07 13:37:12 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@ int	ft_strlen(const char *str)
 	int	i;
 
 	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+int	ft_strlen_no_null(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if(!str)
+		return (0);
 	while (str[i] != '\0')
 		i++;
 	return (i);

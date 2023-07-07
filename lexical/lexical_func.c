@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/06 18:04:47 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:10:34 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,6 +293,16 @@ int open_fd_out(char *word, int key)
 // }
 //_________________________________________________________________________//
 
+void return_space_to_real_value(char *word)
+{
+    while(*word)
+    {
+        if (*word == 32 * -1)
+            *word = 32;
+        word++;
+    }
+}
+
 int ft_herdoc(t_stack *list)
 {
     int fd;
@@ -306,27 +316,22 @@ int ft_herdoc(t_stack *list)
     while(1)
     {
         her = readline("> ");
-        if (!ft_strcmp(her, list->next->word))
-            break;
+        if(!ft_strlen(her) && !list->next)
+            break ;
+        else if (list->next)
+        {
+            return_space_to_real_value(list->next->word);
+            printf("%s hhhh\n", list->next->word);
+            if(!ft_strcmp(her, list->next->word))
+                break;
+        }
         ft_putstr_fd(her, fd);
         ft_putstr_fd("\n", fd);
     }
+    // printf("%d hhhh\n", fd);
     return(fd);
 }
 
-void ft_check_for_herdoc(t_stack *list)
-{
-    while(list)
-    {
-        if (list->key == RED_HER)
-        {
-            list->key = RED_OUT;
-            ft_herdoc(list);
-        }
-            
-        list = list->next;
-    }
-} 
 t_last *ft_last_list_get_ready(t_stack *head)
 {
     t_last *last;
@@ -339,7 +344,6 @@ t_last *ft_last_list_get_ready(t_stack *head)
     int i;
     int flag;
 
-    ft_check_for_herdoc(tmp2);
     flag = 1;
     i = option_len(head);
     last = ft_new_last_list(tmp->word);
@@ -361,11 +365,21 @@ t_last *ft_last_list_get_ready(t_stack *head)
                tmp = tmp3;
             }
             if(tmp->key == FILE_IN )
+            {
                 last->input = open(tmp->word, O_RDONLY, 0777);
+                if(last->input < 0)
+                {
+                    printf("\033[0;31mERROR : %s: No such file or directory\033[0m\n", tmp->word);
+                    return (NULL);
+                }
+                    
+            }
+                
             if(tmp->key == FILE_OUT || tmp->key == FILE_APP)
-                last->input = open_fd_out(tmp->word, tmp->key);
+                last->output = open_fd_out(tmp->word, tmp->key);
             if(tmp->key == RED_HER)
                 last->output = ft_herdoc(tmp);
+                
                 
             tmp = tmp->next;
         }

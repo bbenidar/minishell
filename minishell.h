@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/06 15:41:52 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/07 13:37:50 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_last
 // ---------------------------------UTILS FUNCT-------------------------------//
 //util/utils1.c
 int					ft_strlen(const char *str);
+int	ft_strlen_no_null(const char *str);
 char				**ft_split(char const *s, char c);
 char				*ft_substr(char const *s, int start, int len);
 //util/utils2.c

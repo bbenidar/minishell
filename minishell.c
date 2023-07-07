@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/06 13:18:51 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/07 13:32:14 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void begin()
             printf("EXITE");
             break;
         }
+        // printf("line : |%lu|\n", strlen(line));
         if (!check_space(line))
             add_history(line);
         // if(line && *line && !
