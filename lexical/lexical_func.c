@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/07 16:10:34 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:29:23 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,8 +265,8 @@ int open_fd_out(char *word, int key)
     int fd;
     if(key == FILE_APP)
         fd = open(word,O_CREAT | O_APPEND, 0777);
-    else
-        fd = open("txtxtx",O_CREAT | O_TRUNC, 0777);
+    else 
+        fd = open(word,O_CREAT | O_TRUNC, 0777);
         
     return (fd);
 }
@@ -366,7 +366,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
             }
             if(tmp->key == FILE_IN )
             {
-                last->input = open(tmp->word, O_RDONLY, 0777);
+                last->output = open(tmp->word, O_RDONLY, 0777);
                 if(last->input < 0)
                 {
                     printf("\033[0;31mERROR : %s: No such file or directory\033[0m\n", tmp->word);
@@ -376,7 +376,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
             }
                 
             if(tmp->key == FILE_OUT || tmp->key == FILE_APP)
-                last->output = open_fd_out(tmp->word, tmp->key);
+                last->input = open_fd_out(tmp->word, tmp->key);
             if(tmp->key == RED_HER)
                 last->output = ft_herdoc(tmp);
                 
