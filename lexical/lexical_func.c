@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/07 16:29:23 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/08 14:35:07 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,12 +316,16 @@ int ft_herdoc(t_stack *list)
     while(1)
     {
         her = readline("> ");
+        if (!her)
+        {
+            break ;
+        }
         if(!ft_strlen(her) && !list->next)
             break ;
         else if (list->next)
         {
             return_space_to_real_value(list->next->word);
-            printf("%s hhhh\n", list->next->word);
+            //printf("%s hhhh\n", list->next->word);
             if(!ft_strcmp(her, list->next->word))
                 break;
         }
@@ -434,15 +438,12 @@ void lexical_function(char *line)
     src = ft_split_opera(str, '>');
     str = merge_str(src);
     free_tab(src);
+    src = ft_split_opera(str, '<');
+    str = merge_str(src);
     head = split_in_list(str);
     free(str);
     if (!cheking_(head))
         return ;
-    // while(head)
-    // {
-    //     printf("wrd :%s key %d\n", head->word, head->key);
-    //     head = head->next;
-    // }
     last = ft_last_list_get_ready(head);
     
 }

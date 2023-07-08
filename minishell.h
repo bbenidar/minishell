@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/07 13:37:50 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/08 14:29:59 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ enum				t_type
 	FILE_OUT,
 	FILE_APP,
 	PIPE,
+	VARIABLE,
 };
 
 typedef struct s_mini
@@ -61,6 +62,15 @@ typedef struct s_var
 {
 	char			**str;
 }					t_var;
+
+
+typedef struct s_env
+{
+	char			*variable;
+	char*				value;
+	struct s_stack	*next;
+}					t_env;
+
 
 typedef struct s_stack
 {
