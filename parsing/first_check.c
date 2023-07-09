@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/07 16:03:31 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/09 15:18:32 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,14 @@ static int  ft_check_quotes(char *str)
    b = -1;
    while(str[i])
    {
-        if (str[i] == 34 && b == -1)
-            a *= -1;
+        if ( str[i] == 34 && b == -1)
+        {
+            if(str[i-1] && (str[i - 1] == '\\' ))
+                a *= 1;
+            else
+                a *= -1;
+        }
+            
         if (str[i] == 39 && a == -1)
             b *= -1;
         if (str[i] == ' ' && (a != -1 || b != -1))

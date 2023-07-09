@@ -6,15 +6,94 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/08 13:36:55 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/09 15:56:22 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void begin()
+t_envir *creat_env_list()
 {
+    t_envir *list;
+
+    list = malloc(sizeof(t_envir) * 1);
+    list->next = NULL;
+    return(list);
+}
+
+char *ft_variabl(char *str)
+{
+    int i = 0;
+    char *ret;
+
+    while(str[i] != '=')
+        i++;
+    ret = malloc(sizeof(char) * (i + 1));
+    i = -1;
+    while(str[++i] != '=')
+    {
+        ret[i] = str[i];
+    }
+    ret[i] = '\0';
+    return(ret);
+}
+
+char *ft_value(char *str)
+{
+    int i = 0;
+    char *ret;
+
+    while (*str && *str != '=')
+        str++;
+    str++;
+    while(str[i])
+        i++;
+    ret = malloc(sizeof(char) * (i + 1));
+    i = -1;
+    while(str[++i])
+        ret[i] = str[i];
+    ret[i] = '\0';
+    return(ret);
+}
+
+t_envir *replace_variables(char **env)
+{
+    t_envir *list;
+    t_envir *ret;
+    int i;
+
+    i = 0;
+    list = creat_env_list();
+    ret = list;
+    while(env[i])
+    {
+        list->variable = ft_variabl(env[i]);
+        list->value = ft_value(env[i]);
+        i++;
+            // printf("ana hna 3\n");
+        if(env[i])
+        {
+             list->next = creat_env_list();
+            list = list->next;
+        }
+             
+    }
+     while (ret)
+    {
+        printf("\033[0;32m| variable :\033[1;91m %s \033[0;32m| value :\033[1;91m %s |\n", ret->variable, ret->value);
+        ret = ret->next;
+    }
+    return(ret);
+}
+
+void begin(char **env)
+{
+   
+    t_envir *envr;
     char *line;
+
+    envr = replace_variables(env);
+   
     while(1337)
     {
         line = readline("➜ minishell ✗ ");
@@ -33,7 +112,7 @@ void begin()
 }
 
 #include <string.h>
-int main(int ac, char **av)
+int main(int ac, char **av, char **env)
 {
     av[1] = 0;
     if (ac != 1)
@@ -46,7 +125,7 @@ int main(int ac, char **av)
     printf("\033[0;32m██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║     \n");
     printf("\033[0;32m██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗\n");
     printf("\033[0;32m╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝\n");
-    printf("\033[0;32m      Made by : \033[1;91sakarkal\033[m and \033[1;91mbbenidar\033[m\n");
+    printf("\033[0;32m      Made by : \033[1;91msakarkal\033[m and \033[1;91mbbenidar\033[m\n");
 
-    begin();
+    begin(env);
 }

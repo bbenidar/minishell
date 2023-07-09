@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/08 14:29:59 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/09 12:59:14 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ typedef struct s_var
 }					t_var;
 
 
-typedef struct s_env
+typedef struct s_envi
 {
 	char			*variable;
 	char*				value;
-	struct s_stack	*next;
-}					t_env;
+	struct s_envi	*next;
+}					t_envir;
 
 
 typedef struct s_stack
