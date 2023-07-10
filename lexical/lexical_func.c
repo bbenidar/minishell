@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/08 14:35:07 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:49:56 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,6 +416,75 @@ t_last *ft_last_list_get_ready(t_stack *head)
     return (ret);
 }
 
+char *find_value(char *str, t_envir *env)
+{
+    char *ret;
+
+    ret = ft_strdup("");
+    while(env)
+    {
+        if(!ft_strcmp(env->variable, str))
+        {
+            ret = ft_strdup(env->value);
+            break ;
+        }
+        env = env->next;
+    }
+    return (ret);
+}
+
+char *ft_add_variables(char *line, t_envir *envr)
+{
+    int i;
+    char **src;
+    int len = 0;
+    
+    while(line[len])
+    {
+        if(line[len] && line[len] == ' ')
+            line[len] *= -2;
+        len++;
+    }
+
+    
+    i = 0;
+    src = ft_split_opera(line, '$');
+
+    line = merge_str(src);
+    src = ft_split_opera(line, 32 * -2);
+    line = merge_str(src);
+
+
+    src = ft_split_opera(line, 32 * -1);
+   
+    line = merge_str(src);
+    
+    src = ft_split(line, ' ');
+    // printf("\033[0;32m src :\033[0;91m %s \033[m\n", line);
+    while(src[i])
+    {
+        if(!ft_strcmp(src[i], "$") &&  (src[i + 1]))
+        {
+            if ( (src[i  + 1][0] != ' ' * -2 && src[i + 1][0] != ' ' * -1 && src[i + 1][0] != '\"'))
+            {
+            src[i][0] = 32;
+            src[i + 1] = find_value(src[i + 1], envr);
+            // printf("src : %s \n", src[i + 1]);
+            }          
+        }   
+        i++;
+    }
+    line = merge_str(src);
+    i = 0;
+    while(line[i])
+    {
+        if(line[i] == 32 * -2)
+            line[i] = 32;
+        i++;
+    }
+    return(line);
+}
+
 void lexical_function(char *line)
 {
     t_stack *head;
@@ -424,7 +493,6 @@ void lexical_function(char *line)
     char **src;
     int i;
     int redir;
-    
     i = 0;
     redir = 0;
     
@@ -440,10 +508,13 @@ void lexical_function(char *line)
     free_tab(src);
     src = ft_split_opera(str, '<');
     str = merge_str(src);
+    // printf("line : %s\n", str);
+    
     head = split_in_list(str);
     free(str);
     if (!cheking_(head))
         return ;
+    // printf("line : %s\n", line);
     last = ft_last_list_get_ready(head);
     
 }

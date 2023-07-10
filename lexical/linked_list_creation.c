@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 12:13:43 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/30 13:07:31 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:00:38 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_last	*ft_new_last_list()
 		return (0);
 	n->word = NULL;
     n->input = 0;
-    n->input_heredoc = 0;
     n->output = 0;
 	n -> next = NULL;
 	return (n);

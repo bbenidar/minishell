@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/09 15:56:22 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/10 18:14:24 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,43 +78,55 @@ t_envir *replace_variables(char **env)
         }
              
     }
-     while (ret)
-    {
-        printf("\033[0;32m| variable :\033[1;91m %s \033[0;32m| value :\033[1;91m %s |\n", ret->variable, ret->value);
-        ret = ret->next;
-    }
+    //  while (ret)
+    // {
+    //     printf("\033[0;32m| variable :\033[1;91m %s \033[0;32m| value :\033[1;91m %s |\n", ret->variable, ret->value);
+    //     ret = ret->next;
+    // }
     return(ret);
 }
+
 
 void begin(char **env)
 {
    
     t_envir *envr;
     char *line;
+   
 
     envr = replace_variables(env);
-   
     while(1337)
     {
         line = readline("➜ minishell ✗ ");
         if(!line)
         {
-            printf("EXITE");
+            printf("exit\n");
             break;
         }
-        // printf("line : |%lu|\n", strlen(line));
+
         if (!check_space(line))
             add_history(line);
-        if(!ft_first_check(line))
-            lexical_function(line); 
+            
+            line = ft_add_variables(line, envr);
+    if(!ft_first_check(line))
+    {
+    printf("\033[0;32m line :  %s \033[m\n", line);
+    printf("\033[0;32m line :  %s \033[m\n", line);
+        // lexical_function(line); 
+    }
+           
         
     }
 }
+
+
 
 #include <string.h>
 int main(int ac, char **av, char **env)
 {
     av[1] = 0;
+
+    
     if (ac != 1)
         return (0);
     printf("\033[2J\033[1;1H");

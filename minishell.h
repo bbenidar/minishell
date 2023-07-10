@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/09 12:59:14 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:34:52 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+
 enum				t_type
 {
 	COMMAND = 1,
@@ -45,23 +46,8 @@ enum				t_type
 	VARIABLE,
 };
 
-typedef struct s_mini
-{
-	char			**array;
-	char			**array_export;
-	int				rtn;
-	int				exit;
-	int				ret_exit;
-	int				switch_signal;
-	char			*user;
-}					t_mini;
 
-t_mini				glv_mini;
 
-typedef struct s_var
-{
-	char			**str;
-}					t_var;
 
 
 typedef struct s_envi
@@ -83,7 +69,6 @@ typedef struct s_last
 {
 	char			**word;
 	int				input;
-	int				input_heredoc;
 	int				output;
 	struct s_last	*next;
 }					t_last;
@@ -116,6 +101,7 @@ int					check_space(char *str);
 //parsing/check_utils.c
 int					check_character(char c, char *check);
 //lexical/lexical_func.c
+char *ft_add_variables(char *line, t_envir *envr);
 void ft_option(t_stack *list,int i, t_last *str);
 void				lexical_function(char *line);
 char				**ft_split_opera(char const *s, char h);
@@ -134,7 +120,7 @@ int					ft_pwd(void);
 void				put_pwd(char *arg, char *c);
 int					ft_cd(char *arg);
 //execution/exit.c
-void				ft_exit(t_mini *mini, char **command);
+// void				ft_exit(t_mini *mini, char **command);/
 //execution/env.c
 int					ft_env(void);
 //execution/echo.c
