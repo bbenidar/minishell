@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/10 17:49:56 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/11 22:16:48 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,19 @@ char *merge_str(char **str)
     return (line);
 }
 
-
+char *merge_tab(char **str)
+{
+    int i;
+    i = 2;
+    char *line;
+    line = ft_strjoin(str[0], str[1]);
+    while(str[i])
+    {
+        line = ft_strjoin(line, str[i]);
+        i++;
+    }
+    return (line);
+}
 
 t_stack *split_in_list(char *str)
 {
@@ -219,17 +231,19 @@ int option_len(t_stack *list)
     return (i);
 }
 
-// char **ft_add_tab(char **str, char *src)
-// {
-//     char **tab;
-//     int i = 0;
+void ft_remove_gv(char *str)
+{
+    int i = 0;
 
-//     while(str[i])
-//         i++;
-//     tab = malloc(sizeof(char *) * i + 1);
-//     tab[i] = strdup(src);
+    while(str[i])
+    {
+        if (str[i] == 32 * -1)
+            str[i] = 32;
+        i++;
+    }
+    
 
-// }
+}
 
 void ft_option(t_stack *list,int i, t_last *str)
 {
@@ -257,6 +271,7 @@ void ft_option(t_stack *list,int i, t_last *str)
         tmp = tmp->next;
         j++;
     }
+    ft_remove_gv(src);
     str->word = ft_split(src, '&');
 }
 
@@ -397,22 +412,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
             
     }
     i = 0;
-    while(ret)
-    {
-        i =0;
-        printf("________________________________________________________________________________________________________\n");
-        while(ret->word[i])
-        {
-            
-            printf("|  command : %s ", ret->word[i]);
-            i++;
-        }
-        printf("| fd input : %d   | fd out : %d |\n", ret->input, ret->output);
-        // the input file takes the file descriptor of the out put file, must fix
-        // when getting a input file , the input file variable gets a negative value, must look into it;
-        // the heredoc does not get a specifier that indicates that there is a heredoc
-        ret = ret->next;
-    }
+    
     return (ret);
 }
 
@@ -433,6 +433,23 @@ char *find_value(char *str, t_envir *env)
     return (ret);
 }
 
+
+// char *merge_tab(char **str)
+// {
+//     int i;
+//     i = 2;
+//     char *line;
+//     if(str[0] &&!str[1])
+//         return(ft_strdup(str[0]));
+//     line = ft_strjoin(str[0], str[1]);
+//     while(str[i])
+//     {
+//         line = ft_strjoin(line, str[i]);
+//         i++;
+//     }
+//     return (line);
+// }
+
 char *ft_add_variables(char *line, t_envir *envr)
 {
     int i;
@@ -449,39 +466,52 @@ char *ft_add_variables(char *line, t_envir *envr)
     
     i = 0;
     src = ft_split_opera(line, '$');
-
-    line = merge_str(src);
-    src = ft_split_opera(line, 32 * -2);
-    line = merge_str(src);
-
-
-    src = ft_split_opera(line, 32 * -1);
-   
-    line = merge_str(src);
+    for(int f = 0; src[f]; f++)
+        printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
     
-    src = ft_split(line, ' ');
-    // printf("\033[0;32m src :\033[0;91m %s \033[m\n", line);
     while(src[i])
     {
         if(!ft_strcmp(src[i], "$") &&  (src[i + 1]))
         {
             if ( (src[i  + 1][0] != ' ' * -2 && src[i + 1][0] != ' ' * -1 && src[i + 1][0] != '\"'))
-            {
-            src[i][0] = 32;
-            src[i + 1] = find_value(src[i + 1], envr);
-            // printf("src : %s \n", src[i + 1]);
-            }          
+                src[i + 1] = find_value(src[i + 1], envr);
+                    
         }   
         i++;
     }
-    line = merge_str(src);
+    for(int f = 0; src[f]; f++)
+        printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
+    
+    i =0;
+    while(src[i])
+    {
+        if(src[i][0] == '$')
+        {
+            if(!src[i + 1])
+                src[i][0] *= -1;
+            else if (!ft_strcmp(src[i + 1], "\"") || !ft_strcmp(src[i + 1], "$") || !src[i] || !ft_strcmp(src[i + 1], ""))
+                src[i][0] *= -1;
+        } 
+        i++;
+    }
+    line = merge_tab(src);
+    src = ft_split(line, '$');
+    line = merge_tab(src);
+
     i = 0;
+    // printf("%s\n", line);
     while(line[i])
     {
         if(line[i] == 32 * -2)
             line[i] = 32;
+        if(line[i] == '$' * -1)
+            line[i] = '$';
         i++;
     }
+    
+    // src = ft_split(line, ' ');
+    // line = merge_str(src);
+    //ft_free_tab() need free tab function 
     return(line);
 }
 
@@ -516,6 +546,19 @@ void lexical_function(char *line)
         return ;
     // printf("line : %s\n", line);
     last = ft_last_list_get_ready(head);
+    while(last)
+    {
+        i =0;
+        printf("________________________________________________________________________________________________________\n");
+        while(last->word[i])
+        {
+            
+            printf("|  command : %s ", last->word[i]);
+            i++;
+        }
+        printf("| fd input : %d   | fd out : %d |\n", last->input, last->output);
+        last = last->next;
+    }
     
 }
 

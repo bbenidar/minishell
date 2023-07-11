@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:29:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/03 10:39:28 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/11 21:42:17 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_substr(char const *s, int start,
 	return (src);
 }
 
-static int	count_wrd(char const *s, char c)
+int	count_wrd(char const *s, char c)
 {
 	int	i;
 	int	j;

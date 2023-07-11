@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/10 18:14:24 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/11 22:16:15 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,12 @@ void begin(char **env)
 
         if (!check_space(line))
             add_history(line);
-            
-            line = ft_add_variables(line, envr);
+        printf("\033[0;32m line :  %s \033[m\n", line);    
+        line = ft_add_variables(line, envr); printf("\033[0;32m line :  %s \033[m\n", line);
     if(!ft_first_check(line))
     {
-    printf("\033[0;32m line :  %s \033[m\n", line);
-    printf("\033[0;32m line :  %s \033[m\n", line);
+    
+   
         // lexical_function(line); 
     }
            

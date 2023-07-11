@@ -1,0 +1,13 @@
+Makefile
+ds
+envout
+hh
+hhs
+lexical
+minishell
+minishell.c
+minishell.h
+minishell.o
+parsing
+txt
+utils
