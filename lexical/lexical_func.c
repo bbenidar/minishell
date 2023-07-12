@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/11 22:16:48 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/12 10:15:45 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ char *merge_tab(char **str)
     int i;
     i = 2;
     char *line;
+
+    if (str[0] && !str[1])
+        return (ft_strdup(str[0]));
     line = ft_strjoin(str[0], str[1]);
     while(str[i])
     {
@@ -282,6 +285,11 @@ int open_fd_out(char *word, int key)
         fd = open(word,O_CREAT | O_APPEND, 0777);
     else 
         fd = open(word,O_CREAT | O_TRUNC, 0777);
+    if(fd < 0)
+    {
+        printf("\033[0;31mERROR : %s: No such file or directory\033[0m\n", word);
+        return (fd);
+    }
         
     return (fd);
 }
@@ -386,10 +394,15 @@ t_last *ft_last_list_get_ready(t_stack *head)
             if(tmp->key == FILE_IN )
             {
                 last->output = open(tmp->word, O_RDONLY, 0777);
-                if(last->input < 0)
+                if(last->output < 0)
                 {
-                    printf("\033[0;31mERROR : %s: No such file or directory\033[0m\n", tmp->word);
-                    return (NULL);
+                    last->output = 0;
+                    last->input = 0;
+                    perror(tmp->word);
+                    while(tmp && tmp->key != PIPE)
+                        tmp = tmp->next;
+                    tmp = tmp->next;
+                    break ;
                 }
                     
             }
@@ -397,7 +410,15 @@ t_last *ft_last_list_get_ready(t_stack *head)
             if(tmp->key == FILE_OUT || tmp->key == FILE_APP)
                 last->input = open_fd_out(tmp->word, tmp->key);
             if(tmp->key == RED_HER)
+            {
                 last->output = ft_herdoc(tmp);
+                if(last->output < 0)
+                {
+                    perror(tmp->word);
+                    return (NULL);
+                }
+            }
+                
                 
                 
             tmp = tmp->next;
@@ -453,6 +474,7 @@ char *find_value(char *str, t_envir *env)
 char *ft_add_variables(char *line, t_envir *envr)
 {
     int i;
+    int j = 0;
     char **src;
     int len = 0;
     
@@ -465,9 +487,15 @@ char *ft_add_variables(char *line, t_envir *envr)
 
     
     i = 0;
+    src = ft_split_opera(line, '\"');
+    line = merge_str(src);
     src = ft_split_opera(line, '$');
-    for(int f = 0; src[f]; f++)
-        printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
+    line = merge_str(src);
+    src = ft_split_opera(line, ' ' * -2);
+    line = merge_str(src);
+    src = ft_split(line, ' ');
+    // for(int f = 0; src[f]; f++)
+    //     printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
     
     while(src[i])
     {
@@ -475,26 +503,38 @@ char *ft_add_variables(char *line, t_envir *envr)
         {
             if ( (src[i  + 1][0] != ' ' * -2 && src[i + 1][0] != ' ' * -1 && src[i + 1][0] != '\"'))
                 src[i + 1] = find_value(src[i + 1], envr);
+            if(!ft_strcmp(src[i + 1], ""))
+                src[i] =  ft_strdup("");
                     
-        }   
+        }
         i++;
     }
-    for(int f = 0; src[f]; f++)
-        printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
+    // for(int f = 0; src[f]; f++)
+    //     printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
     
     i =0;
     while(src[i])
     {
         if(src[i][0] == '$')
         {
+            j = -1;
             if(!src[i + 1])
-                src[i][0] *= -1;
-            else if (!ft_strcmp(src[i + 1], "\"") || !ft_strcmp(src[i + 1], "$") || !src[i] || !ft_strcmp(src[i + 1], ""))
-                src[i][0] *= -1;
+            {
+                while(src[i][++j])
+                    src[i][j] *= -1;
+            }
+                
+            else if (!ft_strcmp(src[i + 1], "\"") || src[i][1] == '$' || src[i + 1][0] == 32 * -2)
+                {
+                while(src[i][++j])
+                    src[i][j] *= -1;
+            }
         } 
         i++;
     }
     line = merge_tab(src);
+    // printf("%s\n", line);
+
     src = ft_split(line, '$');
     line = merge_tab(src);
 
