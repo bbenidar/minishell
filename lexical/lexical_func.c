@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/14 00:09:34 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/14 02:27:38 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,9 +282,9 @@ int open_fd_out(char *word, int key)
 {
     int fd;
     if(key == FILE_APP)
-        fd = open(word,O_CREAT | O_APPEND, 0777);
+        fd = open(word,O_CREAT | O_RDWR |O_APPEND, 0777);
     else 
-        fd = open(word,O_CREAT | O_TRUNC, 0777);
+        fd = open(word,O_CREAT | O_RDWR | O_TRUNC, 0777);
     if(fd < 0)
     {
         printf("\033[0;31mERROR : %s: No such file or directory\033[0m\n", word);
