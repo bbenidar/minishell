@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/12 10:15:45 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/14 00:09:34 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,28 +294,6 @@ int open_fd_out(char *word, int key)
     return (fd);
 }
 
-//_______________________random number string __________________________//
-// char *ft_rand()
-// {
-//     char *rand;
-//     int fd = open("/dev/urandom", O_RDONLY);
-//     unsigned int randomNumber;
-//     if (fd < 0) {
-//         printf("Failed to open /dev/urandom\n");
-//         return (NULL);
-//     }
-
-//     unsigned int result = read(fd, &randomNumber, sizeof(randomNumber));
-//     close(fd);
-//     if (result < 0) {
-//         printf("Failed to read /dev/urandom\n");
-//         return (NULL);
-//     }
-//     rand = ft_itoa(randomNumber);
-//     return (rand);
-// }
-//_________________________________________________________________________//
-
 void return_space_to_real_value(char *word)
 {
     while(*word)
@@ -348,14 +326,12 @@ int ft_herdoc(t_stack *list)
         else if (list->next)
         {
             return_space_to_real_value(list->next->word);
-            //printf("%s hhhh\n", list->next->word);
             if(!ft_strcmp(her, list->next->word))
-                break;
+                break ;
         }
         ft_putstr_fd(her, fd);
         ft_putstr_fd("\n", fd);
     }
-    // printf("%d hhhh\n", fd);
     return(fd);
 }
 
@@ -398,10 +374,13 @@ t_last *ft_last_list_get_ready(t_stack *head)
                 {
                     last->output = 0;
                     last->input = 0;
+                    //free_tab here(last->word)
+                    last->word = NULL;
                     perror(tmp->word);
                     while(tmp && tmp->key != PIPE)
                         tmp = tmp->next;
-                    tmp = tmp->next;
+                    if(tmp && tmp->next != NULL)
+                        tmp = tmp->next;
                     break ;
                 }
                     
@@ -423,7 +402,8 @@ t_last *ft_last_list_get_ready(t_stack *head)
                 
             tmp = tmp->next;
         }
-        
+        if(!tmp || tmp->next == NULL)
+            break ;
         if(tmp && tmp->key == PIPE)
         {
             tmp = tmp->next;
@@ -555,7 +535,7 @@ char *ft_add_variables(char *line, t_envir *envr)
     return(line);
 }
 
-void lexical_function(char *line)
+void lexical_function(char *line, char **env, t_envir *envr)
 {
     t_stack *head;
     t_last *last;
@@ -586,19 +566,20 @@ void lexical_function(char *line)
         return ;
     // printf("line : %s\n", line);
     last = ft_last_list_get_ready(head);
-    while(last)
-    {
-        i =0;
-        printf("________________________________________________________________________________________________________\n");
-        while(last->word[i])
-        {
+    // while(last)
+    // {
+    //     i =0;
+    //     printf("________________________________________________________________________________________________________\n");
+    //     while(last->word && last->word[i])
+    //     {
             
-            printf("|  command : %s ", last->word[i]);
-            i++;
-        }
-        printf("| fd input : %d   | fd out : %d |\n", last->input, last->output);
-        last = last->next;
-    }
+    //         printf("|  command : %s ", last->word[i]);
+    //         i++;
+    //     }
+    //     printf("| fd input : %d   | fd out : %d |\n", last->input, last->output);
+    //     last = last->next;
+    // }
+    ft_execution(last, env, envr);
     
 }
 
