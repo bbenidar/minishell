@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 23:13:34 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/15 01:42:05 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:04:27 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,19 @@ char *ft_getfile_name(char **cammnd, t_envir *envr)
 
 }
 
-int ft_check_for_builting(t_last *last)
+int ft_check_for_builting(t_last *last, t_envir *env)
 {
     if(!ft_strcmp(last->word[0], "echo"))
     {
         ft_echo(last, last->word);
-        exit(0);
+        return (1);
+    }
+    if(!ft_strcmp(last->word[0], "cd"))
+    {
+        ft_cd(last->word[1], env);
+        return (1);
     }
     return (0);
-        
-    
-
-
 }
 
 void ft_execution(t_last *last, char **env, t_envir *envr)
@@ -63,42 +64,49 @@ void ft_execution(t_last *last, char **env, t_envir *envr)
 
     while(last)
     {
-        pid = fork();
-        
-        if(pid == 0)
-        {   
-              if (last->input != STDIN_FILENO)
-            {
-                if (dup2(last->input, STDIN_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-            }
-            if (last->output != STDOUT_FILENO)
-            {
-                if (dup2(last->output, STDOUT_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-            }
-            close(last->input);
-            close(last->output);
-            if(!ft_getfile_name(last->word, envr))
-            {
-                printf("minishell : command not found\n");
-                exit (1);
-            }
-            if(!ft_check_for_builting(last))
-                execve(ft_getfile_name(last->word, envr), last->word, env);
-            perror("minishell :");
-            exit(1);
-
-            
-        }
-        waitpid(pid, NULL, 0);
+        if(ft_check_for_builting(last, envr))
             last = last->next;
+        else
+        {
+          pid = fork();
+        
+            if(pid == 0)
+            {   
+                    if (last->input != STDIN_FILENO)
+                {
+                    if (dup2(last->input, STDIN_FILENO) == -1)
+                    {
+                        perror("dup2");
+                        exit(1);
+                    }
+                }
+                if (last->output != STDOUT_FILENO)
+                {
+                    if (dup2(last->output, STDOUT_FILENO) == -1)
+                    {
+                        perror("dup2");
+                        exit(1);
+                    }
+                }
+                close(last->input);
+                close(last->output);
+                if(!ft_getfile_name(last->word, envr))
+                {
+                    printf("minishell : command not found\n");
+                    exit (1);
+                }
+                if(!ft_check_for_builting(last, envr))
+                    execve(ft_getfile_name(last->word, envr), last->word, env);
+                perror("minishell :");
+                exit(1);
+
+                
+            }  
+            waitpid(pid, NULL, 0);
+            last = last->next;
+        }
+        
+        
     }
     
 }

@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/15 01:41:16 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/15 14:46:42 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int					ft_unset(char **arg);
 int					ft_pwd(void);
 //execution/cd.c
 void				put_pwd(char *arg, char *c);
-int					ft_cd(char *arg);
+void					ft_cd(char *arg, t_envir *env);
 //execution/exit.c
 // void				ft_exit(t_mini *mini, char **command);/
 //execution/env.c

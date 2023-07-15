@@ -6,7 +6,7 @@
 #    By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/07/15 01:30:31 by bbenidar         ###   ########.fr        #
+#    Updated: 2023/07/15 14:48:50 by bbenidar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ FLAGS = -Wall -Wextra -g #-Werror
 SRC =  ./parsing/first_check.c ./parsing/check_utils.c minishell.c \
 		./lexical/lexical_func.c  ./lexical/linked_list_creation.c ./utils/utils1.c ./utils/utils2.c ./utils/utils3.c \
 		./parsing/splite_utile.c  ./utils/utils4.c ./utils/itoa.c ./execution/execut.c  ./execution/builting/echo.c\
+		 ./execution/builting/cd.c \
 
 OBG = ${SRC:.c=.o}
 

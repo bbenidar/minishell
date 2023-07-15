@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 00:28:19 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/15 01:59:25 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/15 02:12:19 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ void		ft_echo(t_last *last,char **str)
         write(1, " ", 1);
         i++;
     }
-    if(!flag)
+    if(flag)
         write(1 , "\n", 1);
 }
