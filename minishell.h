@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/14 00:09:18 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/15 01:41:16 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int					ft_cd(char *arg);
 int					ft_env(void);
 //execution/echo.c
 int					ft_newline(char *arg);
-int					ft_echo(char **arg);
+void					ft_echo(t_last *last, char **str);
 //execution/
 void ft_execution(t_last *last, char **env, t_envir *envr);
 #endif
