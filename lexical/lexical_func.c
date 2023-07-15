@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/14 02:27:38 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/16 00:02:41 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ char *merge_str(char **str)
     int i;
     i = 1;
     char *line;
+    if(!str)
+        return (NULL);
     line = ft_strjoin(str[0], " ");
     while(str[i])
     {
@@ -110,10 +112,12 @@ char *merge_tab(char **str)
     i = 2;
     char *line;
 
-    if (str[0] && !str[1])
+    if(!str)
+        return (NULL);
+    if (str && str[0] && !str[1])
         return (ft_strdup(str[0]));
     line = ft_strjoin(str[0], str[1]);
-    while(str[i])
+    while(str && str[i])
     {
         line = ft_strjoin(line, str[i]);
         i++;
@@ -477,7 +481,7 @@ char *ft_add_variables(char *line, t_envir *envr)
     // for(int f = 0; src[f]; f++)
     //     printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
     
-    while(src[i])
+    while(src && src[i])
     {
         if(!ft_strcmp(src[i], "$") &&  (src[i + 1]))
         {
@@ -493,7 +497,7 @@ char *ft_add_variables(char *line, t_envir *envr)
     //     printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
     
     i =0;
-    while(src[i])
+    while(src && src[i])
     {
         if(src[i][0] == '$')
         {
@@ -520,7 +524,7 @@ char *ft_add_variables(char *line, t_envir *envr)
 
     i = 0;
     // printf("%s\n", line);
-    while(line[i])
+    while(line && line[i])
     {
         if(line[i] == 32 * -2)
             line[i] = 32;
