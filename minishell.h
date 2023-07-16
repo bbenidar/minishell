@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/15 14:46:42 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/16 09:20:33 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ enum				t_type
 typedef struct s_envi
 {
 	char			*variable;
-	char*				value;
+	char			*value;
 	struct s_envi	*next;
 }					t_envir;
 
@@ -108,6 +108,7 @@ char				**ft_split_opera(char const *s, char h);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 t_stack	*ft_my_lstnew(char *content, int key);
 t_last	*ft_new_last_list();
+t_envir *creat_env_list();
 // ---------------------------------EXEC FUNCT-------------------------------//
 //execution/unset.c
 char				**remove_line_from_array(char **array, char *line);
@@ -115,17 +116,18 @@ int					check_arg_unset(char *arg);
 char				**remove_unset(char **array, char *arg);
 int					ft_unset(char **arg);
 //execution/pwd.c
-int					ft_pwd(void);
+void				ft_pwd(void);
 //execution/cd.c
 void				put_pwd(char *arg, char *c);
 void					ft_cd(char *arg, t_envir *env);
 //execution/exit.c
-// void				ft_exit(t_mini *mini, char **command);/
+void	ft_exit();
 //execution/env.c
-int					ft_env(void);
+void	ft_env(t_envir *a);
 //execution/echo.c
 int					ft_newline(char *arg);
 void					ft_echo(t_last *last, char **str);
 //execution/
 void ft_execution(t_last *last, char **env, t_envir *envr);
+void ft_export(t_envir *env, char **cmd);
 #endif

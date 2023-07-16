@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 23:13:34 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/15 18:04:27 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/16 07:39:44 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,10 @@ char *ft_getfile_name(char **cammnd, t_envir *envr)
         }
         envr = envr->next;
     }
-// printf("hs : %s\n", cammnd[0]);
     paths = ft_split(str, ':');
     free(str);
     while(paths[i])
     {
-        // printf("hs : %s\n", ft_strjoin(ft_strjoin(paths[i], "/"), cammnd[0]));
-
         if(!access(ft_strjoin(ft_strjoin(paths[i], "/"), cammnd[0]), F_OK))
             return(ft_strjoin(ft_strjoin(paths[i], "/"), cammnd[0]));
         i++;
@@ -53,6 +50,26 @@ int ft_check_for_builting(t_last *last, t_envir *env)
     if(!ft_strcmp(last->word[0], "cd"))
     {
         ft_cd(last->word[1], env);
+        return (1);
+    }
+    if(!ft_strcmp(last->word[0], "env"))
+    {
+        ft_env(env);
+        return (1);
+    }
+    if(!ft_strcmp(last->word[0], "export"))
+    {
+        ft_export(env, last->word);
+        return (1);
+    }
+    if(!ft_strcmp(last->word[0], "pwd"))
+    {
+        ft_pwd();
+        return (1);
+    }
+    if(!ft_strcmp(last->word[0], "exit"))
+    {
+        ft_exit();
         return (1);
     }
     return (0);

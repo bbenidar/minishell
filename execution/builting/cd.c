@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:22:09 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/15 16:28:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/16 03:07:26 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,19 @@ void	ft_cd(char *arg, t_envir *env)
     char *path;
     char buffer[4096];
 
-    // buffer = malloc(4096);
-    // if(!buffer)
-    //     perror("minishell");
     if(getcwd(buffer, sizeof(buffer)) != NULL)
     {
         path = get_path(env);
-            login = get_logine(env);
-            // printf("arg : %s | path : %s\n", buffer, ft_strjoin("/", arg));
-            if (!arg)
-            {   
-                chdir(ft_strjoin("/Users/", login));
-                    // perror("minishell");
-            }
-        
-           chdir(ft_strjoin(ft_strjoin(buffer, "/"), arg));
-                // perror("minishell");
-
+        login = get_logine(env);
+        // printf("arg : %s | path : %s\n", buffer, ft_strjoin("/", arg));
+        if (!arg)
+        {   
+            chdir(ft_strjoin("/Users/", login));
+            // perror("minishell");
+        }
+        chdir(ft_strjoin(ft_strjoin(buffer, "/"), arg));
+        // perror("minishell")
     }
-    
     // free(buffer);
 }
 
