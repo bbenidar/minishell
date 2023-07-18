@@ -3,59 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   splite_utile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:27:38 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/12 06:42:21 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:33:12 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../minishell.h"
+#include "../minishell.h"
 
-static int    count_wrd(char const *s, char h)
+static int count_wrd(char const *s, char h)
 {
-    int    i;
-    int    j;
-    int    b;
-    int r;
-    int c;
+	int i;
+	int j;
+	int b;
+	int r;
+	int c;
 
-    i = 0;
-    r = 0;
-    c = 0;
-    j = 0;
-    b = 0;
-    while (s[b])
-    {
-        if ((s[b] != h ) && j == 0)
-        {
-            j = 1;
-            i++;
-            r = 0;
-        }
-        else if (s[b] == h && r == 0 )
-        {
-            r = 1;
-            c++;
-            j = 0;
-        }
-        b++;
-    }
-    return (i + c);
+	i = 0;
+	r = 0;
+	c = 0;
+	j = 0;
+	b = 0;
+	while (s[b])
+	{
+		if ((s[b] != h) && j == 0)
+		{
+			j = 1;
+			i++;
+			r = 0;
+		}
+		else if (s[b] == h && r == 0)
+		{
+			r = 1;
+			c++;
+			j = 0;
+		}
+		b++;
+	}
+	return (i + c);
 }
 
-static int	count_split(char const *s, char c)
+static int count_split(char const *s, char c)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (s[i] != '\0' && s[i] != c)
 		i++;
 	return (i);
 }
-static int	count_split_inv(char const *s, char c)
+static int count_split_inv(char const *s, char c)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (s[i] != '\0' && s[i] == c)
@@ -63,9 +63,9 @@ static int	count_split_inv(char const *s, char c)
 	return (i);
 }
 
-static char	**free_splits(char **split)
+static char **free_splits(char **split)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (split[i])
@@ -77,10 +77,10 @@ static char	**free_splits(char **split)
 	return (split);
 }
 
-char	**ft_split_opera(char const *s, char h)
+char **ft_split_opera(char const *s, char h)
 {
-	char	**p;
-	size_t	i;
+	char **p;
+	size_t i;
 	int r;
 
 	i = 0;
@@ -94,7 +94,7 @@ char	**ft_split_opera(char const *s, char h)
 	{
 		while (*s && (*s == h))
 		{
-			if(r == 0)
+			if (r == 0)
 			{
 				p[i] = ft_substr(s, 0, count_split_inv(s, h));
 				r = 1;

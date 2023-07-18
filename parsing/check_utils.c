@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   check_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 10:18:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/05/02 12:05:22 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:32:48 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../minishell.h"
+#include "../minishell.h"
 
 int check_character(char c, char *check)
 {
-    while(*check)
-    {
-        if(c == *check)
-            return (1);
-        check++;
-    }
-    return (0);
+	while (*check)
+	{
+		if (c == *check)
+			return (1);
+		check++;
+	}
+	return (0);
 }

@@ -3,24 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+         #
+#    By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/07/16 23:51:35 by bbenidar         ###   ########.fr        #
+#    Updated: 2023/07/18 11:55:35 by sakarkal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = MINISHELL
 
 CC	= cc
-FLAGS = -Wall -Wextra -g #-Werror
+FLAGS = -Wall -Wextra #-Werror
 
 SRC =  ./parsing/first_check.c ./parsing/check_utils.c minishell.c \
 		./lexical/lexical_func.c  ./lexical/linked_list_creation.c ./utils/utils1.c ./utils/utils2.c ./utils/utils3.c \
 		./parsing/splite_utile.c  ./utils/utils4.c ./utils/itoa.c ./execution/execut.c  ./execution/builting/echo.c\
 		 ./execution/builting/cd.c ./execution/builting/env.c execution/builting/export.c execution/builting/pwd.c\
-		 execution/builting/unset.c\
-
+		execution/builting/unset.c	
 OBG = ${SRC:.c=.o}
 
 HEAD="\n"\
@@ -36,11 +35,11 @@ HEAD="\n"\
 all : minishell
 
 minishell : ${OBG}
-	cc ${OBG} -o minishell -lreadline
+	cc $(FLAGS) ${OBG} -L $(shell brew --prefix readline)/lib -lreadline -o minishell
 	@echo $(HEAD)
 
 %.o : %.c 
-	${CC} ${FLAGS} -c $< -o $@
+	${CC} ${FLAGS} -I $(shell brew --prefix readline)/include -c $< -o $@
 
 fclean : clean
 	rm -rf minishell

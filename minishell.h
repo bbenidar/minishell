@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/18 01:02:16 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:55:12 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -28,6 +28,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/ioctl.h>
 
 
 enum				t_type
@@ -109,12 +110,13 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 t_stack	*ft_my_lstnew(char *content, int key);
 t_last	*ft_new_last_list();
 t_envir *creat_env_list();
+char **ft_merge_envr(t_envir *env);
 // ---------------------------------EXEC FUNCT-------------------------------//
 //execution/unset.c
 char				**remove_line_from_array(char **array, char *line);
 int					check_arg_unset(char *arg);
 char				**remove_unset(char **array, char *arg);
-void ft_unset(t_envir *env,char *cmd);
+void				ft_unset(t_envir *env,char *cmd);
 //execution/pwd.c
 void				ft_pwd(void);
 //execution/cd.c
@@ -130,5 +132,4 @@ void					ft_echo(t_last *last, char **str);
 //execution/
 void ft_execution(t_last *last, char **env, t_envir *envr);
 void ft_export(t_envir *env, char **cmd);
-char **ft_merge_envr(t_envir *env);
 #endif
