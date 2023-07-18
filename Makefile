@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+         #
+#    By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/07/16 04:33:37 by sakarkal         ###   ########.fr        #
+#    Updated: 2023/07/16 23:51:35 by bbenidar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC =  ./parsing/first_check.c ./parsing/check_utils.c minishell.c \
 		./lexical/lexical_func.c  ./lexical/linked_list_creation.c ./utils/utils1.c ./utils/utils2.c ./utils/utils3.c \
 		./parsing/splite_utile.c  ./utils/utils4.c ./utils/itoa.c ./execution/execut.c  ./execution/builting/echo.c\
 		 ./execution/builting/cd.c ./execution/builting/env.c execution/builting/export.c execution/builting/pwd.c\
+		 execution/builting/unset.c\
 
 OBG = ${SRC:.c=.o}
 
