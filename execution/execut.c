@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 23:13:34 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/20 02:16:11 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/20 21:24:30 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,52 +100,49 @@ int ft_check_for_builting(t_last *last, t_envir *env)
 	return (0);
 }
 
+void close_pipe(int pipe_fds[2]) {
+    close(pipe_fds[0]);
+    close(pipe_fds[1]);
+}
+
 void ft_execution(t_last *last, char **env, t_envir *envr) {
-    int pipe_fds[2];
     int prev_pipe_read = STDIN_FILENO; // Read end of the previous pipe
 
     while (last) {
         if (ft_check_for_builting(last, envr)) {
-            last = last->next;
-            // Merge envr to envire
+              last = last->next;
             char **envire = ft_merge_envr(envr);
-            // Handle built-in command
-            // ...
         } else {
-            if (pipe(pipe_fds) == -1) {
-                perror("pipe");
-                exit(1);
+            int pipe_fds[2];
+
+            if (last->next) {
+                if (pipe(pipe_fds) == -1) {
+                    perror("pipe");
+                    exit(1);
+                }
             }
 
             pid_t pid = fork();
             if (pid == 0) {
-                close(pipe_fds[0]); // Close the unused read end of the pipe
-
-                // Set up input redirection from the previous pipe or STDIN
-                if (last->input != STDIN_FILENO) {
-                    if (dup2(last->input, STDIN_FILENO) == -1) {
-                        perror("dup2");
-                        exit(1);
-                    }
-                } else if (prev_pipe_read != STDIN_FILENO) {
+                // Child process
+                if (prev_pipe_read != STDIN_FILENO) {
                     if (dup2(prev_pipe_read, STDIN_FILENO) == -1) {
                         perror("dup2");
                         exit(1);
                     }
+                    close(prev_pipe_read); // Close the read end of the previous pipe
                 }
 
                 // Set up output redirection to the next pipe or STDOUT
-                if (last->output != STDOUT_FILENO) {
-                    if (dup2(last->output, STDOUT_FILENO) == -1) {
-                        perror("dup2");
-                        exit(1);
-                    }
-                } else if (last->next != NULL) {
+                if (last->next) {
                     if (dup2(pipe_fds[1], STDOUT_FILENO) == -1) {
                         perror("dup2");
                         exit(1);
                     }
+                    close(pipe_fds[1]); // Close the write end of the current pipe
                 }
+
+                close_pipe(pipe_fds); // Close both ends of the current pipe
 
                 char *path = ft_getfile_name(last->word, envr);
                 if (!path) {
@@ -163,12 +160,25 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 perror("fork");
                 exit(1);
             } else {
-                close(pipe_fds[1]); // Close the write end of the pipe
+                // Parent process
+                if (prev_pipe_read != STDIN_FILENO) {
+                    close(prev_pipe_read); // Close the read end of the previous pipe
+                }
+
+                if (last->next) {
+                    close(pipe_fds[1]); // Close the write end of the current pipe
+                }
 
                 waitpid(pid, NULL, 0);
+
+                // Store the read end of the current pipe for the next iteration
+                if (last->next) {
+                    prev_pipe_read = pipe_fds[0];
+                } else {
+                    prev_pipe_read = STDIN_FILENO; // Reset to STDIN for the next command not in a pipeline
+                }
+
                 last = last->next;
-				if (last)
-                	last->output = pipe_fds[0]; // Store the read end of the current pipe for the next iteration
             }
         }
     }
