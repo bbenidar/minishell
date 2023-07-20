@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/18 11:38:48 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:23:08 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void ft_sigint(int sig)
 {
 	if (sig == SIGINT)
 		write(1, "\n", 1);
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -125,7 +125,7 @@ void begin(char **env)
 int main(int ac, char **av, char **env)
 {
 	av[1] = 0;
-
+	int rl_catch_signals;
 	if (ac != 1)
 		return (0);
 	rl_catch_signals = 0;

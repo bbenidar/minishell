@@ -1,0 +1,12 @@
+Makefile
+a.out
+execution
+lexical
+minishell
+minishell.c
+minishell.h
+minishell.o
+parsing
+test.c
+utils
+wsss

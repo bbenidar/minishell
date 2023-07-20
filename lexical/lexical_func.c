@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/18 11:32:25 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/18 23:11:20 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,6 +331,10 @@ int ft_herdoc(t_stack *list)
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
 	}
+	list->word = ft_strdup(name);
+	list->next->word = ft_strdup("");
+	printf("gg: %s\n", list->next->word);
+	free(name);
 	return (fd);
 }
 
@@ -394,6 +398,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
 					perror(tmp->word);
 					return (NULL);
 				}
+				tmp->key = OPTION;
 			}
 
 			tmp = tmp->next;

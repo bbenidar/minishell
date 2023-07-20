@@ -1,24 +1,63 @@
-#include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-int main(void)
-{
+#define MAX_ARGC 3
 
+int main(void) {
+    char *commands[][MAX_ARGC + 1] = {
+        {"ls", NULL},
+        {"wc", "-l", NULL},
+        {"sort", NULL},
+        {"uniq", NULL}
+    };
+
+    size_t i, n;
+    int prev_pipe, pfds[2];
+
+    n = sizeof(commands) / sizeof(*commands);
+    prev_pipe = STDIN_FILENO;
+
+    for (i = 0; i < n - 1; i++) {
+        pipe(pfds);
+
+        if (fork() == 0) {
+            // Redirect previous pipe to stdin
+            if (prev_pipe != STDIN_FILENO) {
+                dup2(prev_pipe, STDIN_FILENO);
+                close(prev_pipe);
+            }
+
+            // Redirect stdout to current pipe
+            dup2(pfds[1], STDOUT_FILENO);
+            close(pfds[1]);
+
+            // Close read end of current pipe (not needed in the child)
+            close(pfds[0]);
+
+            // Start command
+            execve(commands[i][0], commands[i], NULL);
+
+            perror("execve failed");
+            exit(1);
+        }
+
+        // Close write end of current pipe (not needed in the parent)
+        close(pfds[1]);
+
+        // Save read end of current pipe to use in the next iteration
+        prev_pipe = pfds[0];
+    }
+
+    // Get stdin from last pipe
+    if (prev_pipe != STDIN_FILENO) {
+        dup2(prev_pipe, STDIN_FILENO);
+        close(prev_pipe);
+    }
+
+    // Start last command
+    execve(commands[i][0], commands[i], NULL);
+
+    perror("execve failed");
+    exit(1);
 }
-
-// char	*ft_strncpy(char *dest, char *src, unsigned int n)
-// {	
-// 	unsigned int	i; 
-// // hnaya galik ghatkoppi wahd l3adad n mensrc  t7etto f dest
-// 	i = 0;
-// 	while (src[i] != '\0' && i < n) // hna kanbocli 3la src 7erf b 7erf
-// 	{
-// 		dest[i] = src[i]; // kan7et f dest 7erf b 7erf
-// 		i++;
-// 	}
-// 	while (i < n) // hnaya kan3mer lli b9a men dest b '\0
-// 	{
-// 		dest[i] = '\0';
-// 		i++;
-// 	}
-// 	return (dest); //sf o nreje3 dest
-// }
