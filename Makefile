@@ -6,14 +6,14 @@
 #    By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/07/20 21:28:43 by bbenidar         ###   ########.fr        #
+#    Updated: 2023/07/21 12:32:24 by bbenidar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = MINISHELL
 
 CC	= cc
-FLAGS = -Wall -Wextra #-Werror
+FLAGS = -Wall -Wextra -g #-Werror
 
 SRC =  ./parsing/first_check.c ./parsing/check_utils.c minishell.c \
 		./lexical/lexical_func.c  ./lexical/linked_list_creation.c ./utils/utils1.c ./utils/utils2.c ./utils/utils3.c \
@@ -35,11 +35,11 @@ HEAD="\n"\
 all : minishell
 
 minishell : ${OBG}
-	cc $(FLAGS) ${OBG} -L $(shell brew --prefix readline)/lib -lreadline -o minishell
+	cc $(FLAGS) ${OBG}  -lreadline -o minishell
 	@echo $(HEAD)
 
 %.o : %.c 
-	${CC} ${FLAGS} -I $(shell brew --prefix readline)/include -c $< -o $@
+	${CC} ${FLAGS}   -c $< -o $@
 
 fclean : clean
 	rm -rf minishell

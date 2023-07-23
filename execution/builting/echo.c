@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 00:28:19 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/18 11:32:04 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:29:15 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ void ft_echo(t_last *last, char **str)
 {
 	int i = 1;
 	int flag = 0;
-
-	if (!chech_for_no_new_line(str[1]))
+	if(!str[1])
+		write(last->input, "\n", 1);
+	else 
+	{
+		if (!chech_for_no_new_line(str[1]))
 		flag = 1;
 	if (flag)
 		i++;
@@ -55,4 +58,5 @@ void ft_echo(t_last *last, char **str)
 	}
 	if (!flag)
 		write(last->input, "\n", 1);
+	}
 }

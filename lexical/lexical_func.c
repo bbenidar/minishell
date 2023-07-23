@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/18 23:11:20 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/24 00:41:47 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ int open_fd_out(char *word, int key)
 		fd = open(word, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (fd < 0)
 	{
-		printf("\033[0;31mERROR : %s: No such file or directory\033[0m\n", word);
+		perror("minishell");
 		return (fd);
 	}
 
@@ -372,10 +372,10 @@ t_last *ft_last_list_get_ready(t_stack *head)
 			}
 			if (tmp->key == FILE_IN)
 			{
-				last->output = open(tmp->word, O_RDONLY, 0777);
+				last->input = open(tmp->word, O_RDONLY, 0777);
 				if (last->output < 0)
 				{
-					last->output = 0;
+					last->output = 1;
 					last->input = 0;
 					// free_tab here(last->word)
 					last->word = NULL;
@@ -389,7 +389,11 @@ t_last *ft_last_list_get_ready(t_stack *head)
 			}
 
 			if (tmp->key == FILE_OUT || tmp->key == FILE_APP)
-				last->input = open_fd_out(tmp->word, tmp->key);
+				last->output = open_fd_out(tmp->word, tmp->key);
+			if(last->output < 0)
+			{
+				return(NULL);
+			}
 			if (tmp->key == RED_HER)
 			{
 				last->output = ft_herdoc(tmp);
@@ -561,6 +565,8 @@ void lexical_function(char *line, char **env, t_envir *envr)
 		return;
 	// printf("line : %s\n", line);
 	last = ft_last_list_get_ready(head);
+	if(!last)
+		return ;
 	// while(last)
 	// {
 	//     i =0;
@@ -576,31 +582,3 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	// }
 	ft_execution(last, env, envr);
 }
-
-// if key == 1 command if 2 option if 3 pipe if 4 redir
-// t_stack *bb;
-// bb.word = "ls"
-// bb.key = COMMAND;  4 7
-
-// ------------------
-// |ls  | 1 | next|
-// -----------------
-
-// node1 = ls->COMMAND
-// node2 = [ ]->SPACES
-// node3 = [-la]->OPTION
-// -----------------
-// |-la  | 2 | next|
-// -----------------
-
-// -----------------
-// | |  | 3   | next|
-// -----------------
-
-// -----------------
-// |wc | 1 | next|
-// -----------------
-
-// -----------------
-// | > | 4 | next|
-// -----------------

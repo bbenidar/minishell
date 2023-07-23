@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_creation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 12:13:43 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/18 11:31:29 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/24 00:33:05 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_last *ft_new_last_list()
 		return (0);
 	n->word = NULL;
 	n->input = 0;
-	n->output = 0;
+	n->output = 1;
 	n->next = NULL;
 	return (n);
 }

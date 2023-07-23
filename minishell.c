@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/20 21:26:13 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/24 00:48:23 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void ft_sigint(int sig)
 {
 	if (sig == SIGINT)
 		write(1, "\n", 1);
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -125,10 +125,9 @@ void begin(char **env)
 int main(int ac, char **av, char **env)
 {
 	av[1] = 0;
-	int rl_catch_signals;
 	if (ac != 1)
 		return (0);
-	rl_catch_signals = 0;
+	// rl_catch_signals = 0;
 	printf("\033[2J\033[1;1H");
 	printf("\n");
 	printf("\033[0;32m███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗     \n");

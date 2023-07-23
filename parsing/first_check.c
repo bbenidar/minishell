@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/18 11:33:03 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:28:26 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ static int check_redir(char *str)
 			str += 2;
 			while ((*str == ' ' || *str == '\t'))
 				str++;
-			if (check_character(*(str + 2), "<>|"))
+			if (check_character(*str, "<>|"))
 				return (1);
+				
 		}
 
 		if (*str)
