@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/24 00:41:47 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/24 02:44:03 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,8 +332,11 @@ int ft_herdoc(t_stack *list)
 		ft_putstr_fd("\n", fd);
 	}
 	list->word = ft_strdup(name);
-	list->next->word = ft_strdup("");
-	printf("gg: %s\n", list->next->word);
+	free(list->next->word);
+	// printf("gg:1 %s\n", list->next->word);
+	list->next->word = ft_strdup(name);
+	list->next->key = FILE_IN;
+	printf("gg: %d\n", fd);
 	free(name);
 	return (fd);
 }
@@ -362,8 +365,18 @@ t_last *ft_last_list_get_ready(t_stack *head)
 		i = option_len(head);
 		while (tmp && tmp->key != PIPE)
 		{
+			if (tmp->key == RED_HER)
+			{
+				last->input = ft_herdoc(tmp);
+				if (last->input < 0)
+				{
+					perror(tmp->word);
+					return (NULL);
+				}
+				tmp->key = OPTION;
+			}
 
-			if (flag == 1)
+			if (flag == 1 && tmp->key == RED_HER)
 			{
 				tmp3 = tmp;
 				ft_option(tmp, i, last);
@@ -394,16 +407,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
 			{
 				return(NULL);
 			}
-			if (tmp->key == RED_HER)
-			{
-				last->output = ft_herdoc(tmp);
-				if (last->output < 0)
-				{
-					perror(tmp->word);
-					return (NULL);
-				}
-				tmp->key = OPTION;
-			}
+			
 
 			tmp = tmp->next;
 		}
@@ -476,8 +480,7 @@ char *ft_add_variables(char *line, t_envir *envr)
 	src = ft_split_opera(line, ' ' * -2);
 	line = merge_str(src);
 	src = ft_split(line, ' ');
-	// for(int f = 0; src[f]; f++)
-	//     printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
+
 
 	while (src && src[i])
 	{
@@ -490,8 +493,6 @@ char *ft_add_variables(char *line, t_envir *envr)
 		}
 		i++;
 	}
-	// for(int f = 0; src[f]; f++)
-	//     printf("\033[0;32m src :\033[0;91m %s \033[m\n", src[f]);
 
 	i = 0;
 	while (src && src[i])
@@ -514,13 +515,11 @@ char *ft_add_variables(char *line, t_envir *envr)
 		i++;
 	}
 	line = merge_tab(src);
-	// printf("%s\n", line);
 
 	src = ft_split(line, '$');
 	line = merge_tab(src);
 
 	i = 0;
-	// printf("%s\n", line);
 	while (line && line[i])
 	{
 		if (line[i] == 32 * -2)
