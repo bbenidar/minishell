@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 15:43:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:13:32 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,8 +297,8 @@ void return_space_to_real_value(char *word)
 {
 	while (*word)
 	{
-		if (*word == 32 * -1)
-			*word = 32;
+		if (*word == 32 * -1 || *word == 60 * -1)
+			*word *= -1;
 		word++;
 	}
 }
@@ -312,7 +312,6 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 
 	her = ft_strjoin(strchr(ttyname(0),'0'),ft_itoa(rand++));
 	name = ft_strjoin("/tmp/heredoc", her);
-	printf("name : %s\n", name);
 		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	while (1)
 	{
@@ -492,18 +491,30 @@ char *ft_add_variables(char *line, t_envir *envr)
 	line = merge_str(src);
 	src = ft_split_opera(line, '\'');
 	line = merge_str(src);
+	
 	src = ft_split_opera(line, '$');
 	line = merge_str(src);
 	src = ft_split_opera(line, '?');
 	line = merge_str(src);
 	src = ft_split_opera(line, ' ' * -2);
 	line = merge_str(src);
+	src = ft_split_opera(line, '<');
+	line = merge_str(src);
 	src = ft_split(line, ' ');
 
 
 	while (src && src[i])
 	{
-		if (!ft_strcmp(src[i], "$") && (src[i + 1]))
+		
+		if (!ft_strcmp(src[i], "<<") )
+		{
+			while(src[i + 1][0] == (' ' * -2))
+				i++;
+			if(src[i + 1][0] == '$')
+				src[i + 1][0] *= -1;
+			// printf("HHHH %s\n", (src[i + 1]));
+		}
+		else if (!ft_strcmp(src[i], "$") && (src[i + 1]))
 		{
 			if ((src[i + 1][0] != ' ' * -2 && src[i + 1][0] != ' ' * -1 && src[i + 1][0] != '\"'  && src[i + 1][0] != '\''))
 				src[i + 1] = find_value(src[i + 1], envr);
@@ -554,6 +565,7 @@ char *ft_add_variables(char *line, t_envir *envr)
 	// src = ft_split(line, ' ');
 	// line = merge_str(src);
 	// ft_free_tab() need free tab function
+	// printf("line : %s\n", line);
 	return (line);
 }
 

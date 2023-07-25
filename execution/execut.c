@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 23:13:34 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 15:43:05 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:12:50 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,22 @@ void close_pipe(int pipe_fds[2]) {
     close(pipe_fds[1]);
 }
 
+void ret_toreal_v(char **str)
+{
+    int i;
 
+    i = 0;
+    while(str[i])
+    {
+        return_space_to_real_value(str[i]);
+        i++;
+    }
+}
 
 void ft_execution(t_last *last, char **env, t_envir *envr) {
     int prev_pipe_read = STDIN_FILENO; // Read end of the previous pipe
     while (last) {
+        ret_toreal_v(last->word);
     //    printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
         if (ft_check_for_builting(last, envr)) {
             // Handle built-in commands directly, no need to fork
@@ -198,5 +209,5 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
     }
     while (wait(&exit_stat) > 0)
         ;
-    printf("ex : %d\n", exit_stat/256);
+    // printf("ex : %d\n", exit_stat/256);
 }

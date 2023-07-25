@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:21:25 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 15:34:59 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:20:00 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,16 @@ int	ft_atoi(const char *str)
 	}
 	result *= sign;
 	return (result);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	*ss;
+
+	ss = (char *)s;
+	while (*ss && *ss != (char)c)
+		ss++;
+	if (*ss == (char)c)
+		return (ss);
+	return (0);
 }

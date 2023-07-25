@@ -11,11 +11,14 @@ void				ft_pwd(void)
 
 void	ft_exit(char **str)
 {
-	if(str[2])
+	if(str[1] && str[2])
 		printf("exit\nminshell: exit: too many arguments\n");
 	else
 	{
 		printf("exit\n");
-		exit(ft_atoi(str[1]));
+		if(str[1])
+			exit(ft_atoi(str[1]));
+		else
+			exit(0);
 	}
 }

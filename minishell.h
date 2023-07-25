@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 15:37:33 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:11:35 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int					check_space(char *str);
 //parsing/check_utils.c
 int					check_character(char c, char *check);
 //lexical/lexical_func.c
+void return_space_to_real_value(char *word);
 char				*ft_add_variables(char *line, t_envir *envr);
 void				ft_option(t_stack *list, int i, t_last *str);
 void				lexical_function(char *line, char **env, t_envir *envr);
