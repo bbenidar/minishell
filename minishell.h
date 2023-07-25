@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 00:30:22 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:37:33 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <unistd.h>
 # include <sys/ioctl.h>
 
-
+int exit_stat;
 
 enum				e_type
 {
@@ -85,6 +85,7 @@ void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 char				*ft_strjoin(char const *s1, char const *s2);
 //util/utils4.c
+int	ft_atoi(const char *str);
 int					is_numeric(const char *str);
 void				free_tab(char **tab);
 int					ft_strcmp(char *s1, char *s2);
@@ -119,7 +120,7 @@ void				ft_pwd(void);
 void				put_pwd(char *arg, char *c);
 void				ft_cd(char *arg, t_envir *env);
 //execution/exit.c
-void				ft_exit(void);
+void				ft_exit(char **str);
 //execution/env.c
 void				ft_env(t_envir *a);
 //execution/echo.c

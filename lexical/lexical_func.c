@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 14:23:48 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:43:32 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,7 +303,7 @@ void return_space_to_real_value(char *word)
 	}
 }
 
-int ft_herdoc(t_stack *list, int flag)
+int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 {
 	int fd;
 	static int rand;
@@ -332,6 +332,7 @@ int ft_herdoc(t_stack *list, int flag)
 				break;
 				
 		}
+		her = ft_add_variables(her, envr);
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
 	}
@@ -352,7 +353,7 @@ int ft_herdoc(t_stack *list, int flag)
 	return (fd);
 }
 
-t_last *ft_last_list_get_ready(t_stack *head)
+t_last *ft_last_list_get_ready(t_stack *head, t_envir *envr)
 {
 	t_last *last;
 	t_last *ret;
@@ -379,7 +380,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
 			if (tmp && ( !ft_strcmp(tmp->word, "<<") || tmp->key == RED_HER))
 			{
 				// printf("wrd : %s \n", tmp->word);
-				last->input = ft_herdoc(tmp, flag);
+				last->input = ft_herdoc(tmp, flag, envr);
 				if (last->input < 0)
 				{
 					perror(tmp->word);
@@ -442,7 +443,7 @@ char *find_value(char *str, t_envir *env)
 
 	ret = ft_strdup("");
 	if (str[0] == '?')
-			ret = ft_strdup("$?");
+			ret = ft_strdup(ft_itoa(exit_stat/256));
 		while (env)
 		{
 			// printf("str : %s \n", str);
@@ -584,7 +585,7 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	if (!cheking_(head))
 		return;
 	// printf("line : %s\n", line);
-	last = ft_last_list_get_ready(head);
+	last = ft_last_list_get_ready(head, envr);
 	if(!last)
 		return ;
 	// while(last)

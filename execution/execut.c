@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 23:13:34 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 14:30:10 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:43:05 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int ft_check_for_builting(t_last *last, t_envir *env)
         }
         if (!ft_strcmp(last->word[0], "exit"))
         {
-            ft_exit();
+            ft_exit(last->word);
             return (1);
         }
         if(!ft_strcmp(last->word[0], "unset"))
@@ -196,7 +196,7 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
         // Handle output redirection
        
     }
-    int i;
-    while (wait(&i) > 0)
+    while (wait(&exit_stat) > 0)
         ;
+    printf("ex : %d\n", exit_stat/256);
 }
