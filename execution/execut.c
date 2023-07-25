@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 23:13:34 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/24 02:51:37 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:30:10 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,46 +60,47 @@ char *ft_getfile_name(char **cammnd, t_envir *envr)
 int ft_check_for_builting(t_last *last, t_envir *env)
 {
 	int i;
-    if(last)
+    if(last->word[0])
     {
-      if (!ft_strcmp(last->word[0], "echo"))
-	{
-		ft_echo(last, last->word);
-		return (1);
-	}
-	if (!ft_strcmp(last->word[0], "cd"))
-	{
-		ft_cd(last->word[1], env);
-		return (1);
-	}
-	if (!ft_strcmp(last->word[0], "env"))
-	{
-		ft_env(env);
-		return (1);
-	}
-	if (!ft_strcmp(last->word[0], "export"))
-	{
-		ft_export(env, last->word);
-		return (1);
-	}
-	if (!ft_strcmp(last->word[0], "pwd"))
-	{
-		ft_pwd();
-		return (1);
-	}
-	if (!ft_strcmp(last->word[0], "exit"))
-	{
-		ft_exit();
-		return (1);
-	}
-	if(!ft_strcmp(last->word[0], "unset"))
-    {
-        i = 0;
-        while(last->word[++i])
-        ft_unset(env, last->word[i]);
-        return (1);
-    }  
+        if (!ft_strcmp(last->word[0], "echo"))
+        {
+            ft_echo(last, last->word);
+            return (1);
+        }
+        if (!ft_strcmp(last->word[0], "cd"))
+        {
+            ft_cd(last->word[1], env);
+            return (1);
+        }
+        if (!ft_strcmp(last->word[0], "env"))
+        {
+            ft_env(env);
+            return (1);
+        }
+        if (!ft_strcmp(last->word[0], "export"))
+        {
+            ft_export(env, last->word);
+            return (1);
+        }
+        if (!ft_strcmp(last->word[0], "pwd"))
+        {
+            ft_pwd();
+            return (1);
+        }
+        if (!ft_strcmp(last->word[0], "exit"))
+        {
+            ft_exit();
+            return (1);
+        }
+        if(!ft_strcmp(last->word[0], "unset"))
+        {
+            i = 0;
+            while(last->word[++i])
+            ft_unset(env, last->word[i]);
+            return (1);
+        }
     }
+   
 	
 	return (0);
 }
@@ -114,7 +115,7 @@ void close_pipe(int pipe_fds[2]) {
 void ft_execution(t_last *last, char **env, t_envir *envr) {
     int prev_pipe_read = STDIN_FILENO; // Read end of the previous pipe
     while (last) {
-       
+    //    printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
         if (ft_check_for_builting(last, envr)) {
             // Handle built-in commands directly, no need to fork
             last = last->next;
@@ -195,7 +196,7 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
         // Handle output redirection
        
     }
-
-    while (wait(NULL) > 0)
+    int i;
+    while (wait(&i) > 0)
         ;
 }

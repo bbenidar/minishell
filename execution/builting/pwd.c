@@ -9,8 +9,12 @@ void				ft_pwd(void)
 	printf("-> %s\n", buffer);
 }
 
-void	ft_exit()
+void	ft_exit(char **str)
 {
+	int i;
+	
+	i = 0;
+	// if()
 	printf("exit\n");
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/24 02:44:03 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:23:48 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,16 +303,17 @@ void return_space_to_real_value(char *word)
 	}
 }
 
-int ft_herdoc(t_stack *list)
+int ft_herdoc(t_stack *list, int flag)
 {
 	int fd;
 	static int rand;
 	char *her;
 	char *name;
 
-	her = ft_itoa(rand++);
+	her = ft_strjoin(strchr(ttyname(0),'0'),ft_itoa(rand++));
 	name = ft_strjoin("/tmp/heredoc", her);
-	fd = open(name, O_CREAT | O_RDWR, 0777);
+	printf("name : %s\n", name);
+		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	while (1)
 	{
 		her = readline("> ");
@@ -320,23 +321,33 @@ int ft_herdoc(t_stack *list)
 		{
 			break;
 		}
+		
 		if (!ft_strlen(her) && !list->next)
 			break;
 		else if (list->next)
 		{
+			
 			return_space_to_real_value(list->next->word);
 			if (!ft_strcmp(her, list->next->word))
 				break;
+				
 		}
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
 	}
-	list->word = ft_strdup(name);
+	if(flag == 0)
+		list->word = ft_strdup(name);
+	else if(list->next->next)
+	{
+		list->word = list->next->next->word;
+		list->next->next->word = ft_strdup("");
+	}
+		
 	free(list->next->word);
 	// printf("gg:1 %s\n", list->next->word);
 	list->next->word = ft_strdup(name);
 	list->next->key = FILE_IN;
-	printf("gg: %d\n", fd);
+	// printf("gg: %d\n", fd);
 	free(name);
 	return (fd);
 }
@@ -355,7 +366,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
 
 	flag = 1;
 	i = option_len(head);
-	last = ft_new_last_list(tmp->word);
+	last = ft_new_last_list();
 	ret = last;
 
 	while (tmp)
@@ -365,9 +376,10 @@ t_last *ft_last_list_get_ready(t_stack *head)
 		i = option_len(head);
 		while (tmp && tmp->key != PIPE)
 		{
-			if (tmp->key == RED_HER)
+			if (tmp && ( !ft_strcmp(tmp->word, "<<") || tmp->key == RED_HER))
 			{
-				last->input = ft_herdoc(tmp);
+				// printf("wrd : %s \n", tmp->word);
+				last->input = ft_herdoc(tmp, flag);
 				if (last->input < 0)
 				{
 					perror(tmp->word);
@@ -375,8 +387,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
 				}
 				tmp->key = OPTION;
 			}
-
-			if (flag == 1 && tmp->key == RED_HER)
+			if (tmp && flag == 1 && ft_strcmp(tmp->word, "<<") )
 			{
 				tmp3 = tmp;
 				ft_option(tmp, i, last);
@@ -416,7 +427,7 @@ t_last *ft_last_list_get_ready(t_stack *head)
 		if (tmp && tmp->key == PIPE)
 		{
 			tmp = tmp->next;
-			last->next = ft_new_last_list(tmp->word);
+			last->next = ft_new_last_list();
 			last = last->next;
 		}
 	}
@@ -430,15 +441,19 @@ char *find_value(char *str, t_envir *env)
 	char *ret;
 
 	ret = ft_strdup("");
-	while (env)
-	{
-		if (!ft_strcmp(env->variable, str))
+	if (str[0] == '?')
+			ret = ft_strdup("$?");
+		while (env)
 		{
-			ret = ft_strdup(env->value);
-			break;
+			// printf("str : %s \n", str);
+			if (!ft_strcmp(env->variable, str))
+			{
+				ret = ft_strjoin(ret, env->value);
+				break;
+			}
+			env = env->next;
 		}
-		env = env->next;
-	}
+	
 	return (ret);
 }
 
@@ -464,7 +479,6 @@ char *ft_add_variables(char *line, t_envir *envr)
 	int j = 0;
 	char **src;
 	int len = 0;
-
 	while (line[len])
 	{
 		if (line[len] && line[len] == ' ')
@@ -475,7 +489,11 @@ char *ft_add_variables(char *line, t_envir *envr)
 	i = 0;
 	src = ft_split_opera(line, '\"');
 	line = merge_str(src);
+	src = ft_split_opera(line, '\'');
+	line = merge_str(src);
 	src = ft_split_opera(line, '$');
+	line = merge_str(src);
+	src = ft_split_opera(line, '?');
 	line = merge_str(src);
 	src = ft_split_opera(line, ' ' * -2);
 	line = merge_str(src);
@@ -486,7 +504,7 @@ char *ft_add_variables(char *line, t_envir *envr)
 	{
 		if (!ft_strcmp(src[i], "$") && (src[i + 1]))
 		{
-			if ((src[i + 1][0] != ' ' * -2 && src[i + 1][0] != ' ' * -1 && src[i + 1][0] != '\"'))
+			if ((src[i + 1][0] != ' ' * -2 && src[i + 1][0] != ' ' * -1 && src[i + 1][0] != '\"'  && src[i + 1][0] != '\''))
 				src[i + 1] = find_value(src[i + 1], envr);
 			if (!ft_strcmp(src[i + 1], ""))
 				src[i] = ft_strdup("");
@@ -503,10 +521,13 @@ char *ft_add_variables(char *line, t_envir *envr)
 			if (!src[i + 1])
 			{
 				while (src[i][++j])
-					src[i][j] *= -1;
+				{
+					if(src[i][j] != '?')
+						src[i][j] *= -1;
+				}
 			}
 
-			else if (!ft_strcmp(src[i + 1], "\"") || src[i][1] == '$' || src[i + 1][0] == 32 * -2)
+			else if (!ft_strcmp(src[i + 1], "\"") || !ft_strcmp(src[i + 1], "\'")|| src[i][1] == '$' || src[i + 1][0] == 32 * -2)
 			{
 				while (src[i][++j])
 					src[i][j] *= -1;

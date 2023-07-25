@@ -7,6 +7,15 @@ t_envir *return_back_ptr(t_envir *env)
 	return (env);
 }
 
+void	ft_env_ex(t_envir *a)
+{
+	while (a)
+	{
+		printf("declare -x %s=\"%s\"\n", a->variable, a->value);
+		a = a->next;
+	}
+}
+
 void ft_export(t_envir *env, char **cmd)
 {
 	int i = 0;
@@ -16,7 +25,7 @@ void ft_export(t_envir *env, char **cmd)
 	tmp = return_back_ptr(env);
 	if (!cmd[1])
 	{
-		ft_env(env);
+		ft_env_ex(env);
 		return;
 	}
 	cmd++;

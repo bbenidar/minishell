@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/24 00:48:23 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:31:02 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void begin(char **env)
 		if (!check_space(line))
 			add_history(line);
 		line = ft_add_variables(line, envr);
+		// printf("line : %s\n", line);
 		if (!ft_first_check(line))
 		{
 
