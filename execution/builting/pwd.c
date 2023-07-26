@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/26 15:23:57 by sakarkal          #+#    #+#             */
+/*   Updated: 2023/07/26 15:23:58 by sakarkal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include"../../minishell.h"
 
 void				ft_pwd(void)
@@ -7,18 +19,4 @@ void				ft_pwd(void)
 	getcwd(buffer, sizeof(buffer));
 		// perror("minishell");
 	printf("-> %s\n", buffer);
-}
-
-void	ft_exit(char **str)
-{
-	if(str[1] && str[2])
-		printf("exit\nminshell: exit: too many arguments\n");
-	else
-	{
-		printf("exit\n");
-		if(str[1])
-			exit(ft_atoi(str[1]));
-		else
-			exit(0);
-	}
 }
