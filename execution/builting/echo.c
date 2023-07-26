@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 00:28:19 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/21 12:29:15 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:05:44 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void ft_echo(t_last *last, char **str)
 	int i = 1;
 	int flag = 0;
 	if(!str[1])
-		write(last->input, "\n", 1);
+		write(last->output, "\n", 1);
 	else 
 	{
 		if (!chech_for_no_new_line(str[1]))
@@ -51,12 +51,12 @@ void ft_echo(t_last *last, char **str)
 		i++;
 	while (str[i])
 	{
-		ft_putstr_fd(str[i], last->input);
+		ft_putstr_fd(str[i], last->output);
 		if (str[i + 1] != 0)
-			write(last->input, " ", 1);
+			write(last->output, " ", 1);
 		i++;
 	}
 	if (!flag)
-		write(last->input, "\n", 1);
+		write(last->output, "\n", 1);
 	}
 }

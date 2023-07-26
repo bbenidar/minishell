@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/26 15:25:18 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:32:02 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,12 @@ void begin(char **env)
 		}
 		if (!check_space(line))
 			add_history(line);
-		line = ft_add_variables(line, envr);
+		
 		
 		if (!ft_first_check(line))
 		{
+			printf("l : %s\n", line);
+			line = ft_add_variables(line, envr);
 			// printf("line : %s\n", line);
 			lexical_function(line, env, envr);
 		}

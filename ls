@@ -1,0 +1,10 @@
+Makefile
+execution
+lexical
+ls
+minishell
+minishell.c
+minishell.h
+minishell.o
+parsing
+utils

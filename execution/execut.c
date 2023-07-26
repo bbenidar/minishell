@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/26 15:24:14 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:14:59 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,32 +67,33 @@ int ft_check_for_builting(t_last *last, t_envir *env)
             ft_echo(last, last->word);
             return (1);
         }
-        if (!ft_strcmp(last->word[0], "cd"))
+        else if (!ft_strcmp(last->word[0], "cd"))
         {
             ft_cd(last->word[1], env);
             return (1);
         }
-        if (!ft_strcmp(last->word[0], "env"))
+        else if (!ft_strcmp(last->word[0], "env"))
         {
             ft_env(env);
             return (1);
         }
-        if (!ft_strcmp(last->word[0], "export"))
+        else if (!ft_strcmp(last->word[0], "export"))
         {
+            printf("HHHH\n");
             ft_export(env, last->word);
             return (1);
         }
-        if (!ft_strcmp(last->word[0], "pwd"))
+        else if (!ft_strcmp(last->word[0], "pwd"))
         {
             ft_pwd();
             return (1);
         }
-        if (!ft_strcmp(last->word[0], "exit"))
+        else if (!ft_strcmp(last->word[0], "exit"))
         {
             ft_exit(last->word);
             return (1);
         }
-        if(!ft_strcmp(last->word[0], "unset"))
+        else if(!ft_strcmp(last->word[0], "unset"))
         {
             i = 0;
             while(last->word[++i])
@@ -123,21 +124,21 @@ void ret_toreal_v(char **str)
 }
 
 void ft_execution(t_last *last, char **env, t_envir *envr) {
-    int prev_pipe_read = STDIN_FILENO; // Read end of the previous pipe
+    int prev_pipe_read = STDIN_FILENO;
+    char **envire; // Read end of the previous pipe
+
+    envire = env;
     while (last) {
         ret_toreal_v(last->word);
     //    printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
-        if (ft_check_for_builting(last, envr)) {
-            // Handle built-in commands directly, no need to fork
-            last = last->next;
-            char **envire = ft_merge_envr(envr);
-        } else {
+
+            envire = ft_merge_envr(envr);
             int pipe_fds[2];
 
             if (last->next) {
                 if (pipe(pipe_fds) == -1) {
                     perror("pipe");
-                    exit(1);
+                    exit(0);
                 }
             }
 
@@ -147,7 +148,7 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 if (prev_pipe_read != STDIN_FILENO) {
                     if (dup2(prev_pipe_read, STDIN_FILENO) == -1) {
                         perror("dup2");
-                        exit(1);
+                        exit(0);
                     }
                     close(prev_pipe_read);
                 }
@@ -155,39 +156,49 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 if (last->next) {
                     if (dup2(pipe_fds[1], STDOUT_FILENO) == -1) {
                         perror("dup2");
-                        exit(1);
+                        exit(0);
                     }
                     close(pipe_fds[1]);
                 }
 
                 close_pipe(pipe_fds);
 
-                char *path = ft_getfile_name(last->word, envr);
-                if (!path) {
-                    printf("minishell: command not found: %s\n", last->word[0]);
-                    exit(1);
-                }
+                
                  if (last && last->output != -1) {
             int output_fd = last->output;
             if (dup2(output_fd, STDOUT_FILENO) == -1) {
                 perror("dup2");
-                exit(1);
+                exit(0);
             }
         }
          if (last && last->input != -1) {
             int input_fd = last->input;
             if (dup2(input_fd, STDIN_FILENO) == -1) {
                 perror("dup2");
-                exit(1);
+                exit(0);
             }
         }
-
-                execve(path, last->word, env);
-                perror("minishell");
-                exit(1);
+                // printf("\033[1;91msakarkal\033[m\n");
+                // for (int h = 0; envire[h]; h++)
+                //     printf("\033[1;91m | %s |\033[m\n", envire[h]);
+                if (ft_check_for_builting(last, envr)) 
+                {
+                    exit(1);
+                } 
+                else{
+                    char *path = ft_getfile_name(last->word, envr);
+                if (!path) {
+                    printf("minishell: command not found: %s\n", last->word[0]);
+                    exit(0);
+                }
+                    execve(path, last->word, envire);
+                        perror("minishell");
+                        exit(0);
+                }
+                
             } else if (pid < 0) {
                 perror("fork");
-                exit(1);
+                exit(0);
             } else {
                 // Parent process
                 if (prev_pipe_read != STDIN_FILENO) {
@@ -202,7 +213,6 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
 
                 last = last->next;
             }
-        }
 
         // Handle output redirection
        

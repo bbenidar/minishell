@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/26 15:25:23 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:38:11 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,8 @@ int cheking_(t_stack *tmp)
 		{
 			if (list->next->key != OPTION)
 			{
-				printf("\033[0;31mERROR :syntax error near unexpected token `|'\033[0m\n");
+				if(list->next->key == PIPE)
+					printf("\033[0;31mERROR :syntax error near unexpected token `|`\033[0m\n");
 				return (0);
 			}
 			list->next->key = FILE_APP;
@@ -193,7 +194,7 @@ int cheking_(t_stack *tmp)
 		{
 			if (list->next->key != OPTION)
 			{
-				printf("\033[0;31mERROR :syntax error near unexpected token `|'\033[0m\n");
+				printf("\033[0;31mERROR :syntax error near unexpected token `|`\033[0m\n");
 				return (0);
 			}
 			list->next->key = FILE_OUT;
