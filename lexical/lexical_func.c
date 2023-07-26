@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/26 14:44:46 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/26 15:25:23 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 			break;
 		else if (list->next)
 		{
-						printf("line : %s\n", list->next->word);
+			// printf("line : %s\n", list->next->word);
 			return_space_to_real_value(list->next->word);
 			if (!ft_strcmp(her, list->next->word))
 				break;
