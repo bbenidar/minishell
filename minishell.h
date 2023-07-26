@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 22:11:35 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:59:08 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 char				*ft_strjoin(char const *s1, char const *s2);
 //util/utils4.c
+char	*ft_strchr(const char *s, int c);
 int	ft_atoi(const char *str);
 int					is_numeric(const char *str);
 void				free_tab(char **tab);

@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 22:13:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:44:46 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 			break;
 		else if (list->next)
 		{
-			
+						printf("line : %s\n", list->next->word);
 			return_space_to_real_value(list->next->word);
 			if (!ft_strcmp(her, list->next->word))
 				break;
@@ -457,21 +457,6 @@ char *find_value(char *str, t_envir *env)
 	return (ret);
 }
 
-// char *merge_tab(char **str)
-// {
-//     int i;
-//     i = 2;
-//     char *line;
-//     if(str[0] &&!str[1])
-//         return(ft_strdup(str[0]));
-//     line = ft_strjoin(str[0], str[1]);
-//     while(str[i])
-//     {
-//         line = ft_strjoin(line, str[i]);
-//         i++;
-//     }
-//     return (line);
-// }
 
 char *ft_add_variables(char *line, t_envir *envr)
 {
@@ -506,9 +491,9 @@ char *ft_add_variables(char *line, t_envir *envr)
 	while (src && src[i])
 	{
 		
-		if (!ft_strcmp(src[i], "<<") )
+		if (src[i + 1] && !ft_strcmp(src[i], "<<") )
 		{
-			while(src[i + 1][0] == (' ' * -2))
+			while(src[i + 1][0] == (' ' * -2) || src[i + 1][0] == '\"' || src[i + 1][0] == '\'')
 				i++;
 			if(src[i + 1][0] == '$')
 				src[i + 1][0] *= -1;
@@ -561,11 +546,6 @@ char *ft_add_variables(char *line, t_envir *envr)
 			line[i] = '$';
 		i++;
 	}
-
-	// src = ft_split(line, ' ');
-	// line = merge_str(src);
-	// ft_free_tab() need free tab function
-	// printf("line : %s\n", line);
 	return (line);
 }
 

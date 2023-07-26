@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 21:41:54 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:28:20 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int check_redir(char *str)
 		if ((*str == 60 && *(str + 1) != 60) || (*str == 62 && *(str + 1) != 62))
 		{
 			str++;
-			while (*str == 32)
+			while (*str == 32 || *str == '\t')
 				str++;
 			if (!*str || *str == 60 || *str == 62)
 				return (1);
@@ -99,7 +99,8 @@ static int check_redir(char *str)
 			str += 2;
 			while ((*str == ' ' || *str == '\t'))
 				str++;
-			if (check_character(*str, "<>|"))
+			printf("line : %s\n", str);
+			if (!*str || check_character(*str, "<>|"))
 				return (1);
 				
 		}

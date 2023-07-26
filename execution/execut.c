@@ -6,14 +6,14 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 23:13:34 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 22:12:50 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:02:25 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-int ft_strchr(char *s, int c)
+int ft_strchr_sla(char *s, int c)
 {
 	int i;
 
@@ -30,7 +30,7 @@ char *ft_getfile_name(char **cammnd, t_envir *envr)
 	char **paths;
 	int i = 0;
 
-	if (ft_strchr(cammnd[0], '/') == 1)
+	if (ft_strchr_sla(cammnd[0], '/') == 1)
 	{
 		return (cammnd[0]);
 	}
