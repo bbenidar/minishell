@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/26 22:14:59 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/27 01:25:53 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int ft_check_for_builting(t_last *last, t_envir *env)
         }
         else if (!ft_strcmp(last->word[0], "export"))
         {
-            printf("HHHH\n");
             ft_export(env, last->word);
             return (1);
         }

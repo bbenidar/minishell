@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:21:25 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/25 22:20:00 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/27 01:49:43 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,11 @@ char	*ft_strchr(const char *s, int c)
 	if (*ss == (char)c)
 		return (ss);
 	return (0);
+}
+
+int	ft_tolower(int c)
+{
+	if (c >= 65 && c <= 90)
+		c += 32;
+	return (c);
 }

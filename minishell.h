@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/26 15:21:56 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/27 01:49:51 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/ioctl.h>
+#include <string.h>
 
 int exit_stat;
 
@@ -86,6 +87,7 @@ void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 char				*ft_strjoin(char const *s1, char const *s2);
 //util/utils4.c
+int	ft_tolower(int c);
 char	*ft_strchr(const char *s, int c);
 int	ft_atoi(const char *str);
 int					is_numeric(const char *str);
