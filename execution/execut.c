@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/27 01:25:53 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:15:23 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,7 @@ int ft_check_for_builting(t_last *last, t_envir *env)
             ft_pwd();
             return (1);
         }
-        else if (!ft_strcmp(last->word[0], "exit"))
-        {
-            ft_exit(last->word);
-            return (1);
-        }
+        
         else if(!ft_strcmp(last->word[0], "unset"))
         {
             i = 0;
@@ -122,16 +118,35 @@ void ret_toreal_v(char **str)
     }
 }
 
+int ft_check_for_ex(t_last *last, t_last *prv)
+{
+
+    
+        if (!ft_strcmp(last->word[0], "exit"))
+        {
+            if(!last->next && !prv)
+                ft_exit(last->word);
+            return (0);
+        }
+        return (1);
+}
+
 void ft_execution(t_last *last, char **env, t_envir *envr) {
     int prev_pipe_read = STDIN_FILENO;
     char **envire; // Read end of the previous pipe
 
+    t_last *prv = NULL;
     envire = env;
     while (last) {
         ret_toreal_v(last->word);
     //    printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
-
-            envire = ft_merge_envr(envr);
+            if(!ft_check_for_ex(last, prv))
+            {
+                last = last->next;
+            }
+              else
+              {
+                  envire = ft_merge_envr(envr);
             int pipe_fds[2];
 
             if (last->next) {
@@ -209,14 +224,18 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 }
 
                 prev_pipe_read = pipe_fds[0]; // Store the read end of the current pipe for the next iteration
-
+                prv = last;
                 last = last->next;
+              }  
+          
             }
 
         // Handle output redirection
        
     }
-    while (wait(&exit_stat) > 0)
+    while (wait(&flags.exit_stat) > 0)
         ;
+    
     // printf("ex : %d\n", exit_stat/256);
 }
+

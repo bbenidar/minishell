@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/27 01:49:51 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:20:07 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <sys/ioctl.h>
 #include <string.h>
 
-int exit_stat;
+
 
 enum				e_type
 {
@@ -48,6 +48,13 @@ enum				e_type
 	PIPE,
 	VARIABLE,
 };
+
+typedef struct g_variables
+{
+	int exit_flags;
+	int exit_stat;
+}					t_var;
+
 
 typedef struct s_envi
 {
@@ -73,6 +80,7 @@ typedef struct s_last
 
 // ---------------------------------UTILS FUNCT-------------------------------//
 //util/utils1.c
+void ft_check_exit_st();
 int					ft_strlen(const char *str);
 long long			ft_atoll(char *str);
 int					ft_strlen_no_null(const char *str);
@@ -134,4 +142,6 @@ void				ft_echo(t_last *last, char **str);
 //execution/
 void				ft_execution(t_last *last, char **env, t_envir *envr);
 void				ft_export(t_envir *env, char **cmd);
+
+t_var flags;
 #endif

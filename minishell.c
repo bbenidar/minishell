@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/26 22:32:02 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:17:09 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void begin(char **env)
 		
 		if (!ft_first_check(line))
 		{
-			printf("l : %s\n", line);
 			line = ft_add_variables(line, envr);
 			// printf("line : %s\n", line);
 			lexical_function(line, env, envr);

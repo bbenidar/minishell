@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:23:52 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/26 15:23:53 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:00:09 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	all_digits(char *c)
 
 void	ft_exit(char **str)
 {
+
 	if (str[1])
 	{
 		if (!str[2])
