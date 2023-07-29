@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/29 01:47:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:12:11 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,5 @@ int ft_first_check(char *str)
 		else
 			return (0);
 	}
-	flags.exit_stat = 258;
 	return (1);
 }

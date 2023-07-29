@@ -6,7 +6,7 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/29 16:05:18 by admin            ###   ########.fr       */
+/*   Updated: 2023/07/29 21:00:45 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,13 +204,13 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 //     printf("\033[1;91m | %s |\033[m\n", envire[h]);
                 if (ft_check_for_builting(last, envr)) 
                 {
-                    exit(1);
+                    exit(0);
                 } 
                 else{
                     char *path = ft_getfile_name(last->word, envr);
                 if (!path) {
                     printf("minishell: command not found: %s\n", last->word[0]);
-                    exit(0);
+                    exit(127);
                 }
                     execve(path, last->word, envire);
                         perror("minishell");

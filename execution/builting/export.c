@@ -91,7 +91,6 @@ char *ft_get_variable(char *str, int *i)
 	while(str[j] && str[j] != '=')
 		j++;
 	*i = j;
-	printf("j : %d i : %d\n", j, *i);
 	ret = malloc(sizeof(char) * j + 1);
 	j = 0;
 	while(j < *i)
@@ -127,60 +126,67 @@ char *ft_get_value(char *str)
 	
 }
 
-void ft_export(t_envir *env, char **cmd)
-{
-	int i = 0;
-	int j = 0;
-	// char **str;
 
-	t_envir *tmp;
-	tmp = return_back_ptr(env);
-	if (!cmd[1])
-	{
-		ft_env_ex(env);
-		return;
-	}
-	cmd++;
-	tmp->next = creat_env_list();
-	tmp = tmp->next;
-	while (cmd[i])
-	{
-		tmp->value = ft_strdup("");
-		j = 0;
-		// str = ft_split_opera(cmd[i], '=');
-		tmp->variable = ft_get_variable(cmd[i] , &j);
-		printf("HHH : %s\n",tmp->variable );
-		if(cmd[i][j] == '=')
-		{
-			tmp->equal = ft_strdup("=");
-			j++;
-			if(cmd[i][j])
-				tmp->value= ft_get_value(cmd[i] + j);
-		}
-		else{
-			tmp->value= NULL;
-			tmp->equal = NULL;
-		}
-			printf("val %s | ea %s | \n", tmp->value,tmp->equal),
-		// j++;
-		// if (str[j] && str[j + 1])
-		// {
-		// 	printf("iiii: %s\n", str[j]);
-		// 	while (str[j])
-		// 	{
-		// 		tmp->value = ft_strjoin(ft_strjoin(str[j], "="), str[j]);
-		// 		j++;
-		// 	}
-		// }
-		// else if (str[j])
-		// 	tmp->equal = ft_strdup(str[j]);
-		// else
-		// 	tmp->equal = NULL;
-		i++;
-		if (cmd[i])
-		{
-			tmp->next = creat_env_list();
-			tmp = tmp->next;
-		}
-	}
+int variable_exists(t_envir *env, const char *variable) {
+    t_envir *tmp = env;
+    while (tmp) {
+        if (tmp->variable && ft_strcmp(tmp->variable, variable) == 0) {
+            return (1);
+        }
+        tmp = tmp->next;
+    }
+    return (0);
+}
+
+void ft_export(t_envir *env, char **cmd) {
+    int i = 0;
+    int j = 0;
+    char *str;
+	
+    t_envir *tmp;
+    tmp = return_back_ptr(env);
+    if (!cmd[1]) {
+        ft_env_ex(env);
+        return;
+    }
+    cmd++;
+    tmp->next = creat_env_list();
+    tmp = tmp->next;
+    while (cmd[i]) {
+        if (variable_exists(env, ft_get_variable(cmd[i], &j))) {
+            t_envir *existing = env;
+            while (existing) {
+                if (ft_strcmp(existing->variable, ft_get_variable(cmd[i], &j)) == 0) {
+                    if (cmd[i][j] == '=') {
+                        j++;
+                        if (cmd[i][j]) {
+                            free(existing->value);
+                            existing->value = ft_get_value(cmd[i] + j);
+                        }
+                    }
+                    break;
+                }
+                existing = existing->next;
+            }
+        } else {
+            tmp->value = ft_strdup("");
+            j = 0;
+            tmp->variable = ft_get_variable(cmd[i], &j);
+            if (cmd[i][j] == '=') {
+                tmp->equal = ft_strdup("=");
+                j++;
+                if (cmd[i][j]) {
+                    tmp->value = ft_get_value(cmd[i] + j);
+                }
+            } else {
+                tmp->value = NULL;
+                tmp->equal = NULL;
+            }
+            if (cmd[i + 1]) {
+                tmp->next = creat_env_list();
+                tmp = tmp->next;
+            }
+        }
+        i++;
+    }
 }

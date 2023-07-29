@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 00:28:19 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/26 22:05:44 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/29 20:16:51 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,11 @@ void ft_echo(t_last *last, char **str)
 		write(last->output, "\n", 1);
 	else 
 	{
-		if (!chech_for_no_new_line(str[1]))
-		flag = 1;
-	if (flag)
-		i++;
+		while(!chech_for_no_new_line(str[i]))
+		{
+			flag = 1;
+			i++;
+		} 
 	while (str[i])
 	{
 		ft_putstr_fd(str[i], last->output);

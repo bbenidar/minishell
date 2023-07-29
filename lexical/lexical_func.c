@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/29 02:16:46 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/29 20:45:34 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -601,4 +601,11 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	// }
 	if(last->word)
 		ft_execution(last, env, envr);
+	else
+	{
+		printf("minishell: :command not found\n");
+		flags.exit_stat = 127 * 256;
+	}
+		
+            
 }
