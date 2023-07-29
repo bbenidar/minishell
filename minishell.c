@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/29 01:45:05 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/29 18:31:27 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_envir *replace_variables(char **env)
 	{
 		list->variable = ft_variabl(env[i]);
 		list->value = ft_value(env[i]);
+		list->equal = ft_value("=");
 		i++;
 		// printf("ana hna 3\n");
 		if (env[i])

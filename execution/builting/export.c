@@ -9,12 +9,15 @@ t_envir *return_back_ptr(t_envir *env)
 void ft_swap_node(t_envir *list) {
     char *tmp_value = list->value;
     char *tmp_variable = list->variable;
+    char *tmp_equal = list->equal;
 
     list->value = list->next->value;
     list->variable = list->next->variable;
+    list->equal = list->next->equal;
 
     list->next->value = tmp_value;
     list->next->variable = tmp_variable;
+    list->next->equal = tmp_equal;
 }
 
 int ft_strcasecmp(const char *s1, const char *s2) {
@@ -66,16 +69,70 @@ void	ft_env_ex(t_envir *a)
 	sorted_exp = sort_env(a);
 	while (a)
 	{
-		printf("declare -x %s=\"%s\"\n", a->variable, a->value);
+		if(a->equal != NULL)
+		{
+			if(a->value != NULL)
+				printf("declare -x %s=\"%s\"\n", a->variable, a->value);
+			else
+				printf("declare -x %s=\"\"\n", a->variable);
+		}
+		else
+			printf("declare -x %s\n", a->variable);
+			
 		a = a->next;
 	}
+}
+
+char *ft_get_variable(char *str, int *i)
+{
+	char *ret;
+	int j = *i;
+
+	while(str[j] && str[j] != '=')
+		j++;
+	*i = j;
+	printf("j : %d i : %d\n", j, *i);
+	ret = malloc(sizeof(char) * j + 1);
+	j = 0;
+	while(j < *i)
+	{
+		ret[j] = str[j];
+		j++;
+	}
+	ret[j] = 0;
+	
+	return (ret);
+	
+}
+char *ft_get_value(char *str)
+{
+	// char *ret;
+	// int j = 0;
+	// int tmp = i;
+
+	// while(str[i])
+	// {
+	// 	j++;
+	// 	i++;
+	// }
+		
+	// ret = malloc(sizeof(char) * j + 1);
+	// j = 0;
+	// while(str[tmp])
+	// {
+	// 	ret[j++] = str[tmp++];
+	// }
+	// ret[j] = 0;
+	return (ft_strdup(str));
+	
 }
 
 void ft_export(t_envir *env, char **cmd)
 {
 	int i = 0;
 	int j = 0;
-	char **str;
+	// char **str;
+
 	t_envir *tmp;
 	tmp = return_back_ptr(env);
 	if (!cmd[1])
@@ -90,19 +147,35 @@ void ft_export(t_envir *env, char **cmd)
 	{
 		tmp->value = ft_strdup("");
 		j = 0;
-		str = ft_split(cmd[i], '=');
-		tmp->variable = str[j];
-		j++;
-		if (str[j + 1])
+		// str = ft_split_opera(cmd[i], '=');
+		tmp->variable = ft_get_variable(cmd[i] , &j);
+		printf("HHH : %s\n",tmp->variable );
+		if(cmd[i][j] == '=')
 		{
-			while (str[j])
-			{
-				tmp->value = ft_strjoin(ft_strjoin(str[j], "="), str[j]);
-				j++;
-			}
+			tmp->equal = ft_strdup("=");
+			j++;
+			if(cmd[i][j])
+				tmp->value= ft_get_value(cmd[i] + j);
 		}
-		else if (str[j])
-			tmp->value = ft_strdup(str[j]);
+		else{
+			tmp->value= NULL;
+			tmp->equal = NULL;
+		}
+			printf("val %s | ea %s | \n", tmp->value,tmp->equal),
+		// j++;
+		// if (str[j] && str[j + 1])
+		// {
+		// 	printf("iiii: %s\n", str[j]);
+		// 	while (str[j])
+		// 	{
+		// 		tmp->value = ft_strjoin(ft_strjoin(str[j], "="), str[j]);
+		// 		j++;
+		// 	}
+		// }
+		// else if (str[j])
+		// 	tmp->equal = ft_strdup(str[j]);
+		// else
+		// 	tmp->equal = NULL;
 		i++;
 		if (cmd[i])
 		{

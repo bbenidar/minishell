@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/29 02:44:56 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/29 16:05:18 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int ft_check_for_builting(t_last *last, t_envir *env)
             ft_env(env);
             return (1);
         }
-        else if (!ft_strcmp(last->word[0], "export"))
+        else if (!last->word[1] && !ft_strcmp(last->word[0], "export") )
         {
             ft_export(env, last->word);
             return (1);
@@ -128,6 +128,11 @@ int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
          else if (last->word[0] && !ft_strcmp(last->word[0], "cd"))
         {
             ft_cd(last->word[1], env);
+            return (0);
+        }
+        else if (last->word[1] && !ft_strcmp(last->word[0], "export") )
+        {
+            ft_export(env, last->word);
             return (0);
         }
         return (1);

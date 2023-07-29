@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:21:25 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/29 02:43:39 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/29 17:33:09 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,25 @@ int	ft_tolower(int c)
 	if (c >= 65 && c <= 90)
 		c += 32;
 	return (c);
+}
+
+char	*ft_strncpy(char *dest, char *src, unsigned int n)
+{
+	unsigned int i;
+
+	i = 0;
+	while (src[i] != '\0' && i < n)
+	{
+		dest[i] = src[i];
+		++i;
+	}
+	if (i < n && src[i] == '\0')
+	{
+		while (dest[i] != '\0')
+		{
+			dest[i] = '\0';
+			++i;
+		}
+	}
+	return (dest);
 }
