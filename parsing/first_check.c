@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/26 15:25:26 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/29 01:47:32 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,13 @@ static int ft_check_quotes(char *str)
 	{
 		if (str[i] == 34 && b == -1)
 			a *= -1;
+		if (str[i] == '$' && b != -1 && a == -1)
+			str[i] *= -1;
 		if (str[i] == 39 && a == -1)
-			b *= -1;
+			 b *= -1;
 		if ((str[i] == ' ' || str[i] == '<' ) && (a != -1 || b != -1))
+			str[i] *= -1;
+		if ((str[i] == '\'' && a != -1 && b == 1) || (str[i] == '\"' && b != -1 && a == 1) )
 			str[i] *= -1;
 		i++;
 	}
@@ -150,6 +154,6 @@ int ft_first_check(char *str)
 		else
 			return (0);
 	}
-
+	flags.exit_stat = 258;
 	return (1);
 }

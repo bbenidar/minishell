@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:22:09 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/24 01:39:53 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:37:03 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,16 @@ void ft_cd(char *arg, t_envir *env)
 	char *path;
 	char buffer[4096];
 	login = get_logine(env);
-		// printf("arg : %s | path : %s\n", buffer, ft_strjoin("/", arg));
 		if (!arg)
 		{
 			chdir(ft_strjoin("/Users/", login));
 			// perror("minishell");
 		}
-	if (getcwd(buffer, sizeof(buffer)) != NULL)
+	else if (getcwd(buffer, sizeof(buffer)) != NULL)
 	{
 		path = get_path(env);
 		if(access(ft_strjoin(ft_strjoin(buffer, "/"), arg), F_OK))
-			perror("minisfgghell");
+			perror("minihell");
 
 		else 
 		chdir(ft_strjoin(ft_strjoin(buffer, "/"), arg));

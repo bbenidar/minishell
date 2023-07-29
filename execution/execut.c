@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/28 00:15:23 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/29 02:44:56 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,6 @@ int ft_check_for_builting(t_last *last, t_envir *env)
             ft_echo(last, last->word);
             return (1);
         }
-        else if (!ft_strcmp(last->word[0], "cd"))
-        {
-            ft_cd(last->word[1], env);
-            return (1);
-        }
         else if (!ft_strcmp(last->word[0], "env"))
         {
             ft_env(env);
@@ -111,21 +106,28 @@ void ret_toreal_v(char **str)
     int i;
 
     i = 0;
-    while(str[i])
-    {
-        return_space_to_real_value(str[i]);
-        i++;
-    }
-}
+        while(str && str[i])
+        {
+            return_space_to_real_value(str[i]);
+            i++;
+        }
 
-int ft_check_for_ex(t_last *last, t_last *prv)
+}
+   
+
+int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
 {
 
     
-        if (!ft_strcmp(last->word[0], "exit"))
+        if (last->word[0] && !ft_strcmp(last->word[0], "exit"))
         {
             if(!last->next && !prv)
                 ft_exit(last->word);
+            return (0);
+        }
+         else if (last->word[0] && !ft_strcmp(last->word[0], "cd"))
+        {
+            ft_cd(last->word[1], env);
             return (0);
         }
         return (1);
@@ -140,7 +142,7 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
     while (last) {
         ret_toreal_v(last->word);
     //    printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
-            if(!ft_check_for_ex(last, prv))
+            if(!ft_check_for_ex(last, prv, envr))
             {
                 last = last->next;
             }

@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/28 00:00:58 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/29 02:16:46 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,13 +128,15 @@ t_stack *split_in_list(char *str)
 {
 	char **src;
 	t_stack *wrd;
-	t_stack *head;
+	t_stack *head = NULL;
 
 	wrd = NULL;
 	int i = 0;
 	int j = 1;
 	src = ft_split(str, ' ');
-	wrd = ft_my_lstnew(src[0], COMMAND);
+	if(src)
+	{
+			wrd = ft_my_lstnew(src[0], COMMAND);
 	i++;
 	head = wrd;
 	while (src[i])
@@ -170,6 +172,8 @@ t_stack *split_in_list(char *str)
 		i++;
 	}
 
+	}
+	
 	return (head);
 }
 
@@ -178,7 +182,7 @@ int cheking_(t_stack *tmp)
 	t_stack *list;
 
 	list = tmp;
-	while (list->next)
+	while (list && list->next)
 	{
 		if (list->key == RED_APP)
 		{
@@ -298,7 +302,7 @@ void return_space_to_real_value(char *word)
 {
 	while (*word)
 	{
-		if (*word == 32 * -1 || *word == 60 * -1)
+		if (*word == 32 * -1 || *word == 60 * -1 || *word == '\'' * -1 || *word == '\"' * -1)
 			*word *= -1;
 		word++;
 	}
@@ -477,6 +481,8 @@ char *ft_add_variables(char *line, t_envir *envr)
 	line = merge_str(src);
 	src = ft_split_opera(line, '\'');
 	line = merge_str(src);
+	src = ft_split_opera(line, '/');
+	line = merge_str(src);
 	
 	src = ft_split_opera(line, '$');
 	line = merge_str(src);
@@ -491,12 +497,11 @@ char *ft_add_variables(char *line, t_envir *envr)
 
 	while (src && src[i])
 	{
-		
-		if (src[i + 1] && !ft_strcmp(src[i], "<<") )
+		if (src[i + 1] && (!ft_strcmp(src[i], "<<") ||  !ft_strcmp(src[i], "\'")) )
 		{
-			while(src[i + 1][0] == (' ' * -2) || src[i + 1][0] == '\"' || src[i + 1][0] == '\'')
+			while(src[i + 1] && (src[i + 1][0] == (' ' * -2) || src[i + 1][0] == '\"' || src[i + 1][0] == '\''))
 				i++;
-			if(src[i + 1][0] == '$')
+			if(src[i + 1] && src[i + 1][0] == '$')
 				src[i + 1][0] *= -1;
 			// printf("HHHH %s\n", (src[i + 1]));
 		}
@@ -506,7 +511,7 @@ char *ft_add_variables(char *line, t_envir *envr)
 				src[i + 1] = find_value(src[i + 1], envr);
 			if (!ft_strcmp(src[i + 1], ""))
 				src[i] = ft_strdup("");
-		}
+		} 
 		i++;
 	}
 
@@ -594,5 +599,6 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	//     printf("| fd input : %d   | fd out : %d |\n", last->input, last->output);
 	//     last = last->next;
 	// }
-	ft_execution(last, env, envr);
+	if(last->word)
+		ft_execution(last, env, envr);
 }
