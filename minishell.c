@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/30 01:08:10 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/30 01:49:48 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_envir *ft_no_env()
 	getcwd(buffer, sizeof(buffer));
 	t_envir *list;
 	t_envir *ret;
-	flags.shlvl = ft_get_shlvl();
+	// flags.shlvl = ft_get_shlvl();
 	list = creat_env_list();
 	ret = list;
 	list->variable = ft_strdup("PWD");
@@ -81,8 +81,9 @@ t_envir *ft_no_env()
 	list->next = creat_env_list();
 	list = list->next;
 	list->variable = ft_strdup("PATH");
-	list->equal = NULL;
-	list->value = ft_strdup("");
+	list->equal = ft_strdup("=");
+	list->value = ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	flags.path_fl = 1;
 	
 
 	return(ret);
@@ -125,7 +126,7 @@ void ft_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -169,7 +170,7 @@ int main(int ac, char **av, char **env)
 	av[1] = 0;
 	if (ac != 1)
 		return (0);
-	rl_catch_signals = 0;
+	// rl_catch_signals = 0;
 	printf("\033[2J\033[1;1H");
 	printf("\n");
 	printf("\033[0;32m███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗     \n");

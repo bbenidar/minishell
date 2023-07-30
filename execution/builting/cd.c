@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:22:09 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/28 00:37:03 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/30 02:00:02 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void ft_cd(char *arg, t_envir *env)
 	login = get_logine(env);
 		if (!arg)
 		{
-			chdir(ft_strjoin("/Users/", login));
+			if(login)
+				chdir(ft_strjoin("/Users/", login));
+			else
+				printf("minishell: cd: HOME not set\n");
 			// perror("minishell");
 		}
 	else if (getcwd(buffer, sizeof(buffer)) != NULL)

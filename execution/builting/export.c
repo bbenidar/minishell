@@ -72,9 +72,18 @@ void	ft_env_ex(t_envir *a)
 		if(a->equal != NULL)
 		{
 			if(a->value != NULL)
-				printf("declare -x %s=\"%s\"\n", a->variable, a->value);
-			else
-				printf("declare -x %s=\"\"\n", a->variable);
+            {
+                if (!ft_strcmp(a->variable, "PATH")  && flags.path_fl == 1)
+                    printf("");
+                else
+                    printf("declare -x %s=\"%s\"\n", a->variable, a->value);
+            }
+				
+		    else
+            {
+                    printf("declare -x %s=\"\"\n", a->variable);
+            }
+				
 		}
 		else
 			printf("declare -x %s\n", a->variable);
@@ -101,7 +110,6 @@ char *ft_get_variable(char *str, int *i)
 	ret[j] = 0;
 	
 	return (ret);
-	
 }
 char *ft_get_value(char *str)
 {
@@ -153,6 +161,8 @@ void ft_export(t_envir *env, char **cmd) {
     tmp->next = creat_env_list();
     tmp = tmp->next;
     while (cmd[i]) {
+        if(!ft_strcmp(cmd[i], "PATH"))
+            flags.path_fl = 0;
         if (variable_exists(env, ft_get_variable(cmd[i], &j))) {
             t_envir *existing = env;
             while (existing) {
