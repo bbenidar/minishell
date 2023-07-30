@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/29 21:12:23 by admin            ###   ########.fr       */
+/*   Updated: 2023/07/30 01:08:10 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,39 @@ char *ft_value(char *str)
 	return (ret);
 }
 
+t_envir *ft_no_env()
+{
+	char buffer[4096];
+	getcwd(buffer, sizeof(buffer));
+	t_envir *list;
+	t_envir *ret;
+	flags.shlvl = ft_get_shlvl();
+	list = creat_env_list();
+	ret = list;
+	list->variable = ft_strdup("PWD");
+	list->equal = ft_strdup("=");
+	list->value = ft_strdup(buffer);
+	list->next = creat_env_list();
+	list = list->next;
+	list->variable = ft_strdup("SHLVL");
+	list->equal = ft_strdup("=");
+	list->value = ft_itoa(flags.shlvl);
+	list->next = creat_env_list();
+	list = list->next;
+	list->variable = ft_strdup("_");
+	list->equal = ft_strdup("=");
+	list->value = ft_strdup("/usr/bin/env");
+	list->next = creat_env_list();
+	list = list->next;
+	list->variable = ft_strdup("PATH");
+	list->equal = NULL;
+	list->value = ft_strdup("");
+	
+
+	return(ret);
+	
+}
+
 t_envir *replace_variables(char **env)
 {
 	t_envir *list;
@@ -63,34 +96,36 @@ t_envir *replace_variables(char **env)
 	int i;
 
 	i = 0;
-	list = creat_env_list();
-	ret = list;
-	while (env[i])
+	if (env[0])
 	{
-		list->variable = ft_variabl(env[i]);
-		list->value = ft_value(env[i]);
-		list->equal = ft_value("=");
-		i++;
-		// printf("ana hna 3\n");
-		if (env[i])
+		list = creat_env_list();
+		ret = list;
+		while (env[i])
 		{
-			list->next = creat_env_list();
-			list = list->next;
+			list->variable = ft_variabl(env[i]);
+			list->value = ft_value(env[i]);
+			list->equal = ft_value("=");
+			i++;
+			if (env[i])
+			{
+				list->next = creat_env_list();
+				list = list->next;
+			}
 		}
 	}
-	//  while (ret)
-	// {
-	//     printf("\033[0;32m| variable :\033[1;91m %s \033[0;32m| value :\033[1;91m %s |\n", ret->variable, ret->value);
-	//     ret = ret->next;
-	// }
+	else
+		ret = ft_no_env();
 	return (ret);
 }
 
+
+
+
 void ft_sigint(int sig)
 {
-	if (sig == SIGINT)
-		write(1, "\n", 1);
-	// rl_replace_line("", 0);
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -99,10 +134,13 @@ void begin(char **env)
 {
 
 	t_envir *envr;
+	t_envir *tmp;
 	char *line;
 
 	signal(SIGINT, ft_sigint);
 	envr = replace_variables(env);
+	tmp = envr;
+	
 	while (1337)
 	{
 		line = readline("➜ minishell ✗ ");
@@ -131,7 +169,7 @@ int main(int ac, char **av, char **env)
 	av[1] = 0;
 	if (ac != 1)
 		return (0);
-	// rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	printf("\033[2J\033[1;1H");
 	printf("\n");
 	printf("\033[0;32m███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗     \n");
