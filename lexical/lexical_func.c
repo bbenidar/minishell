@@ -6,7 +6,7 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/29 20:45:34 by admin            ###   ########.fr       */
+/*   Updated: 2023/07/30 16:51:21 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,47 +132,84 @@ t_stack *split_in_list(char *str)
 
 	wrd = NULL;
 	int i = 0;
-	int j = 1;
+	int j = 0;
 	src = ft_split(str, ' ');
 	if(src)
 	{
-			wrd = ft_my_lstnew(src[0], COMMAND);
-	i++;
+			wrd = ft_my_lstnew(NULL, NULL);
 	head = wrd;
 	while (src[i])
 	{
-		if (j == 0)
+		if (!ft_strncmp(src[i], "|", 1))
 		{
-			wrd->next = ft_my_lstnew(src[i], COMMAND);
-			j = 1;
-		}
-		else if (!ft_strncmp(src[i], "|", 1))
-		{
-			wrd->next = ft_my_lstnew("|", PIPE);
+			// wrd->next = ft_my_lstnew("|", PIPE);
+			wrd->word = ft_strdup("|");
+			wrd->key = PIPE;
 			j = 0;
 		}
 		else if (!ft_strncmp(src[i], "<<", 2) || (!ft_strncmp(src[i], "<", 1)))
 		{
 			if (!ft_strncmp(src[i], "<<", 2))
-				wrd->next = ft_my_lstnew("<<", RED_HER);
+			{
+				wrd->word = ft_strdup("<<");
+				wrd->key = RED_HER;
+				
+			// wrd->next = ft_my_lstnew("<<", RED_HER);
+			}
+				
 			else
-				wrd->next = ft_my_lstnew("<", RED_IN);
+			{
+				// wrd->next = ft_my_lstnew("<", RED_IN);
+				wrd->word = ft_strdup("<");
+				wrd->key = RED_IN;
+			}
+			flags.red_flag = 1;
+				
 		}
 		else if (!ft_strncmp(src[i], ">>", 2) || (!ft_strncmp(src[i], ">", 1)))
 		{
 			if (!ft_strncmp(src[i], ">>", 2))
-				wrd->next = ft_my_lstnew(">>", RED_APP);
+			{
+				// wrd->next = ft_my_lstnew(">>", RED_APP);
+				wrd->word = ft_strdup(">>");
+				wrd->key = RED_APP;
+			}
+				
 			else
-				wrd->next = ft_my_lstnew(">", RED_OUT);
+			{
+				// wrd->next = ft_my_lstnew(">", RED_OUT);
+				wrd->word = ft_strdup(">");
+				wrd->key = RED_OUT;
+			}
+			flags.red_flag = 1;
+				
+		}
+		else if (j == 0 && flags.red_flag != 1)
+		{
+			wrd->word = ft_strdup(src[i]);
+			wrd->key = COMMAND;
+			// wrd->next = ft_my_lstnew(src[i], COMMAND);
+			j = 1;
 		}
 		else
-			wrd->next = ft_my_lstnew(src[i], OPTION);
-
-		wrd = wrd->next;
+		{
+			// wrd->next = ft_my_lstnew(src[i], OPTION);
+			wrd->word = ft_strdup(src[i]);
+			wrd->key = OPTION;
+			flags.red_flag = 0;
+		}
 		i++;
+		if(src[i])
+		{
+			wrd->next = ft_my_lstnew(NULL, NULL);
+			wrd = wrd->next;
+		}
+		
+		
 	}
 
 	}
+	
 	
 	return (head);
 }
@@ -189,7 +226,7 @@ int cheking_(t_stack *tmp)
 			if (list->next->key != OPTION)
 			{
 				if(list->next->key == PIPE)
-					printf("\033[0;31mERROR :syntax error near unexpected token `|`\033[0m\n");
+					printf("\033[0;31mERROR :syntax error near unexpected token `>>`\033[0m\n");
 				return (0);
 			}
 			list->next->key = FILE_APP;
@@ -198,7 +235,7 @@ int cheking_(t_stack *tmp)
 		{
 			if (list->next->key != OPTION)
 			{
-				printf("\033[0;31mERROR :syntax error near unexpected token `|`\033[0m\n");
+				printf("\033[0;31mERROR :syntax error near unexpected token `<`\033[0m\n");
 				return (0);
 			}
 			list->next->key = FILE_OUT;
@@ -207,7 +244,7 @@ int cheking_(t_stack *tmp)
 		{
 			if (list->next->key != OPTION)
 			{
-				printf("\033[0;31mERROR :syntax error near unexpected token `|'\033[0m\n");
+				printf("\033[0;31mERROR :syntax error near unexpected token `>'\033[0m\n");
 				return (0);
 			}
 			list->next->key = FILE_IN;
@@ -216,7 +253,7 @@ int cheking_(t_stack *tmp)
 		{
 			if (list->next->key != OPTION)
 			{
-				printf("\033[0;31mERROR :syntax error near unexpected token `|'\033[0m\n");
+				printf("\033[0;31mERROR :syntax error near unexpected token `<<'\033[0m\n");
 				return (0);
 			}
 			list->next->key = LIMITER;
@@ -581,8 +618,17 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	head = split_in_list(str);
 	free(str);
 	if (!cheking_(head))
+	{
+		flags.exit_stat = 66048;
 		return;
-	// printf("line : %s\n", line);
+	}
+	// while(head)
+	// {
+	// 	printf("%s | %d \n", head->word, head->key);
+	// 	head = head->next;
+	// }
+		
+	// // printf("line : %s\n", line);
 	last = ft_last_list_get_ready(head, envr);
 	if(!last)
 		return ;
@@ -608,4 +654,4 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	}
 		
             
-}
+	}

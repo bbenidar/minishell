@@ -6,7 +6,7 @@
 /*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/29 21:00:45 by admin            ###   ########.fr       */
+/*   Updated: 2023/07/30 17:53:31 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,8 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 else{
                     char *path = ft_getfile_name(last->word, envr);
                 if (!path) {
-                    printf("minishell: command not found: %s\n", last->word[0]);
+                    last->output = 2;
+                    ft_putstr_fd(ft_strjoin(ft_strjoin("minishell: command not found: ", last->word[0]), "\n"), last->output);
                     exit(127);
                 }
                     execve(path, last->word, envire);
