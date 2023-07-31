@@ -1,21 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/31 05:20:52 by sakarkal          #+#    #+#             */
+/*   Updated: 2023/07/31 05:59:15 by sakarkal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include"../../minishell.h"
+#include "../../minishell.h"
 
-t_envir *rem_from_list(t_envir *env,char *cmd)
+t_envir	*rem_from_list(t_envir *env, char *cmd)
 {
-	t_envir *tmp;
-	t_envir *ret;
+	t_envir	*tmp;
+	t_envir	*ret;
+
 	ret = env;
 	tmp = env->next;
-	
-	if(!ft_strcmp(env->variable, cmd))
-		return(free(env), tmp);
+	if (!ft_strcmp(env->variable, cmd))
+		return (free(env), tmp);
 	tmp = env;
 	env = env->next;
-
-	while(env->next)
+	while (env->next)
 	{
-		if(!ft_strcmp(env->variable, cmd))
+		if (!ft_strcmp(env->variable, cmd))
 		{
 			tmp->next = env->next;
 		}
@@ -40,16 +50,16 @@ int	ft_lstsize(t_envir *lst)
 	return (c);
 }
 
-char **ft_merge_envr(t_envir *env)
+char	**ft_merge_envr(t_envir *env)
 {
-	char **str = NULL;
-	int len;
-	int i;
+	char	**str;
+	int		len;
+	int		i;
 
 	i = 0;
 	len = ft_lstsize(env);
 	str = malloc(sizeof(char *) * len + 1);
-	while(env)
+	while (env)
 	{
 		str[i] = ft_strjoin(ft_strjoin(env->variable, "="), env->value);
 		env = env->next;
@@ -57,10 +67,9 @@ char **ft_merge_envr(t_envir *env)
 	}
 	str[i] = NULL;
 	return (str);
-
 }
 
-void ft_unset(t_envir *env,char *cmd)
+void	ft_unset(t_envir *env, char *cmd)
 {
 	env = rem_from_list(env, cmd);
 }
