@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_creation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 12:13:43 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/31 02:25:09 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/31 07:16:11 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_stack *ft_my_lstnew(char *content, int key)
+t_stack	*ft_my_lstnew(char *content, int key)
 {
-	t_stack *n;
+	t_stack	*n;
 
 	n = (t_stack *)malloc(sizeof(*n));
 	if (!n)
@@ -25,9 +25,9 @@ t_stack *ft_my_lstnew(char *content, int key)
 	return (n);
 }
 
-t_last *ft_new_last_list()
+t_last	*ft_new_last_list(void)
 {
-	t_last *n;
+	t_last	*n;
 
 	n = (t_last *)malloc(sizeof(*n));
 	if (!n)

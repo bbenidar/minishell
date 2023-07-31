@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/31 02:43:24 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/07/31 07:14:45 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char *merge_tab(char **str)
 	return (line);
 }
 
-t_stack *split_in_list(char *str)
+t_stack	*split_in_list(char *str)
 {
 	char **src;
 	t_stack *wrd;
@@ -518,7 +518,7 @@ char *find_value(char *str, t_envir *env)
 
 void ft_check_delim(char *str)
 {
-  	printf("line : %s\n", str);
+  	// printf("line : %s\n", str);
 	int i = 0;
 
 	while(str[i])
