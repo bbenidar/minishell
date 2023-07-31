@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/30 16:51:21 by admin            ###   ########.fr       */
+/*   Updated: 2023/07/31 02:43:24 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ t_stack *split_in_list(char *str)
 	src = ft_split(str, ' ');
 	if(src)
 	{
-			wrd = ft_my_lstnew(NULL, NULL);
+			wrd = ft_my_lstnew(NULL, 0);
 	head = wrd;
 	while (src[i])
 	{
@@ -201,7 +201,7 @@ t_stack *split_in_list(char *str)
 		i++;
 		if(src[i])
 		{
-			wrd->next = ft_my_lstnew(NULL, NULL);
+			wrd->next = ft_my_lstnew(NULL,0);
 			wrd = wrd->next;
 		}
 		
@@ -370,25 +370,38 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 			// printf("line : %s\n", list->next->word);
 			return_space_to_real_value(list->next->word);
 			if (!ft_strcmp(her, list->next->word))
+			{
+				if (!ft_strcmp(list->next->word, ""))
+					flags.herd_flags = -32;
 				break;
+			}
+				
 				
 		}
-		her = ft_add_variables(her, envr);
+		if(flags.delim_flags == 0)
+			her = ft_add_variables(her, envr);
+		else
+			flags.delim_flags--;
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
 	}
 	if(flag == 0)
 		list->word = ft_strdup(name);
-	else if(list->next->next)
+	else if(list->next && list->next->next)
 	{
 		list->word = list->next->next->word;
+		list->key = COMMAND;
 		list->next->next->word = ft_strdup("");
 	}
-		
-	free(list->next->word);
+	if(list->next)
+	{
+		free(list->next->word);
+		list->next->word = ft_strdup(name);
+	 	list->next->key = FILE_IN;
+	}
+			
 	// printf("gg:1 %s\n", list->next->word);
-	list->next->word = ft_strdup(name);
-	list->next->key = FILE_IN;
+	
 	// printf("gg: %d\n", fd);
 	free(name);
 	return (fd);
@@ -424,7 +437,10 @@ t_last *ft_last_list_get_ready(t_stack *head, t_envir *envr)
 				last->input = ft_herdoc(tmp, flag, envr);
 				if (last->input < 0)
 				{
-					perror(tmp->word);
+					if(last->input == -1)
+					{
+						perror(tmp->word);
+					}
 					return (NULL);
 				}
 				tmp->key = OPTION;
@@ -500,12 +516,38 @@ char *find_value(char *str, t_envir *env)
 }
 
 
+void ft_check_delim(char *str)
+{
+  	printf("line : %s\n", str);
+	int i = 0;
+
+	while(str[i])
+	{
+		if (str[i] == '<' && str[i + 1] == '<')
+		{
+			i += 2;
+			printf("lcc : %c\n", str[i]);
+			while(str[i] == ' ')
+				i++;
+			while(str[i] && str[i] != ' ')
+			{
+				if(str[i] == '\"')
+					flags.delim_flags++;
+				i++;
+			}
+		}
+		i++;
+	}
+
+}
+
 char *ft_add_variables(char *line, t_envir *envr)
 {
 	int i;
 	int j = 0;
 	char **src;
 	int len = 0;
+	ft_check_delim(line);
 	while (line[len])
 	{
 		if (line[len] && line[len] == ' ')
@@ -514,6 +556,7 @@ char *ft_add_variables(char *line, t_envir *envr)
 	}
 
 	i = 0;
+	
 	src = ft_split_opera(line, '\"');
 	line = merge_str(src);
 	src = ft_split_opera(line, '\'');
@@ -529,18 +572,20 @@ char *ft_add_variables(char *line, t_envir *envr)
 	line = merge_str(src);
 	src = ft_split_opera(line, '<');
 	line = merge_str(src);
+	
 	src = ft_split(line, ' ');
 
-
+	
 	while (src && src[i])
 	{
 		if (src[i + 1] && (!ft_strcmp(src[i], "<<") ||  !ft_strcmp(src[i], "\'")) )
 		{
-			while(src[i + 1] && (src[i + 1][0] == (' ' * -2) || src[i + 1][0] == '\"' || src[i + 1][0] == '\''))
-				i++;
+			while(src[i + 1] && (src[i + 1][0] == (' ' * -2) || src[i + 1][0] == '\"' || src[i + 1][0] == '\''))	
+					i++;
+				
 			if(src[i + 1] && src[i + 1][0] == '$')
 				src[i + 1][0] *= -1;
-			// printf("HHHH %s\n", (src[i + 1]));
+				
 		}
 		else if (!ft_strcmp(src[i], "$") && (src[i + 1]))
 		{
@@ -614,7 +659,7 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	src = ft_split_opera(str, '<');
 	str = merge_str(src);
 	// printf("line : %s\n", str);
-
+		
 	head = split_in_list(str);
 	free(str);
 	if (!cheking_(head))

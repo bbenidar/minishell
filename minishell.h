@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/30 16:33:40 by admin            ###   ########.fr       */
+/*   Updated: 2023/07/31 02:42:13 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct g_variables
 	int shlvl;
 	int path_fl;
 	int red_flag;
+	int delim_flags;
+	int herd_flags;
 }					t_var;
 
 
