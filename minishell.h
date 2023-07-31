@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/31 06:29:46 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/31 02:42:13 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,17 +148,7 @@ void				ft_echo(t_last *last, char **str);
 //execution/
 void				ft_execution(t_last *last, char **env, t_envir *envr);
 void				ft_export(t_envir *env, char **cmd);
-char				*ft_strncpy(char *dest, char *src, unsigned int n);
-void				ft_env_ex(t_envir *a);
-t_envir				*sort_env(t_envir *env);
-int					ft_strcasecmp(const char *s1, const char *s2);
-void				ft_swap_node(t_envir *list);
-t_envir				*return_back_ptr(t_envir *env);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
 
-int					ft_check_quotes(char *str);
-int					check_space(char *str);
-int					ft_skip_qoutes(char *str);
-int					check_pipe(char *str);
-
-t_var				flags;
+t_var flags;
 #endif

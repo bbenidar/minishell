@@ -3,30 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/31 07:22:44 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/31 00:04:55 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_envir	*creat_env_list(void)
+t_envir *creat_env_list()
 {
-	t_envir	*list;
+	t_envir *list;
 
 	list = malloc(sizeof(t_envir) * 1);
 	list->next = NULL;
 	return (list);
 }
 
-char	*ft_variabl(char *str)
+char *ft_variabl(char *str)
 {
-	int		i;
-	char	*ret;
+	int i = 0;
+	char *ret;
 
-	i = 0;
 	while (str[i] != '=')
 		i++;
 	ret = malloc(sizeof(char) * (i + 1));
@@ -39,12 +38,11 @@ char	*ft_variabl(char *str)
 	return (ret);
 }
 
-char	*ft_value(char *str)
+char *ft_value(char *str)
 {
-	int		i;
-	char	*ret;
+	int i = 0;
+	char *ret;
 
-	i = 0;
 	while (*str && *str != '=')
 		str++;
 	str++;
@@ -58,13 +56,13 @@ char	*ft_value(char *str)
 	return (ret);
 }
 
-t_envir	*ft_no_env(void)
+t_envir *ft_no_env()
 {
-	char	buffer[4096];
-	t_envir	*list;
-	t_envir	*ret;
-
+	char buffer[4096];
 	getcwd(buffer, sizeof(buffer));
+	t_envir *list;
+	t_envir *ret;
+	// flags.shlvl = ft_get_shlvl();
 	list = creat_env_list();
 	ret = list;
 	list->variable = ft_strdup("PWD");
@@ -86,14 +84,17 @@ t_envir	*ft_no_env(void)
 	list->equal = ft_strdup("=");
 	list->value = ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 	flags.path_fl = 1;
-	return (ret);
+	
+
+	return(ret);
+	
 }
 
-t_envir	*replace_variables(char **env)
+t_envir *replace_variables(char **env)
 {
-	t_envir	*list;
-	t_envir	*ret;
-	int		i;
+	t_envir *list;
+	t_envir *ret;
+	int i;
 
 	i = 0;
 	if (env[0])
@@ -118,7 +119,10 @@ t_envir	*replace_variables(char **env)
 	return (ret);
 }
 
-void	ft_sigint(int sig)
+
+
+
+void ft_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
@@ -127,11 +131,12 @@ void	ft_sigint(int sig)
 	rl_redisplay();
 }
 
-void	begin(char **env)
+void begin(char **env)
 {
-	t_envir	*envr;
-	t_envir	*tmp;
-	char	*line;
+
+	t_envir *envr;
+	t_envir *tmp;
+	char *line;
 
 	signal(SIGINT, ft_sigint);
 	envr = replace_variables(env);
@@ -143,26 +148,32 @@ void	begin(char **env)
 		if (!line)
 		{
 			printf("exit\n");
-			break ;
+			break;
 		}
 		if (!check_space(line))
 			add_history(line);
+		
+		
 		if (!ft_first_check(line))
 		{
 			line = ft_add_variables(line, envr);
+			printf("nb %d \n", flags.delim_flags);
+
 			lexical_function(line, env, envr);
 		}
-		else
+		else 
 			flags.exit_stat = 66048;
 		free(line);
 	}
 }
 
-int	main(int ac, char **av, char **env)
+#include <string.h>
+int main(int ac, char **av, char **env)
 {
 	av[1] = 0;
 	if (ac != 1)
 		return (0);
+	
 	// rl_catch_signals = 0;
 	printf("\033[2J\033[1;1H");
 	printf("\n");

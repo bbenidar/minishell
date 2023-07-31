@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:21:07 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/31 07:08:20 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:26:56 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -63,7 +64,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (nstr);
 }
 
-t_stack	*ft_lstlast(t_stack *lst)
+t_stack	*ft_lstlast(t_stack *lst) 
 {
 	while (lst)
 	{

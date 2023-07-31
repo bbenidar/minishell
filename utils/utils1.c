@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:29:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/31 07:06:21 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/07/15 15:54:31 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include"../minishell.h"
 
-char	*ft_substr(char const *s, int start, int len)
+
+
+char	*ft_substr(char const *s, int start,
+		int len)
 {
-	char	*src;
-	int		i;
-	int		j;
+	char			*src;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -27,7 +30,7 @@ char	*ft_substr(char const *s, int start, int len)
 		return (ft_strdup(""));
 	if (len >= ft_strlen(s + start))
 		len = ft_strlen(s + start);
-	src = (char *)malloc(sizeof(char) * (len + 1));
+		src = (char *)malloc(sizeof(char) * (len + 1));
 	if (!src)
 		return (0);
 	while (s[i])
