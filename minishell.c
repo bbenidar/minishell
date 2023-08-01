@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/31 00:04:55 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/01 00:43:50 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,9 +157,9 @@ void begin(char **env)
 		if (!ft_first_check(line))
 		{
 			line = ft_add_variables(line, envr);
-			printf("nb %d \n", flags.delim_flags);
-
-			lexical_function(line, env, envr);
+			// printf("nb %s \n", line);
+			if(line)
+				lexical_function(line, env, envr);
 		}
 		else 
 			flags.exit_stat = 66048;

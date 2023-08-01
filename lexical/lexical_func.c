@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/01 00:22:55 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/01 01:15:46 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,28 @@ static int ft_strlen_nospace(const char *str)
 
 char *dell_space(char *line)
 {
-	int i;
+	int i = 0;
 	char *str;
 	int j;
 
 	j = 0;
+	if(!line)
+		return (NULL);
+	while(line[i])
+	{
+		if(line[i] == 34 && line[i + 1] == 34)
+		{
+			int c = i + 2;
+			while(line[c] && line[c] == ' ')
+				c++;
+			if(line[c] == '|' || line[c] == '\0')
+			{
+				line[i] *= -1;
+				line[i + 1] *= -1;
+			}
+		}
+		i++;
+	}
 	i = ft_strlen_nospace(line);
 	str = (char *)malloc(sizeof(char) * i);
 	i = 0;
@@ -46,6 +63,13 @@ char *dell_space(char *line)
 			str[i] = line[j];
 			i++;
 		}
+		j++;
+	}
+	j = 0;
+	while(str[j])
+	{
+		if(str[j] == 34 * -1)
+			str[j] *= -1;
 		j++;
 	}
 	str[i] = '\0';
@@ -649,6 +673,7 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	redir = 0;
 
 	str = dell_space(line);
+		printf("line : %s\n", str);
 	src = ft_split_opera(str, '|');
 	free(str);
 	str = merge_str(src);
@@ -658,7 +683,7 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	free_tab(src);
 	src = ft_split_opera(str, '<');
 	str = merge_str(src);
-	// printf("line : %s\n", str);
+
 		
 	head = split_in_list(str);
 	free(str);
