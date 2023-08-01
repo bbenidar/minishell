@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/01 01:15:46 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:47:13 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char *dell_space(char *line)
 			int c = i + 2;
 			while(line[c] && line[c] == ' ')
 				c++;
-			if(line[c] == '|' || line[c] == '\0')
+			if((line[c] == '|' || line[c] == '\0'))
 			{
 				line[i] *= -1;
 				line[i + 1] *= -1;
@@ -187,7 +187,7 @@ t_stack *split_in_list(char *str)
 				wrd->word = ft_strdup("<");
 				wrd->key = RED_IN;
 			}
-			flags.red_flag = 1;
+			g_flags.red_flag = 1;
 				
 		}
 		else if (!ft_strncmp(src[i], ">>", 2) || (!ft_strncmp(src[i], ">", 1)))
@@ -205,10 +205,10 @@ t_stack *split_in_list(char *str)
 				wrd->word = ft_strdup(">");
 				wrd->key = RED_OUT;
 			}
-			flags.red_flag = 1;
+			g_flags.red_flag = 1;
 				
 		}
-		else if (j == 0 && flags.red_flag != 1)
+		else if (j == 0 && g_flags.red_flag != 1)
 		{
 			wrd->word = ft_strdup(src[i]);
 			wrd->key = COMMAND;
@@ -220,7 +220,7 @@ t_stack *split_in_list(char *str)
 			// wrd->next = ft_my_lstnew(src[i], OPTION);
 			wrd->word = ft_strdup(src[i]);
 			wrd->key = OPTION;
-			flags.red_flag = 0;
+			g_flags.red_flag = 0;
 		}
 		i++;
 		if(src[i])
@@ -379,6 +379,8 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 	her = ft_strjoin(strchr(ttyname(0),'0'),ft_itoa(rand++));
 	name = ft_strjoin("/tmp/heredoc", her);
 		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	if(!ft_strcmp(list->next->word, "\"\""))
+			list->next->word = ft_strdup("");
 	while (1)
 	{
 		her = readline("> ");
@@ -391,21 +393,20 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 			break;
 		else if (list->next)
 		{
-			// printf("line : %s\n", list->next->word);
 			return_space_to_real_value(list->next->word);
 			if (!ft_strcmp(her, list->next->word))
 			{
 				if (!ft_strcmp(list->next->word, ""))
-					flags.herd_flags = -32;
+					g_flags.herd_flags = -32;
 				break;
 			}
 				
 				
 		}
-		if(flags.delim_flags == 0)
+		if(g_flags.delim_flags == 0)
 			her = ft_add_variables(her, envr);
 		else
-			flags.delim_flags--;
+			g_flags.delim_flags--;
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
 	}
@@ -524,7 +525,7 @@ char *find_value(char *str, t_envir *env)
 
 	ret = ft_strdup("");
 	if (str[0] == '?')
-			ret = ft_strdup(ft_itoa(flags.exit_stat/256));
+			ret = ft_strdup(ft_itoa(g_flags.exit_stat/256));
 		while (env)
 		{
 			// printf("str : %s \n", str);
@@ -550,13 +551,19 @@ void ft_check_delim(char *str)
 		if (str[i] == '<' && str[i + 1] == '<')
 		{
 			i += 2;
-			printf("lcc : %c\n", str[i]);
+			// printf("lcc : %c\n", str[i]);
 			while(str[i] == ' ')
 				i++;
 			while(str[i] && str[i] != ' ')
 			{
+				
 				if(str[i] == '\"')
-					flags.delim_flags++;
+					g_flags.delim_flags++;
+				if (str[i] == '\"' && str[i+1] == '\"' && str[i + 2] == ' ')
+				{
+					 str[i] *= -1;
+						str[i + 1] *= -1;
+				}
 				i++;
 			}
 		}
@@ -594,12 +601,12 @@ char *ft_add_variables(char *line, t_envir *envr)
 	line = merge_str(src);
 	src = ft_split_opera(line, ' ' * -2);
 	line = merge_str(src);
+	src = ft_split_opera(line, ' ' * -1);
+	line = merge_str(src);
 	src = ft_split_opera(line, '<');
 	line = merge_str(src);
-	
 	src = ft_split(line, ' ');
 
-	
 	while (src && src[i])
 	{
 		if (src[i + 1] && (!ft_strcmp(src[i], "<<") ||  !ft_strcmp(src[i], "\'")) )
@@ -673,7 +680,6 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	redir = 0;
 
 	str = dell_space(line);
-		printf("line : %s\n", str);
 	src = ft_split_opera(str, '|');
 	free(str);
 	str = merge_str(src);
@@ -682,14 +688,15 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	str = merge_str(src);
 	free_tab(src);
 	src = ft_split_opera(str, '<');
+
 	str = merge_str(src);
 
-		
+	
 	head = split_in_list(str);
 	free(str);
 	if (!cheking_(head))
 	{
-		flags.exit_stat = 66048;
+		g_flags.exit_stat = 66048;
 		return;
 	}
 	// while(head)
@@ -702,25 +709,12 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	last = ft_last_list_get_ready(head, envr);
 	if(!last)
 		return ;
-	// while(last)
-	// {
-	//     i =0;
-	//     printf("________________________________________________________________________________________________________\n");
-	//     while(last->word && last->word[i])
-	//     {
-
-	//         printf("|  command : %s ", last->word[i]);
-	//         i++;
-	//     }
-	//     printf("| fd input : %d   | fd out : %d |\n", last->input, last->output);
-	//     last = last->next;
-	// }
 	if(last->word)
 		ft_execution(last, env, envr);
 	else
 	{
 		printf("minishell: :command not found\n");
-		flags.exit_stat = 127 * 256;
+		g_flags.exit_stat = 127 * 256;
 	}
 		
             

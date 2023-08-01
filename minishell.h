@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/31 02:42:13 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:15:40 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ char				**ft_merge_envr(t_envir *env);
 char				**remove_line_from_array(char **array, char *line);
 int					check_arg_unset(char *arg);
 char				**remove_unset(char **array, char *arg);
-void				ft_unset(t_envir *env, char *cmd);
+void				ft_unset(t_envir **env, char *cmd);
 //execution/pwd.c
 void				ft_pwd(void);
 //execution/cd.c
@@ -141,7 +141,7 @@ void				ft_cd(char *arg, t_envir *env);
 //execution/exit.c
 void				ft_exit(char **str);
 //execution/env.c
-void				ft_env(t_envir *a);
+void				ft_env(t_envir *a, int i);
 //execution/echo.c
 int					ft_newline(char *arg);
 void				ft_echo(t_last *last, char **str);
@@ -149,6 +149,10 @@ void				ft_echo(t_last *last, char **str);
 void				ft_execution(t_last *last, char **env, t_envir *envr);
 void				ft_export(t_envir *env, char **cmd);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
+//envir
+t_envir				*ft_no_env(void);
+t_envir *sort_env(t_envir *env);
+void	ft_env_ex(t_envir *a);
 
-t_var flags;
+t_var g_flags;
 #endif

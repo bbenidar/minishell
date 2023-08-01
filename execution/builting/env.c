@@ -1,17 +1,23 @@
 #include "../../minishell.h"
 
-void	ft_env(t_envir *a)
+void	ft_env(t_envir *a, int i)
 {
-	while (a)
+	if(i)
+		ft_env_ex(a);
+	else
 	{
-		if(a->value != NULL)
+		while (a)
 		{
-			if (!ft_strcmp(a->variable, "PATH")  && flags.path_fl == 1)
-                    printf("");
-            else
-				printf("%s=%s\n", a->variable, a->value);
+			if(a->value != NULL)
+			{
+				if (!ft_strcmp(a->variable, "PATH")  && g_flags.path_fl == 1)
+						printf("");
+				else
+					printf("%s=%s\n", a->variable, a->value);
+			}
+				
+			a = a->next;
 		}
-			
-		a = a->next;
 	}
+
 }

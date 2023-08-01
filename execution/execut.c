@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/30 17:53:31 by admin            ###   ########.fr       */
+/*   Updated: 2023/08/02 00:29:14 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,40 @@ char *ft_getfile_name(char **cammnd, t_envir *envr)
 	return (NULL);
 }
 
+void	ft_env_ex(t_envir *a)
+{
+   
+	t_envir *sorted_exp;
+	sorted_exp = sort_env(a);
+    
+	while (sorted_exp)
+	{
+      
+		if(sorted_exp->equal != NULL)
+		{
+			if(sorted_exp->value != NULL)
+            {
+                if (!ft_strcmp(sorted_exp->variable, "PATH")  && g_flags.path_fl == 1)
+                    printf("");
+                else
+                    printf("declare -x %s=\"%s\"\n", sorted_exp->variable, sorted_exp->value);
+            }
+				
+		    else
+            {
+                    printf("declare -x %s=\"\"\n", sorted_exp->variable);
+            }
+				
+		}
+		else
+			printf("declare -x %s\n", sorted_exp->variable);
+			
+		sorted_exp = sorted_exp->next;
+	}
+}
+
 int ft_check_for_builting(t_last *last, t_envir *env)
 {
-	int i;
     if(last->word[0])
     {
         if (!ft_strcmp(last->word[0], "echo"))
@@ -69,25 +100,17 @@ int ft_check_for_builting(t_last *last, t_envir *env)
         }
         else if (!ft_strcmp(last->word[0], "env"))
         {
-            ft_env(env);
+            ft_env(env, 0);
             return (1);
         }
         else if (!last->word[1] && !ft_strcmp(last->word[0], "export") )
         {
-            ft_export(env, last->word);
+            ft_env(env, 1);
             return (1);
         }
         else if (!ft_strcmp(last->word[0], "pwd"))
         {
             ft_pwd();
-            return (1);
-        }
-        
-        else if(!ft_strcmp(last->word[0], "unset"))
-        {
-            i = 0;
-            while(last->word[++i])
-            ft_unset(env, last->word[i]);
             return (1);
         }
     }
@@ -118,7 +141,7 @@ void ret_toreal_v(char **str)
 int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
 {
 
-    
+    int i;
         if (last->word[0] && !ft_strcmp(last->word[0], "exit"))
         {
             if(!last->next && !prv)
@@ -132,7 +155,15 @@ int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
         }
         else if (last->word[1] && !ft_strcmp(last->word[0], "export") )
         {
+            printf("KK\n");
             ft_export(env, last->word);
+            return (0);
+        }
+        else if(last->word[0] && !ft_strcmp(last->word[0], "unset"))
+        {
+            i = 0;
+            while(last->word[++i])
+                ft_unset(&env, last->word[i]);
             return (0);
         }
         return (1);
@@ -203,9 +234,7 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 // for (int h = 0; envire[h]; h++)
                 //     printf("\033[1;91m | %s |\033[m\n", envire[h]);
                 if (ft_check_for_builting(last, envr)) 
-                {
                     exit(0);
-                } 
                 else{
                     char *path = ft_getfile_name(last->word, envr);
                 if (!path) {
@@ -241,7 +270,7 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
         // Handle output redirection
        
     }
-    while (wait(&flags.exit_stat) > 0)
+    while (wait(&g_flags.exit_stat) > 0)
         ;
     
     // printf("ex : %d\n", exit_stat/256);

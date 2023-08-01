@@ -36,17 +36,16 @@ int ft_strcasecmp(const char *s1, const char *s2) {
     return *s1 - *s2;
 }
 
-t_envir *sort_env(t_envir *env) {
+t_envir *sort_env(t_envir *env)
+{
     t_envir *tmp = NULL;
     int swapped = 1;
 
     if (!env)
         return NULL;
-
     while (swapped) {
         swapped = 0;
     t_envir *ptr1 = env;
-
         while (ptr1->next != tmp) {
             if (ft_strcasecmp(ptr1->variable, ptr1->next->variable) > 0) {
                 ft_swap_node(ptr1);
@@ -55,42 +54,12 @@ t_envir *sort_env(t_envir *env) {
 
             ptr1 = ptr1->next;
         }
-
         tmp = ptr1;
     }
-
     return env;
 }
 
-void	ft_env_ex(t_envir *a)
-{
-	t_envir *sorted_exp;
 
-	sorted_exp = sort_env(a);
-	while (a)
-	{
-		if(a->equal != NULL)
-		{
-			if(a->value != NULL)
-            {
-                if (!ft_strcmp(a->variable, "PATH")  && flags.path_fl == 1)
-                    printf("");
-                else
-                    printf("declare -x %s=\"%s\"\n", a->variable, a->value);
-            }
-				
-		    else
-            {
-                    printf("declare -x %s=\"\"\n", a->variable);
-            }
-				
-		}
-		else
-			printf("declare -x %s\n", a->variable);
-			
-		a = a->next;
-	}
-}
 
 char *ft_get_variable(char *str, int *i)
 {
@@ -135,7 +104,7 @@ char *ft_get_value(char *str)
 }
 
 
-int variable_exists(t_envir *env, const char *variable) {
+int variable_exists(t_envir *env, char *variable) {
     t_envir *tmp = env;
     while (tmp) {
         if (tmp->variable && ft_strcmp(tmp->variable, variable) == 0) {
@@ -158,11 +127,14 @@ void ft_export(t_envir *env, char **cmd) {
         return;
     }
     cmd++;
-    tmp->next = creat_env_list();
-    tmp = tmp->next;
+    if (!variable_exists(env, ft_get_variable(cmd[i], &j)))
+    {
+        tmp->next = creat_env_list();
+        tmp = tmp->next;
+    }
     while (cmd[i]) {
         if(!ft_strcmp(cmd[i], "PATH"))
-            flags.path_fl = 0;
+            g_flags.path_fl = 0;
         if (variable_exists(env, ft_get_variable(cmd[i], &j))) {
             t_envir *existing = env;
             while (existing) {
@@ -193,8 +165,9 @@ void ft_export(t_envir *env, char **cmd) {
                 tmp->equal = NULL;
             }
             if (cmd[i + 1]) {
-                tmp->next = creat_env_list();
-                tmp = tmp->next;
+                t_envir *new_node = creat_env_list();
+                tmp->next = new_node;
+                tmp = new_node;
             }
         }
         i++;

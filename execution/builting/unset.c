@@ -1,28 +1,28 @@
 
 #include"../../minishell.h"
 
-t_envir *rem_from_list(t_envir *env,char *cmd)
-{
-	t_envir *tmp;
-	t_envir *ret;
-	ret = env;
-	tmp = env->next;
-	
-	if(!ft_strcmp(env->variable, cmd))
-		return(free(env), tmp);
-	tmp = env;
-	env = env->next;
+t_envir *rem_from_list(t_envir *env, char *cmd) {
+    t_envir *tmp;
+    t_envir *ret;
 
-	while(env->next)
-	{
-		if(!ft_strcmp(env->variable, cmd))
-		{
-			tmp->next = env->next;
-		}
-		tmp = env;
-		env = env->next;
-	}
-	return (ret);
+    if (!ft_strcmp(env->variable, cmd)) {
+        ret = env->next;
+        free(env);
+        return ret;
+    }
+
+    ret = env;
+    while (env->next) {
+        if (!ft_strcmp(env->next->variable, cmd)) {
+            tmp = env->next;
+            env->next = env->next->next;
+            free(tmp);
+            return ret;
+        }
+        env = env->next;
+    }
+
+    return ret;
 }
 
 int	ft_lstsize(t_envir *lst)
@@ -60,7 +60,7 @@ char **ft_merge_envr(t_envir *env)
 
 }
 
-void ft_unset(t_envir *env,char *cmd)
+void ft_unset(t_envir **env,char *cmd)
 {
-	env = rem_from_list(env, cmd);
+	*env = rem_from_list(*env, cmd);
 }
