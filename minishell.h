@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 00:15:40 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:33:03 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ char	*ft_strncpy(char *dest, char *src, unsigned int n);
 t_envir				*ft_no_env(void);
 t_envir *sort_env(t_envir *env);
 void	ft_env_ex(t_envir *a);
+t_envir	*replace_variables(char **env, int i);
 
 t_var g_flags;
 #endif

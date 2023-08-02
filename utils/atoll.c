@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   atoll.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/02 18:43:00 by bbenidar          #+#    #+#             */
+/*   Updated: 2023/08/02 18:49:04 by bbenidar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static int	check_ovf(unsigned long long before, unsigned long long r, int neg)
@@ -5,7 +17,10 @@ static int	check_ovf(unsigned long long before, unsigned long long r, int neg)
 	if (before < r && (r == (-9223372036854775807ULL - 1LL) && neg == 1))
 		return (0);
 	if ((before < r && r > LLONG_MAX) && (neg == 1 || neg == 0))
-		return (ft_putendl_fd("minishell: exit: numeric argument required hiya", 2), 255);
+	{
+		ft_putendl_fd("minishell: exit: numeric argument required hiya", 2);
+		return (255);
+	}
 	return (-1);
 }
 
@@ -39,7 +54,7 @@ long long	ft_atoll(char *str)
 	long long	before;
 	long long	ovrflw;
 	long long	i;
-	long long n;
+	long long	n;
 
 	result = 0;
 	ovrflw = 0;

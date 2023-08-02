@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: admin <admin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:21:25 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/29 17:33:09 by admin            ###   ########.fr       */
+/*   Updated: 2023/08/02 18:56:31 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,6 @@ void	free_tab(char **tab)
 	}
 	free(tab);
 	tab = NULL;
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
 }
 
 static int	ft_sing(const char *str, int *hi)
@@ -78,18 +67,6 @@ int	ft_atoi(const char *str)
 	return (result);
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	char	*ss;
-
-	ss = (char *)s;
-	while (*ss && *ss != (char)c)
-		ss++;
-	if (*ss == (char)c)
-		return (ss);
-	return (0);
-}
-
 int	ft_tolower(int c)
 {
 	if (c >= 65 && c <= 90)
@@ -99,7 +76,7 @@ int	ft_tolower(int c)
 
 char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
 	while (src[i] != '\0' && i < n)

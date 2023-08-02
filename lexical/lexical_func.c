@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 00:47:13 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:14:32 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ char *dell_space(char *line)
 		return (NULL);
 	while(line[i])
 	{
-		if(line[i] == 34 && line[i + 1] == 34)
+		if((line[i] == 34 && line[i + 1] == 34)
+			|| (line[i] == 39 && line[i + 1] == 39))
 		{
 			int c = i + 2;
 			while(line[c] && line[c] == ' ')
@@ -68,7 +69,7 @@ char *dell_space(char *line)
 	j = 0;
 	while(str[j])
 	{
-		if(str[j] == 34 * -1)
+		if(str[j] == 34 * -1 || str[j] == 39 * -1)
 			str[j] *= -1;
 		j++;
 	}
@@ -379,7 +380,7 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 	her = ft_strjoin(strchr(ttyname(0),'0'),ft_itoa(rand++));
 	name = ft_strjoin("/tmp/heredoc", her);
 		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if(!ft_strcmp(list->next->word, "\"\""))
+	if(list->next  && (!ft_strcmp(list->next->word, "\"\"") || !ft_strcmp(list->next->word, "\'\'")))
 			list->next->word = ft_strdup("");
 	while (1)
 	{
@@ -396,12 +397,10 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 			return_space_to_real_value(list->next->word);
 			if (!ft_strcmp(her, list->next->word))
 			{
-				if (!ft_strcmp(list->next->word, ""))
-					g_flags.herd_flags = -32;
+				// if (!ft_strcmp(list->next->word, ""))
+				// 	g_flags.herd_flags = -32;
 				break;
-			}
-				
-				
+			}	
 		}
 		if(g_flags.delim_flags == 0)
 			her = ft_add_variables(her, envr);
@@ -560,6 +559,11 @@ void ft_check_delim(char *str)
 				if(str[i] == '\"')
 					g_flags.delim_flags++;
 				if (str[i] == '\"' && str[i+1] == '\"' && str[i + 2] == ' ')
+				{
+					 str[i] *= -1;
+						str[i + 1] *= -1;
+				}
+				if (str[i] == '\'' && str[i+1] == '\'' && str[i + 2] == ' ')
 				{
 					 str[i] *= -1;
 						str[i + 1] *= -1;

@@ -6,10 +6,9 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:21:07 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/06 13:26:56 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:57:57 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 
@@ -64,13 +63,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (nstr);
 }
 
-t_stack	*ft_lstlast(t_stack *lst) 
+int	ft_isdigit(int c)
 {
-	while (lst)
-	{
-		if (lst -> next == NULL)
-			return (lst);
-		lst = lst -> next;
-	}
+	if (c >= '0' && c <= '9')
+		return (1);
 	return (0);
 }
