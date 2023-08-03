@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:20:07 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 18:57:52 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/03 17:50:33 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ char	*ft_strdup(const char *s1)
 	p = (char *)malloc(sizeof(char) * len + 1);
 	if (!p)
 		return (NULL);
+	if(g_flags.col)
+	{
+		g_flags.col->next = ft_get_new_node();
+		g_flags.col = g_flags.col->next;
+	}
+	else
+		g_flags.col = ft_get_new_node();
+	g_flags.col->collecter = p;
 	while (i <= len)
 	{
 		p[i] = s1[i];

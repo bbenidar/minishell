@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 18:33:03 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:36:22 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,26 @@ enum				e_type
 	VARIABLE,
 };
 
+typedef struct s_envi
+{
+	char			*variable;
+	char			*value;
+	char 			*equal;
+	struct s_envi	*next;
+}					t_envir;
+
+typedef struct s_grb_coll
+{
+	char			*collecter;
+	struct s_grb_coll *next;
+}					t_grbc;
+
+typedef struct s_grb_coll_envir
+{
+	t_envir			*collecter;
+	struct s_grb_coll_envir *next;
+}					t_grbc_envir;
+
 typedef struct g_variables
 {
 	int exit_flags;
@@ -58,16 +78,14 @@ typedef struct g_variables
 	int red_flag;
 	int delim_flags;
 	int herd_flags;
+	t_grbc *col;
+	t_grbc_envir *col_envir;
+	volatile sig_atomic_t ex_her;
 }					t_var;
 
 
-typedef struct s_envi
-{
-	char			*variable;
-	char			*value;
-	char 			*equal;
-	struct s_envi	*next;
-}					t_envir;
+
+
 
 typedef struct s_stack
 {
@@ -154,6 +172,9 @@ t_envir				*ft_no_env(void);
 t_envir *sort_env(t_envir *env);
 void	ft_env_ex(t_envir *a);
 t_envir	*replace_variables(char **env, int i);
-
+t_grbc		*ft_get_new_node(void);
+void	ft_sigint(int sig);
+int	ft_checker(char *line);
+t_grbc_envir *ft_get_new_node_envir(void);
 t_var g_flags;
 #endif

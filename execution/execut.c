@@ -6,11 +6,13 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/02 00:29:14 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/03 00:39:34 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+#include <stdint.h>
 
 
 int ft_strchr_sla(char *s, int c)
@@ -169,10 +171,32 @@ int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
         return (1);
 }
 
+void ft_rem_quo(t_last *last)
+{
+    int i;
+
+    i = 0;
+    while(last)
+    {
+        i = 0;
+        while(last->word[i])
+        {
+            if(!ft_strcmp(last->word[i], "\"\"") )
+            {
+                free(last->word[i]);
+                 last->word[i] = ft_strdup(" ");
+            }
+            i++; 
+        }
+        last = last->next;
+    }
+}
+
 void ft_execution(t_last *last, char **env, t_envir *envr) {
     int prev_pipe_read = STDIN_FILENO;
     char **envire; // Read end of the previous pipe
-
+    
+    ft_rem_quo(last);
     t_last *prv = NULL;
     envire = env;
     while (last) {

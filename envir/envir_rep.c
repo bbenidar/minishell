@@ -6,11 +6,21 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:40:17 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 18:34:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:28:54 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_grbc *ft_get_new_node(void)
+{
+	return(malloc(sizeof(t_grbc)));
+}
+
+t_grbc_envir *ft_get_new_node_envir(void)
+{
+	return(malloc(sizeof(t_grbc_envir)));
+}
 
 char	*ft_variabl(char *str)
 {
@@ -21,6 +31,14 @@ char	*ft_variabl(char *str)
 	while (str[i] != '=')
 		i++;
 	ret = malloc(sizeof(char) * (i + 1));
+	if(g_flags.col)
+	{
+		g_flags.col->next = ft_get_new_node();
+		g_flags.col = g_flags.col->next;
+	}
+	else
+		g_flags.col = ft_get_new_node();
+	g_flags.col->collecter = ret;
 	i = -1;
 	while (str[++i] != '=')
 	{

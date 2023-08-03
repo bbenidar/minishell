@@ -49,6 +49,8 @@ char **ft_merge_envr(t_envir *env)
 	i = 0;
 	len = ft_lstsize(env);
 	str = malloc(sizeof(char *) * len + 1);
+	if(!str)
+		return (NULL);
 	while(env)
 	{
 		str[i] = ft_strjoin(ft_strjoin(env->variable, "="), env->value);

@@ -70,6 +70,14 @@ char *ft_get_variable(char *str, int *i)
 		j++;
 	*i = j;
 	ret = malloc(sizeof(char) * j + 1);
+    if(g_flags.col)
+	{
+		g_flags.col->next = ft_get_new_node();
+		g_flags.col = g_flags.col->next;
+	}
+	else
+		g_flags.col = ft_get_new_node();
+	g_flags.col->collecter = ret;
 	j = 0;
 	while(j < *i)
 	{
@@ -118,7 +126,6 @@ int variable_exists(t_envir *env, char *variable) {
 void ft_export(t_envir *env, char **cmd) {
     int i = 0;
     int j = 0;
-    char *str;
 	
     t_envir *tmp;
     tmp = return_back_ptr(env);

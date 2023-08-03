@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 18:32:48 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:33:38 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,19 @@ t_envir	*creat_env_list(void)
 	t_envir	*list;
 
 	list = malloc(sizeof(t_envir) * 1);
+	if(!list)
+	{
+		perror("minishell :");
+		return (NULL);
+	}
+	if(g_flags.col_envir)
+	{
+		g_flags.col_envir->next = ft_get_new_node_envir();
+		g_flags.col_envir = g_flags.col_envir->next;
+	}
+	else
+		g_flags.col_envir = ft_get_new_node_envir();
+	g_flags.col_envir->collecter = list;
 	list->next = NULL;
 	return (list);
 }
@@ -67,6 +80,7 @@ void	begin(char **env)
 			g_flags.exit_stat = 66048;
 		free(line);
 	}
+	
 }
 
 int	main(int ac, char **av, char **env)

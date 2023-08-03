@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 17:14:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:18:37 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ char *dell_space(char *line)
 	}
 	i = ft_strlen_nospace(line);
 	str = (char *)malloc(sizeof(char) * i);
+	if(!str)
+		return (NULL);
+		if(g_flags.col)
+	{
+		g_flags.col->next = ft_get_new_node();
+		g_flags.col = g_flags.col->next;
+	}
+	else
+		g_flags.col = ft_get_new_node();
+	g_flags.col->collecter = str;
 	i = 0;
 	while (line[j])
 	{
@@ -370,6 +380,14 @@ void return_space_to_real_value(char *word)
 	}
 }
 
+volatile sig_atomic_t g_interrupted = 0;
+
+void ft_herd(int sig)
+{
+	(void)sig;
+	g_interrupted = 1;
+}
+
 int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 {
 	int fd;
@@ -382,8 +400,15 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if(list->next  && (!ft_strcmp(list->next->word, "\"\"") || !ft_strcmp(list->next->word, "\'\'")))
 			list->next->word = ft_strdup("");
+	signal(SIGINT, ft_herd);
 	while (1)
 	{
+		if (g_interrupted)
+		{
+			// Reset the flag
+			g_interrupted = 0;
+			break;
+		}
 		her = readline("> ");
 		if (!her)
 		{
@@ -409,6 +434,7 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
 	}
+	signal(SIGINT, ft_sigint);
 	if(flag == 0)
 		list->word = ft_strdup(name);
 	else if(list->next && list->next->next)

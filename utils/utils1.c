@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:29:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 18:51:49 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/03 17:50:10 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ char	*ft_substr(char const *s, int start,
 	src = (char *)malloc(sizeof(char) * (len + 1));
 	if (!src)
 		return (0);
+	if(g_flags.col)
+	{
+		g_flags.col->next = ft_get_new_node();
+		g_flags.col = g_flags.col->next;
+	}
+	else
+		g_flags.col = ft_get_new_node();
+	g_flags.col->collecter = src;
 	while (s[i])
 	{
 		if (i >= start && len > j)
