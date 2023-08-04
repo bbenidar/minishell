@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/03 18:33:38 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:50:45 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	ft_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	// rl_replace_line("", 0);
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -59,6 +59,7 @@ void	begin(char **env)
 	t_envir	*tmp;
 	char	*line;
 
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_sigint);
 	envr = replace_variables(env, 0);
 	tmp = envr;
@@ -88,7 +89,7 @@ int	main(int ac, char **av, char **env)
 	av[1] = 0;
 	if (ac != 1)
 		return (0);
-	// rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	printf("\033[2J\033[1;1H");
 	printf("\n");
 	printf("\033[0;32m      Made by : \033[1;91m");

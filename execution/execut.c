@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/03 00:39:34 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:53:30 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,10 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
             }
 
             pid_t pid = fork();
-            if (pid == 0) {
+            if (pid == 0)
+            {
+                signal(SIGQUIT, SIG_DFL);
+                signal(SIGINT, SIG_DFL);
                 // Child process
                 if (prev_pipe_read != STDIN_FILENO) {
                     if (dup2(prev_pipe_read, STDIN_FILENO) == -1) {
