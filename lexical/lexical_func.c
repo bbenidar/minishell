@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/03 18:18:37 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/05 00:15:46 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,17 @@ char *dell_space(char *line)
 	str = (char *)malloc(sizeof(char) * i);
 	if(!str)
 		return (NULL);
-		if(g_flags.col)
+	if(g_flags.grbg)
 	{
-		g_flags.col->next = ft_get_new_node();
-		g_flags.col = g_flags.col->next;
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
 	}
 	else
-		g_flags.col = ft_get_new_node();
-	g_flags.col->collecter = str;
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = str;
 	i = 0;
 	while (line[j])
 	{
@@ -83,7 +86,7 @@ char *dell_space(char *line)
 			str[j] *= -1;
 		j++;
 	}
-	str[i] = '\0';
+	str[j] = '\0';
 	return (str);
 }
 
@@ -339,7 +342,17 @@ void ft_option(t_stack *list, int i, t_last *str)
 		printf("allocat error");
 		exit(1);
 	}
-
+	if(g_flags.grbg)
+	{
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
+	}
+	else
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = str->word;
 	while (tmp && tmp->key != PIPE)
 	{
 		if (tmp->key == COMMAND || tmp->key == OPTION)
@@ -384,8 +397,14 @@ volatile sig_atomic_t g_interrupted = 0;
 
 void ft_herd(int sig)
 {
-	(void)sig;
+	printf("%d\n",sig);
 	g_interrupted = 1;
+}
+
+int set_non_blocking_mode(int fd) {
+    int flags = fcntl(fd, F_GETFL, 0);
+    if (flags == -1) return -1;
+    return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 }
 
 int ft_herdoc(t_stack *list, int flag, t_envir *envr)
@@ -400,15 +419,10 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if(list->next  && (!ft_strcmp(list->next->word, "\"\"") || !ft_strcmp(list->next->word, "\'\'")))
 			list->next->word = ft_strdup("");
-	signal(SIGINT, ft_herd);
+	// signal(SIGINT,  )
 	while (1)
 	{
-		if (g_interrupted)
-		{
-			// Reset the flag
-			g_interrupted = 0;
-			break;
-		}
+		printf("LL %d\n", g_interrupted);
 		her = readline("> ");
 		if (!her)
 		{
@@ -435,6 +449,7 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 		ft_putstr_fd("\n", fd);
 	}
 	signal(SIGINT, ft_sigint);
+	signal(SIGINT, SIG_DFL);
 	if(flag == 0)
 		list->word = ft_strdup(name);
 	else if(list->next && list->next->next)
@@ -445,7 +460,6 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 	}
 	if(list->next)
 	{
-		free(list->next->word);
 		list->next->word = ft_strdup(name);
 	 	list->next->key = FILE_IN;
 	}
@@ -453,7 +467,6 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 	// printf("gg:1 %s\n", list->next->word);
 	
 	// printf("gg: %d\n", fd);
-	free(name);
 	return (fd);
 }
 
@@ -711,19 +724,14 @@ void lexical_function(char *line, char **env, t_envir *envr)
 
 	str = dell_space(line);
 	src = ft_split_opera(str, '|');
-	free(str);
 	str = merge_str(src);
-	free_tab(src);
 	src = ft_split_opera(str, '>');
 	str = merge_str(src);
-	free_tab(src);
 	src = ft_split_opera(str, '<');
-
 	str = merge_str(src);
 
 	
 	head = split_in_list(str);
-	free(str);
 	if (!cheking_(head))
 	{
 		g_flags.exit_stat = 66048;

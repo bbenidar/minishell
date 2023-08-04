@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splite_utile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:27:38 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/07/18 11:33:12 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/04 23:50:25 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,17 @@ char **ft_split_opera(char const *s, char h)
 	p = malloc(sizeof(char *) * (count_wrd(s, h) + 1));
 	if (!p)
 		return (0);
+	if(g_flags.grbg)
+	{
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
+	}
+	else
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = p;
 	while (*s)
 	{
 		while (*s && (*s == h))

@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:29:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/03 17:50:10 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/04 23:40:24 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@ char	*ft_substr(char const *s, int start,
 	src = (char *)malloc(sizeof(char) * (len + 1));
 	if (!src)
 		return (0);
-	if(g_flags.col)
+	if(g_flags.grbg)
 	{
-		g_flags.col->next = ft_get_new_node();
-		g_flags.col = g_flags.col->next;
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
 	}
 	else
-		g_flags.col = ft_get_new_node();
-	g_flags.col->collecter = src;
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = src;
 	while (s[i])
 	{
 		if (i >= start && len > j)
@@ -107,6 +110,17 @@ char	**ft_split(char const *s, char c)
 	p = malloc(sizeof(char *) * (count_wrd(s, c) + 1));
 	if (!p)
 		return (0);
+	if(g_flags.grbg)
+	{
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
+	}
+	else
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = p;
 	while (*s)
 	{
 		while (*s && (*s == c))

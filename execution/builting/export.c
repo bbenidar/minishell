@@ -70,14 +70,17 @@ char *ft_get_variable(char *str, int *i)
 		j++;
 	*i = j;
 	ret = malloc(sizeof(char) * j + 1);
-    if(g_flags.col)
+    if(g_flags.grbg)
 	{
-		g_flags.col->next = ft_get_new_node();
-		g_flags.col = g_flags.col->next;
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
 	}
 	else
-		g_flags.col = ft_get_new_node();
-	g_flags.col->collecter = ret;
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = ret;
 	j = 0;
 	while(j < *i)
 	{
@@ -90,25 +93,7 @@ char *ft_get_variable(char *str, int *i)
 }
 char *ft_get_value(char *str)
 {
-	// char *ret;
-	// int j = 0;
-	// int tmp = i;
-
-	// while(str[i])
-	// {
-	// 	j++;
-	// 	i++;
-	// }
-		
-	// ret = malloc(sizeof(char) * j + 1);
-	// j = 0;
-	// while(str[tmp])
-	// {
-	// 	ret[j++] = str[tmp++];
-	// }
-	// ret[j] = 0;
-	return (ft_strdup(str));
-	
+    return (ft_strdup(str));
 }
 
 
@@ -149,7 +134,6 @@ void ft_export(t_envir *env, char **cmd) {
                     if (cmd[i][j] == '=') {
                         j++;
                         if (cmd[i][j]) {
-                            free(existing->value);
                             existing->value = ft_get_value(cmd[i] + j);
                         }
                     }

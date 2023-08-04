@@ -6,21 +6,11 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:40:17 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/03 18:28:54 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/05 00:21:18 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_grbc *ft_get_new_node(void)
-{
-	return(malloc(sizeof(t_grbc)));
-}
-
-t_grbc_envir *ft_get_new_node_envir(void)
-{
-	return(malloc(sizeof(t_grbc_envir)));
-}
 
 char	*ft_variabl(char *str)
 {
@@ -31,19 +21,22 @@ char	*ft_variabl(char *str)
 	while (str[i] != '=')
 		i++;
 	ret = malloc(sizeof(char) * (i + 1));
-	if(g_flags.col)
+	 if (!ret)
+        exit(1);
+	if(g_flags.grbg)
 	{
-		g_flags.col->next = ft_get_new_node();
-		g_flags.col = g_flags.col->next;
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
 	}
 	else
-		g_flags.col = ft_get_new_node();
-	g_flags.col->collecter = ret;
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = ret;
 	i = -1;
 	while (str[++i] != '=')
-	{
 		ret[i] = str[i];
-	}
 	ret[i] = '\0';
 	return (ret);
 }
@@ -67,6 +60,17 @@ char	*ft_value(char *str)
 	while (str[i])
 		i++;
 	ret = malloc(sizeof(char) * (i + 1));
+	if(g_flags.grbg)
+	{
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
+	}
+	else
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = ret;
 	i = -1;
 	while (str[++i])
 		ret[i] = str[i];

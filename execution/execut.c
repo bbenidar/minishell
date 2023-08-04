@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/04 14:53:30 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:14:17 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char *ft_getfile_name(char **cammnd, t_envir *envr)
 		envr = envr->next;
 	}
 	paths = ft_split(str, ':');
-	free(str);
 	while (paths[i])
 	{
 		if (!access(ft_strjoin(ft_strjoin(paths[i], "/"), cammnd[0]), F_OK))
@@ -183,7 +182,6 @@ void ft_rem_quo(t_last *last)
         {
             if(!ft_strcmp(last->word[i], "\"\"") )
             {
-                free(last->word[i]);
                  last->word[i] = ft_strdup(" ");
             }
             i++; 

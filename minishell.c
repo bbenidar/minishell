@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/04 14:50:45 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/05 00:15:08 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,17 @@ t_envir	*creat_env_list(void)
 		perror("minishell :");
 		return (NULL);
 	}
-	if(g_flags.col_envir)
+	if(g_flags.grbg)
 	{
-		g_flags.col_envir->next = ft_get_new_node_envir();
-		g_flags.col_envir = g_flags.col_envir->next;
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
 	}
 	else
-		g_flags.col_envir = ft_get_new_node_envir();
-	g_flags.col_envir->collecter = list;
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = list;
 	list->next = NULL;
 	return (list);
 }
@@ -39,7 +42,7 @@ void	ft_sigint(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -63,11 +66,13 @@ void	begin(char **env)
 	signal(SIGINT, ft_sigint);
 	envr = replace_variables(env, 0);
 	tmp = envr;
+	g_flags.grbg = NULL;
 	while (1337)
 	{
 		line = readline("➜ minishell ✗ ");
 		if (!ft_checker(line))
-			break ;
+			exit(0);
+
 		if (!check_space(line))
 			add_history(line);
 		if (!ft_first_check(line))
@@ -87,12 +92,12 @@ void	begin(char **env)
 int	main(int ac, char **av, char **env)
 {
 	av[1] = 0;
-	if (ac != 1)
-		return (0);
-	rl_catch_signals = 0;
-	printf("\033[2J\033[1;1H");
-	printf("\n");
-	printf("\033[0;32m      Made by : \033[1;91m");
-	printf("sakarkal\033[m and \033[1;91mbbenidar\033[m\n");
+	if(ac != 1)
+		return (ft_putstr_fd("HOPLAAA, args are not alowed 🤡\n", 2), 1);
+	// rl_catch_signals = 0;
+	// printf("\033[2J\033[1;1H");
+	// printf("\n");
+	// printf("\033[0;32m      Made by : \033[1;91m");
+	// printf("sakarkal\033[m and \033[1;91mbbenidar\033[m\n");
 	begin(env);
 }

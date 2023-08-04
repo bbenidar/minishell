@@ -7,7 +7,6 @@ t_envir *rem_from_list(t_envir *env, char *cmd) {
 
     if (!ft_strcmp(env->variable, cmd)) {
         ret = env->next;
-        free(env);
         return ret;
     }
 
@@ -16,7 +15,6 @@ t_envir *rem_from_list(t_envir *env, char *cmd) {
         if (!ft_strcmp(env->next->variable, cmd)) {
             tmp = env->next;
             env->next = env->next->next;
-            free(tmp);
             return ret;
         }
         env = env->next;
@@ -51,6 +49,17 @@ char **ft_merge_envr(t_envir *env)
 	str = malloc(sizeof(char *) * len + 1);
 	if(!str)
 		return (NULL);
+	if(g_flags.grbg)
+	{
+		g_flags.grbg->next = ft_get_new_node();
+		g_flags.grbg = g_flags.grbg->next;
+	}
+	else
+	{
+		g_flags.grbg = ft_get_new_node();
+		g_flags.grbg_head = g_flags.grbg;
+	}
+	g_flags.grbg->collector = str;
 	while(env)
 	{
 		str[i] = ft_strjoin(ft_strjoin(env->variable, "="), env->value);
