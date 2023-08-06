@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/04 23:27:37 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/05 17:41:20 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void return_space_to_real_value(char *word);
 char				*ft_add_variables(char *line, t_envir *envr);
 void				ft_option(t_stack *list, int i, t_last *str);
 void				lexical_function(char *line, char **env, t_envir *envr);
-char				**ft_split_opera(char const *s, char h);
+char				**ft_split_opera(char *s, char h);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 t_stack				*ft_my_lstnew(char *content, int key);
 t_last				*ft_new_last_list(void);

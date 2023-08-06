@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/05 00:15:46 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/06 01:35:43 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,9 @@ char *dell_space(char *line)
 		i++;
 	}
 	i = ft_strlen_nospace(line);
-	str = (char *)malloc(sizeof(char) * i);
+	str = (char *)malloc(sizeof(char) * i + 1);
 	if(!str)
 		return (NULL);
-	if(g_flags.grbg)
-	{
-		g_flags.grbg->next = ft_get_new_node();
-		g_flags.grbg = g_flags.grbg->next;
-	}
-	else
-	{
-		g_flags.grbg = ft_get_new_node();
-		g_flags.grbg_head = g_flags.grbg;
-	}
-	g_flags.grbg->collector = str;
 	i = 0;
 	while (line[j])
 	{
@@ -79,6 +68,7 @@ char *dell_space(char *line)
 		}
 		j++;
 	}
+	str[i] = '\0';
 	j = 0;
 	while(str[j])
 	{
@@ -86,7 +76,6 @@ char *dell_space(char *line)
 			str[j] *= -1;
 		j++;
 	}
-	str[j] = '\0';
 	return (str);
 }
 
@@ -129,11 +118,11 @@ int check_any_redire(char *str, t_stack **wrd)
 char *merge_str(char **str)
 {
 	int i;
-	i = 1;
+	i = 0;
 	char *line;
 	if (!str)
 		return (NULL);
-	line = ft_strjoin(str[0], " ");
+	line = ft_strdup("");
 	while (str[i])
 	{
 		line = ft_strjoin(line, str[i]);
@@ -146,20 +135,41 @@ char *merge_str(char **str)
 char *merge_tab(char **str)
 {
 	int i;
-	i = 2;
+	i = 1;
 	char *line;
 
 	if (!str)
 		return (NULL);
 	if (str && str[0] && !str[1])
 		return (ft_strdup(str[0]));
-	line = ft_strjoin(str[0], str[1]);
+	line = ft_strdup("");
+	line = ft_strjoin(line, str[0]);
 	while (str && str[i])
 	{
 		line = ft_strjoin(line, str[i]);
 		i++;
 	}
 	return (line);
+}
+
+void ft_free_stack(t_stack **env){
+
+	while(*env)
+	{
+		free((*env)->word);
+		free((*env));
+		(*env) = (*env)->next;
+	}
+}
+
+void ft_free_last(t_last **env){
+
+	while(*env)
+	{
+		free_tab((*env)->word);
+		free((*env));
+		(*env) = (*env)->next;
+	}
 }
 
 t_stack *split_in_list(char *str)
@@ -174,81 +184,69 @@ t_stack *split_in_list(char *str)
 	src = ft_split(str, ' ');
 	if(src)
 	{
-			wrd = ft_my_lstnew(NULL, 0);
-	head = wrd;
-	while (src[i])
-	{
-		if (!ft_strncmp(src[i], "|", 1))
+		wrd = ft_my_lstnew(NULL, 0);
+		head = wrd;
+		while (src[i])
 		{
-			// wrd->next = ft_my_lstnew("|", PIPE);
-			wrd->word = ft_strdup("|");
-			wrd->key = PIPE;
-			j = 0;
-		}
-		else if (!ft_strncmp(src[i], "<<", 2) || (!ft_strncmp(src[i], "<", 1)))
-		{
-			if (!ft_strncmp(src[i], "<<", 2))
+			if (!ft_strncmp(src[i], "|", 1))
 			{
-				wrd->word = ft_strdup("<<");
-				wrd->key = RED_HER;
-				
-			// wrd->next = ft_my_lstnew("<<", RED_HER);
+				wrd->word = ft_strdup("|");
+				wrd->key = PIPE;
+				j = 0;
 			}
-				
+			else if (!ft_strncmp(src[i], "<<", 2) || (!ft_strncmp(src[i], "<", 1)))
+			{
+				if (!ft_strncmp(src[i], "<<", 2))
+				{
+					wrd->word = ft_strdup("<<");
+					wrd->key = RED_HER;
+				}
+				else
+				{
+					wrd->word = ft_strdup("<");
+					wrd->key = RED_IN;
+				}
+				g_flags.red_flag = 1;
+			}
+			else if (!ft_strncmp(src[i], ">>", 2) || (!ft_strncmp(src[i], ">", 1)))
+			{
+				if (!ft_strncmp(src[i], ">>", 2))
+				{
+					wrd->word = ft_strdup(">>");
+					wrd->key = RED_APP;
+				}
+					
+				else
+				{
+					wrd->word = ft_strdup(">");
+					wrd->key = RED_OUT;
+				}
+				g_flags.red_flag = 1;
+					
+			}
+			else if (j == 0 && g_flags.red_flag != 1)
+			{
+				wrd->word = ft_strdup(src[i]);
+				wrd->key = COMMAND;
+				j = 1;
+			}
 			else
 			{
-				// wrd->next = ft_my_lstnew("<", RED_IN);
-				wrd->word = ft_strdup("<");
-				wrd->key = RED_IN;
+				wrd->word = ft_strdup(src[i]);
+				wrd->key = OPTION;
+				g_flags.red_flag = 0;
 			}
-			g_flags.red_flag = 1;
-				
-		}
-		else if (!ft_strncmp(src[i], ">>", 2) || (!ft_strncmp(src[i], ">", 1)))
-		{
-			if (!ft_strncmp(src[i], ">>", 2))
+			i++;
+			if(src[i])
 			{
-				// wrd->next = ft_my_lstnew(">>", RED_APP);
-				wrd->word = ft_strdup(">>");
-				wrd->key = RED_APP;
+				wrd->next = ft_my_lstnew(NULL,0);
+				wrd = wrd->next;
 			}
-				
-			else
-			{
-				// wrd->next = ft_my_lstnew(">", RED_OUT);
-				wrd->word = ft_strdup(">");
-				wrd->key = RED_OUT;
-			}
-			g_flags.red_flag = 1;
-				
+			
+			
 		}
-		else if (j == 0 && g_flags.red_flag != 1)
-		{
-			wrd->word = ft_strdup(src[i]);
-			wrd->key = COMMAND;
-			// wrd->next = ft_my_lstnew(src[i], COMMAND);
-			j = 1;
-		}
-		else
-		{
-			// wrd->next = ft_my_lstnew(src[i], OPTION);
-			wrd->word = ft_strdup(src[i]);
-			wrd->key = OPTION;
-			g_flags.red_flag = 0;
-		}
-		i++;
-		if(src[i])
-		{
-			wrd->next = ft_my_lstnew(NULL,0);
-			wrd = wrd->next;
-		}
-		
-		
+		free_tab(src);
 	}
-
-	}
-	
-	
 	return (head);
 }
 
@@ -336,23 +334,7 @@ void ft_option(t_stack *list, int i, t_last *str)
 	j = 0;
 	tmp = list;
 
-	str->word = (char **)malloc(sizeof(char) * i + 1);
-	if (!str->word)
-	{
-		printf("allocat error");
-		exit(1);
-	}
-	if(g_flags.grbg)
-	{
-		g_flags.grbg->next = ft_get_new_node();
-		g_flags.grbg = g_flags.grbg->next;
-	}
-	else
-	{
-		g_flags.grbg = ft_get_new_node();
-		g_flags.grbg_head = g_flags.grbg;
-	}
-	g_flags.grbg->collector = str->word;
+
 	while (tmp && tmp->key != PIPE)
 	{
 		if (tmp->key == COMMAND || tmp->key == OPTION)
@@ -365,6 +347,7 @@ void ft_option(t_stack *list, int i, t_last *str)
 	}
 	ft_remove_gv(src);
 	str->word = ft_split(src, '&');
+	free(src);
 }
 
 int open_fd_out(char *word, int key)
@@ -409,23 +392,35 @@ int set_non_blocking_mode(int fd) {
 
 int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 {
-	int fd;
+	int fd = 0;
 	static int rand;
 	char *her;
 	char *name;
-
-	her = ft_strjoin(strchr(ttyname(0),'0'),ft_itoa(rand++));
-	name = ft_strjoin("/tmp/heredoc", her);
+	char *tty;
+	
+	name = ttyname(1);
+	tty = ft_strchr(name,'0');
+	name = ft_itoa(rand++);
+	her = ft_strjoin(ft_strdup(tty),name);
+	free(name);
+	name = ft_strjoin(ft_strdup("/tmp/heredoc"), her);
 		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	free(her);
 	if(list->next  && (!ft_strcmp(list->next->word, "\"\"") || !ft_strcmp(list->next->word, "\'\'")))
-			list->next->word = ft_strdup("");
-	// signal(SIGINT,  )
+	{
+		free(list->next->word );
+		list->next->word = ft_strdup("");
+	}
+			
+	// // signal(SIGINT,  )
 	while (1)
 	{
 		printf("LL %d\n", g_interrupted);
 		her = readline("> ");
 		if (!her)
 		{
+			free(list->next->word);
+			free(list->word);
 			break;
 		}
 		
@@ -436,8 +431,9 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 			return_space_to_real_value(list->next->word);
 			if (!ft_strcmp(her, list->next->word))
 			{
-				// if (!ft_strcmp(list->next->word, ""))
-				// 	g_flags.herd_flags = -32;
+				free(list->next->word);
+				free(list->word);
+				free(her);
 				break;
 			}	
 		}
@@ -447,6 +443,7 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 			g_flags.delim_flags--;
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
+		free(her);
 	}
 	signal(SIGINT, ft_sigint);
 	signal(SIGINT, SIG_DFL);
@@ -464,9 +461,7 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 	 	list->next->key = FILE_IN;
 	}
 			
-	// printf("gg:1 %s\n", list->next->word);
-	
-	// printf("gg: %d\n", fd);
+	free(name);
 	return (fd);
 }
 
@@ -494,9 +489,8 @@ t_last *ft_last_list_get_ready(t_stack *head, t_envir *envr)
 		i = option_len(head);
 		while (tmp && tmp->key != PIPE)
 		{
-			if (tmp && ( !ft_strcmp(tmp->word, "<<") || tmp->key == RED_HER))
+			if (tmp && (!ft_strcmp(tmp->word, "<<") || tmp->key == RED_HER))
 			{
-				// printf("wrd : %s \n", tmp->word);
 				last->input = ft_herdoc(tmp, flag, envr);
 				if (last->input < 0)
 				{
@@ -522,7 +516,6 @@ t_last *ft_last_list_get_ready(t_stack *head, t_envir *envr)
 				{
 					last->output = 1;
 					last->input = 0;
-					// free_tab here(last->word)
 					last->word = NULL;
 					perror(tmp->word);
 					while (tmp && tmp->key != PIPE)
@@ -566,22 +559,21 @@ char *find_value(char *str, t_envir *env)
 			ret = ft_strdup(ft_itoa(g_flags.exit_stat/256));
 		while (env)
 		{
-			// printf("str : %s \n", str);
 			if (!ft_strcmp(env->variable, str))
 			{
+				printf("env : %s\n", env->value);
 				ret = ft_strjoin(ret, env->value);
 				break;
 			}
 			env = env->next;
 		}
-	
+	free(str);
 	return (ret);
 }
 
 
 void ft_check_delim(char *str)
 {
-  	// printf("line : %s\n", str);
 	int i = 0;
 
 	while(str[i])
@@ -589,7 +581,6 @@ void ft_check_delim(char *str)
 		if (str[i] == '<' && str[i + 1] == '<')
 		{
 			i += 2;
-			// printf("lcc : %c\n", str[i]);
 			while(str[i] == ' ')
 				i++;
 			while(str[i] && str[i] != ' ')
@@ -632,24 +623,39 @@ char *ft_add_variables(char *line, t_envir *envr)
 	i = 0;
 	
 	src = ft_split_opera(line, '\"');
+	free(line);
 	line = merge_str(src);
+	free_tab(src);
 	src = ft_split_opera(line, '\'');
+	free(line);
 	line = merge_str(src);
+	free_tab(src);
 	src = ft_split_opera(line, '/');
+	free(line);
 	line = merge_str(src);
-	
+	free_tab(src);
 	src = ft_split_opera(line, '$');
+	free(line);
 	line = merge_str(src);
+	free_tab(src);
 	src = ft_split_opera(line, '?');
+	free(line);
 	line = merge_str(src);
+	free_tab(src);
 	src = ft_split_opera(line, ' ' * -2);
+	free(line);
 	line = merge_str(src);
+	free_tab(src);
 	src = ft_split_opera(line, ' ' * -1);
+	free(line);
 	line = merge_str(src);
+	free_tab(src);
 	src = ft_split_opera(line, '<');
+	free(line);
 	line = merge_str(src);
+	free_tab(src);
 	src = ft_split(line, ' ');
-
+	
 	while (src && src[i])
 	{
 		if (src[i + 1] && (!ft_strcmp(src[i], "<<") ||  !ft_strcmp(src[i], "\'")) )
@@ -666,11 +672,14 @@ char *ft_add_variables(char *line, t_envir *envr)
 			if ((src[i + 1][0] != ' ' * -2 && src[i + 1][0] != ' ' * -1 && src[i + 1][0] != '\"'  && src[i + 1][0] != '\''))
 				src[i + 1] = find_value(src[i + 1], envr);
 			if (!ft_strcmp(src[i + 1], ""))
+			{
+				free(src[i]);
 				src[i] = ft_strdup("");
+			}
+				
 		} 
 		i++;
 	}
-
 	i = 0;
 	while (src && src[i])
 	{
@@ -694,9 +703,11 @@ char *ft_add_variables(char *line, t_envir *envr)
 		}
 		i++;
 	}
+	free(line);
 	line = merge_tab(src);
-
+	free_tab(src);
 	src = ft_split(line, '$');
+	free(line);
 	line = merge_tab(src);
 
 	i = 0;
@@ -708,8 +719,10 @@ char *ft_add_variables(char *line, t_envir *envr)
 			line[i] = '$';
 		i++;
 	}
+	free_tab(src);
 	return (line);
 }
+
 
 void lexical_function(char *line, char **env, t_envir *envr)
 {
@@ -721,39 +734,55 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	int redir;
 	i = 0;
 	redir = 0;
-
-	str = dell_space(line);
-	src = ft_split_opera(str, '|');
-	str = merge_str(src);
-	src = ft_split_opera(str, '>');
-	str = merge_str(src);
-	src = ft_split_opera(str, '<');
-	str = merge_str(src);
-
 	
+	str = dell_space(line);	
+	src = ft_split_opera(str, '|');
+	free(str);
+	str = merge_str(src);
+	free_tab(src);
+	src = ft_split_opera(str, '>');
+	free(str);
+	str = merge_str(src);
+	free_tab(src);
+	src = ft_split_opera(str, '<');
+	free(str);
+	str = merge_str(src);
+
+	free_tab(src);
 	head = split_in_list(str);
+	free(str);
 	if (!cheking_(head))
 	{
 		g_flags.exit_stat = 66048;
 		return;
 	}
-	// while(head)
-	// {
-	// 	printf("%s | %d \n", head->word, head->key);
-	// 	head = head->next;
-	// }
+	// // while(head)
+	// // {
+	// // 	printf("wrd : %s | %d \n", head->word, head->key);
+	// // 	head = head->next;
+	// // }
 		
-	// // printf("line : %s\n", line);
+	// // // printf("line : %s\n", line);
+	
 	last = ft_last_list_get_ready(head, envr);
-	if(!last)
-		return ;
-	if(last->word)
-		ft_execution(last, env, envr);
-	else
-	{
-		printf("minishell: :command not found\n");
-		g_flags.exit_stat = 127 * 256;
-	}
+	ft_free_stack(&head);
+	ft_free_last(&last);
+	
+	// // while(last)
+	// // {
+	// // 	printf("wrd : %s | %d \n", last->word[0], last->input);
+	// // 	last = last->next;
+	// // }
+	// // if(!last)
+	// // 	return ;
+	// // if(last->word)
+	 
+	// 	ft_execution(last, env, envr);
+	// else
+	// {
+	// 	printf("minishell: :command not found\n");
+	// 	g_flags.exit_stat = 127 * 256;
+	// }
 		
             
 	}

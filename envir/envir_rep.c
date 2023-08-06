@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:40:17 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/05 00:21:18 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:37:07 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,7 @@ char	*ft_variabl(char *str)
 	ret = malloc(sizeof(char) * (i + 1));
 	 if (!ret)
         exit(1);
-	if(g_flags.grbg)
-	{
-		g_flags.grbg->next = ft_get_new_node();
-		g_flags.grbg = g_flags.grbg->next;
-	}
-	else
-	{
-		g_flags.grbg = ft_get_new_node();
-		g_flags.grbg_head = g_flags.grbg;
-	}
-	g_flags.grbg->collector = ret;
+
 	i = -1;
 	while (str[++i] != '=')
 		ret[i] = str[i];
@@ -51,30 +41,15 @@ char	*ft_value_of_shlvl(char *str)
 char	*ft_value(char *str)
 {
 	int		i;
+	int		j;
 	char	*ret;
 
 	i = 0;
-	while (*str && *str != '=')
-		str++;
-	str++;
-	while (str[i])
-		i++;
-	ret = malloc(sizeof(char) * (i + 1));
-	if(g_flags.grbg)
-	{
-		g_flags.grbg->next = ft_get_new_node();
-		g_flags.grbg = g_flags.grbg->next;
-	}
-	else
-	{
-		g_flags.grbg = ft_get_new_node();
-		g_flags.grbg_head = g_flags.grbg;
-	}
-	g_flags.grbg->collector = ret;
-	i = -1;
-	while (str[++i])
-		ret[i] = str[i];
-	ret[i] = '\0';
+	j = 0;
+	while (str[j] && str[j] != '=')
+		j++;
+	j++;
+	ret = ft_strdup(str + j);
 	return (ret);
 }
 
@@ -91,7 +66,12 @@ t_envir	*replace_variables(char **env, int i)
 		{
 			list->variable = ft_variabl(env[i]);
 			if (!ft_strcmp(list->variable, "SHLVL"))
-				list->value = ft_value_of_shlvl(ft_value(env[i]));
+			{
+				char *str = ft_value(env[i]);
+				list->value = ft_value_of_shlvl(str);
+				free(str);
+			}
+				
 			else
 				list->value = ft_value(env[i]);
 			list->equal = ft_value("=");

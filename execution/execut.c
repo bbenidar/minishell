@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/04 20:14:17 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/05 22:08:43 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,41 @@ char *ft_getfile_name(char **cammnd, t_envir *envr)
 {
 	char *str = NULL;
 	char **paths;
-	int i = 0;
+	int i = 1;
 
 	if (ft_strchr_sla(cammnd[0], '/') == 1)
 	{
 		return (cammnd[0]);
 	}
-
 	while (envr)
 	{
+        // printf("pthss : %s\n",envr->variable);
 
 		if (!ft_strcmp(envr->variable, "PATH"))
 		{
-
 			str = ft_strdup(envr->value);
+            //  printf("pthss : %s\n", str);
 			break;
 		}
 		envr = envr->next;
 	}
+   
 	paths = ft_split(str, ':');
+    free(str);
+    str = ft_strjoin(ft_strdup(""), paths[0]);
+    str = ft_strjoin(str, "/");
+    str = ft_strjoin(str, cammnd[0]);
+    // printf("pth : %s\n", str);
 	while (paths[i])
 	{
-		if (!access(ft_strjoin(ft_strjoin(paths[i], "/"), cammnd[0]), F_OK))
-			return (ft_strjoin(ft_strjoin(paths[i], "/"), cammnd[0]));
+		if (!access(str, F_OK))
+        {
+            return (str);
+        }
+        free(str);
+		str = ft_strjoin(ft_strdup(""), paths[i]);
+        str = ft_strjoin(str, "/");
+        str = ft_strjoin(str, cammnd[0]);
 		i++;
 	}
 	return (NULL);
@@ -193,7 +205,6 @@ void ft_rem_quo(t_last *last)
 void ft_execution(t_last *last, char **env, t_envir *envr) {
     int prev_pipe_read = STDIN_FILENO;
     char **envire; // Read end of the previous pipe
-    
     ft_rem_quo(last);
     t_last *prv = NULL;
     envire = env;
@@ -206,8 +217,9 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
             }
               else
               {
+                 
                   envire = ft_merge_envr(envr);
-            int pipe_fds[2];
+                int pipe_fds[2];
 
             if (last->next) {
                 if (pipe(pipe_fds) == -1) {
@@ -255,18 +267,28 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 exit(0);
             }
         }
+            
                 // printf("\033[1;91msakarkal\033[m\n");
                 // for (int h = 0; envire[h]; h++)
                 //     printf("\033[1;91m | %s |\033[m\n", envire[h]);
-                if (ft_check_for_builting(last, envr)) 
+                if (ft_check_for_builting(last, envr))
+                {
+                    
                     exit(0);
+                }
+                    
                 else{
+                    
+                    
                     char *path = ft_getfile_name(last->word, envr);
+                // printf("cmnsssd : %s fd-out : %d fd-in : %d\n", path, last->output, last->input );
                 if (!path) {
+                    printf("kk\n");
                     last->output = 2;
                     ft_putstr_fd(ft_strjoin(ft_strjoin("minishell: command not found: ", last->word[0]), "\n"), last->output);
                     exit(127);
                 }
+                    // printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
                     execve(path, last->word, envire);
                         perror("minishell");
                         exit(0);
@@ -284,7 +306,7 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 if (last->next) {
                     close(pipe_fds[1]);
                 }
-
+                
                 prev_pipe_read = pipe_fds[0]; // Store the read end of the current pipe for the next iteration
                 prv = last;
                 last = last->next;
@@ -300,4 +322,3 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
     
     // printf("ex : %d\n", exit_stat/256);
 }
-

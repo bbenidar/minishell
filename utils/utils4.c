@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:21:25 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/04 23:58:33 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:03:51 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_tab(char **tab)
 	ptr = tab;
 	while (*ptr)
 	{
-		free(*tab);
+		free(*ptr);
 		ptr++;
 	}
 	free(tab);

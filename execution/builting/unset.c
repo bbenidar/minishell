@@ -49,20 +49,12 @@ char **ft_merge_envr(t_envir *env)
 	str = malloc(sizeof(char *) * len + 1);
 	if(!str)
 		return (NULL);
-	if(g_flags.grbg)
-	{
-		g_flags.grbg->next = ft_get_new_node();
-		g_flags.grbg = g_flags.grbg->next;
-	}
-	else
-	{
-		g_flags.grbg = ft_get_new_node();
-		g_flags.grbg_head = g_flags.grbg;
-	}
-	g_flags.grbg->collector = str;
+	str[0] = ft_strdup("");
 	while(env)
 	{
-		str[i] = ft_strjoin(ft_strjoin(env->variable, "="), env->value);
+		str[i] = ft_strjoin(str[i], env->variable);
+		str[i] = ft_strjoin(str[i], "=");
+		str[i] = ft_strjoin(str[i], env->value);
 		env = env->next;
 		i++;
 	}

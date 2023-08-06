@@ -70,17 +70,6 @@ char *ft_get_variable(char *str, int *i)
 		j++;
 	*i = j;
 	ret = malloc(sizeof(char) * j + 1);
-    if(g_flags.grbg)
-	{
-		g_flags.grbg->next = ft_get_new_node();
-		g_flags.grbg = g_flags.grbg->next;
-	}
-	else
-	{
-		g_flags.grbg = ft_get_new_node();
-		g_flags.grbg_head = g_flags.grbg;
-	}
-	g_flags.grbg->collector = ret;
 	j = 0;
 	while(j < *i)
 	{

@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/05 00:15:08 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/05 22:56:25 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,6 @@ t_envir	*creat_env_list(void)
 		perror("minishell :");
 		return (NULL);
 	}
-	if(g_flags.grbg)
-	{
-		g_flags.grbg->next = ft_get_new_node();
-		g_flags.grbg = g_flags.grbg->next;
-	}
-	else
-	{
-		g_flags.grbg = ft_get_new_node();
-		g_flags.grbg_head = g_flags.grbg;
-	}
-	g_flags.grbg->collector = list;
 	list->next = NULL;
 	return (list);
 }
@@ -66,7 +55,8 @@ void	begin(char **env)
 	signal(SIGINT, ft_sigint);
 	envr = replace_variables(env, 0);
 	tmp = envr;
-	g_flags.grbg = NULL;
+	
+		
 	while (1337)
 	{
 		line = readline("➜ minishell ✗ ");
@@ -78,12 +68,11 @@ void	begin(char **env)
 		if (!ft_first_check(line))
 		{
 			line = ft_add_variables(line, envr);
-			printf("LINE : %s\n", line);
 			if (line)
-				lexical_function(line, env, envr);
+				lexical_function(line, env, tmp);
 		}
-		else 
-			g_flags.exit_stat = 66048;
+		// else 
+		// 	g_flags.exit_stat = 66048;
 		free(line);
 	}
 	
