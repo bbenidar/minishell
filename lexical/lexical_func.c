@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int ft_strlen_nospace(const char *str)
+static int	ft_strlen_nospace(const char *str)
 {
 	int i;
 	int j;
