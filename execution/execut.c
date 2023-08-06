@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/05 22:08:43 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:02:55 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-#include <stdint.h>
-
 
 int ft_strchr_sla(char *s, int c)
 {

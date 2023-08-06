@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/05 17:41:20 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:59:44 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <stdint.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -29,7 +30,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/ioctl.h>
-#include <string.h>
+# include <string.h>
 
 
 
@@ -156,6 +157,7 @@ void				ft_env(t_envir *a, int i);
 int					ft_newline(char *arg);
 void				ft_echo(t_last *last, char **str);
 //execution/
+void				close_pipe(int pipe_fds[2]);
 void				ft_execution(t_last *last, char **env, t_envir *envr);
 void				ft_export(t_envir *env, char **cmd);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);

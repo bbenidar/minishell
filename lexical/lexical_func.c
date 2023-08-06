@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/06 01:35:43 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:58:31 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,6 +328,7 @@ void ft_remove_gv(char *str)
 void ft_option(t_stack *list, int i, t_last *str)
 {
 	t_stack *tmp;
+	(void)i;
 	char *src = ft_strdup("");
 	int j;
 
@@ -380,24 +381,36 @@ volatile sig_atomic_t g_interrupted = 0;
 
 void ft_herd(int sig)
 {
-	printf("%d\n",sig);
-	g_interrupted = 1;
+	(void)sig;
+	close(STDIN_FILENO);
 }
 
-int set_non_blocking_mode(int fd) {
+int set_non_blocking_mode(int fd) 
+{
     int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1) return -1;
     return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 }
 
+void	fd_herdoc(int fd[2])
+{
+	int	fdd;
+
+	fdd = open(ttyname(STDERR_FILENO), O_RDONLY);
+	if (fdd == -1)
+		return (close_pipe(fd), ft_putendl_fd("Error herdoc_fd", 2));
+	close_pipe(fd);
+}
+
 int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 {
-	int fd = 0;
-	static int rand;
-	char *her;
-	char *name;
-	char *tty;
+	int			fd;
+	static int	rand;
+	char		*her;
+	char		*name;
+	char		*tty;
 	
+	fd = 0;
 	name = ttyname(1);
 	tty = ft_strchr(name,'0');
 	name = ft_itoa(rand++);
@@ -408,19 +421,17 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 	free(her);
 	if(list->next  && (!ft_strcmp(list->next->word, "\"\"") || !ft_strcmp(list->next->word, "\'\'")))
 	{
-		free(list->next->word );
+		free(list->next->word);
 		list->next->word = ft_strdup("");
 	}
-			
-	// // signal(SIGINT,  )
-	while (1)
+	signal(SIGINT, ft_herd);
+	while (isatty(STDIN_FILENO))
 	{
-		printf("LL %d\n", g_interrupted);
-		her = readline("> ");
+		her = readline("herdoc> ");
 		if (!her)
 		{
-			free(list->next->word);
-			free(list->word);
+			// free(list->next->word); // kan 3andek double FREE 
+			// free(list->word);	// 		fhad joj friyat 9aleb fin kanti katfriyihom 9bel
 			break;
 		}
 		
@@ -446,7 +457,8 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 		free(her);
 	}
 	signal(SIGINT, ft_sigint);
-	signal(SIGINT, SIG_DFL);
+	if (!isatty(STDIN_FILENO))
+		return (fd_herdoc(&fd), 0);
 	if(flag == 0)
 		list->word = ft_strdup(name);
 	else if(list->next && list->next->next)
@@ -460,7 +472,6 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 		list->next->word = ft_strdup(name);
 	 	list->next->key = FILE_IN;
 	}
-			
 	free(name);
 	return (fd);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+         #
+#    By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/08/04 23:07:35 by bbenidar         ###   ########.fr        #
+#    Updated: 2023/08/06 17:59:28 by sakarkal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,11 @@ HEAD="\n"\
 all : minishell
 
 minishell : ${OBG}
-	cc $(FLAGS) ${OBG} -lreadline -o minishell
+	cc $(FLAGS) ${OBG} -L $(shell brew --prefix readline)/lib -lreadline -o minishell
 	@echo $(HEAD)
 
 %.o : %.c 
-	${CC} ${FLAGS} -c $< -o $@
+	${CC} ${FLAGS} -I $(shell brew --prefix readline)/include -c $< -o $@
 
 fclean : clean
 	rm -rf minishell
