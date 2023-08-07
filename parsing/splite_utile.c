@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:27:38 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/05 18:06:01 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:59:47 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,6 @@ static int count_split_inv(char const *s, char c)
 	while (s[i] != '\0' && s[i] == c)
 		i++;
 	return (i);
-}
-
-static char **free_splits(char **split)
-{
-	int i;
-
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-	return (split);
 }
 
 char **ft_split_opera(char *s, char h)

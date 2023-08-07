@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/06 23:36:09 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/07 21:15:51 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,12 @@ int					check_space(char *str);
 //parsing/check_utils.c
 int					check_character(char c, char *check);
 //lexical/lexical_func.c
+int	cheking_(t_stack *tmp);
+void	ft_remove_gv(char *str);
+int	option_len(t_stack *list);
 void return_space_to_real_value(char *word);
 char *ft_add_variables(char *line, t_envir *envr, int f);
-void				ft_option(t_stack *list, int i, t_last *str);
+void				ft_option(t_stack *list, t_last *str);
 void				lexical_function(char *line, char **env, t_envir *envr);
 char				**ft_split_opera(char *s, char h);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -137,6 +140,13 @@ t_stack				*ft_my_lstnew(char *content, int key);
 t_last				*ft_new_last_list(void);
 t_envir				*creat_env_list(void);
 char				**ft_merge_envr(t_envir *env);
+void	ft_check_delim(char *str);
+int	ft_herdoc(t_stack *list, int flag, t_envir *envr);
+void	fd_herdoc(int fd[2]);
+void	ft_herd(int sig);
+char	*dell_qots(char *line);
+int	ft_strlen_nospace(const char *str);
+int	check_any_redire(char *str, t_stack **wrd);
 // ---------------------------------EXEC FUNCT-------------------------------//
 //execution/unset.c
 char				**remove_line_from_array(char **array, char *line);
