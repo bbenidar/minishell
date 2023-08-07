@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/07 00:52:41 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:46:20 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,9 +196,10 @@ void ft_rem_quo(t_last *last)
         i = 0;
         while(last->word[i])
         {
-            if(!ft_strcmp(last->word[i], "\"\"") )
+            if(!ft_strcmp(last->word[i], "\"\"") || !ft_strcmp(last->word[i], "\'\'"))
             {
-                 last->word[i] = ft_strdup(" ");
+                free(last->word[i]);
+                last->word[i] = ft_strdup(" ");
             }
             i++; 
         }

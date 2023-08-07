@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+         #
+#    By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/08/07 00:44:57 by bbenidar         ###   ########.fr        #
+#    Updated: 2023/08/07 16:40:22 by sakarkal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = MINISHELL
 
 CC	= cc
-FLAGS = -Wall -Wextra -g #-fsanitize=address #-Werror
+FLAGS = -Wall -Wextra -g #-Werror
 
 SRC =  ./parsing/first_check.c ./parsing/check_utils.c minishell.c \
 		./lexical/lexical_func.c  ./lexical/linked_list_creation.c ./utils/utils1.c ./utils/utils5.c ./utils/utils2.c ./utils/utils3.c \
@@ -36,11 +36,11 @@ HEAD="\n"\
 all : minishell
 
 minishell : ${OBG}
-	cc $(FLAGS) ${OBG} -lreadline -o minishell
+	cc $(FLAGS) ${OBG} -L $(shell brew --prefix readline)/lib -lreadline -o minishell
 	@echo $(HEAD)
 
 %.o : %.c 
-	${CC} ${FLAGS} -c $< -o $@
+	${CC} ${FLAGS} -I $(shell brew --prefix readline)/include -c $< -o $@
 
 fclean : clean
 	rm -rf minishell

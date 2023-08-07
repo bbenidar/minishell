@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/07 16:27:33 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:05:26 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,8 +241,7 @@ t_stack *split_in_list(char *str)
 				{
 					wrd->word = ft_strdup(">>");
 					wrd->key = RED_APP;
-				}
-					
+				}	
 				else
 				{
 					wrd->word = ft_strdup(">");
@@ -446,12 +445,15 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	free(her);
 	if(list->next  && (!ft_strcmp(list->next->word, "\"\"") || !ft_strcmp(list->next->word, "\'\'")))
-			list->next->word = ft_strdup("");
+	{
+		free(list->next->word);
+		list->next->word = ft_strdup("");
+	}
+			
 	signal(SIGINT, ft_herd);
 	tty = dell_qots(list->next->word);
 	free(list->next->word);
 	list->next->word = tty;
-	printf("nn : %s\n", list->next->word);
 	while (isatty(STDIN_FILENO))
 	{
 		her = readline("> ");
@@ -481,7 +483,7 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 		g_flags.delim_flags--;
 	signal(SIGINT, ft_sigint);
 	if (!isatty(STDIN_FILENO))
-		return (free(name), fd_herdoc(&fd), -5);
+		return (free(her), free(name), fd_herdoc(&fd), -5);
 	if(flag == 0)
 	{
 		free(list->word);
@@ -807,7 +809,12 @@ void lexical_function(char *line, char **env, t_envir *envr)
 	}
 	last = ft_last_list_get_ready(head, envr);
 		if(!last)
+		{
+			ft_free_stack(&head);
+			ft_free_last(&last);
 			return ;
+		}
+			
 		if(last->word)
 			ft_execution(last, env, envr);
 		else
