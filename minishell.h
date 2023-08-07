@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/06 17:59:44 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/06 23:36:09 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <limits.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdint.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -30,7 +29,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/ioctl.h>
-# include <string.h>
+#include <string.h>
 
 
 
@@ -129,7 +128,7 @@ int					check_space(char *str);
 int					check_character(char c, char *check);
 //lexical/lexical_func.c
 void return_space_to_real_value(char *word);
-char				*ft_add_variables(char *line, t_envir *envr);
+char *ft_add_variables(char *line, t_envir *envr, int f);
 void				ft_option(t_stack *list, int i, t_last *str);
 void				lexical_function(char *line, char **env, t_envir *envr);
 char				**ft_split_opera(char *s, char h);
@@ -157,7 +156,6 @@ void				ft_env(t_envir *a, int i);
 int					ft_newline(char *arg);
 void				ft_echo(t_last *last, char **str);
 //execution/
-void				close_pipe(int pipe_fds[2]);
 void				ft_execution(t_last *last, char **env, t_envir *envr);
 void				ft_export(t_envir *env, char **cmd);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
@@ -173,6 +171,7 @@ t_grbg	*ft_grbgnew(void *collector);
 void	ft_grbgadd_front(t_grbg **lst, t_grbg *new);
 void	ft_grbgclear(t_grbg **lst);
 int		garbg_size(t_grbg *lst);
+void close_pipe(int pipe_fds[2]);
 void	ft_grbgadd_back(t_grbg **lst, t_grbg *new);
 t_var g_flags;
 #endif

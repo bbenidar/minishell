@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 18:02:45 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/06 18:02:46 by sakarkal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include"../../minishell.h"
 
@@ -60,15 +49,16 @@ char **ft_merge_envr(t_envir *env)
 	str = malloc(sizeof(char *) * len + 1);
 	if(!str)
 		return (NULL);
-	str[0] = ft_strdup("");
 	while(env)
 	{
+		str[i] = ft_strdup("");
 		str[i] = ft_strjoin(str[i], env->variable);
 		str[i] = ft_strjoin(str[i], "=");
 		str[i] = ft_strjoin(str[i], env->value);
 		env = env->next;
 		i++;
 	}
+	// free_tab(str);
 	str[i] = NULL;
 	return (str);
 

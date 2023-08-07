@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:07:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/02 18:02:30 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/07 01:34:39 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_envir	*ft_no_env(void)
 	list = list->next;
 	list->variable = ft_strdup("SHLVL");
 	list->equal = ft_strdup("=");
-	list->value = ft_itoa(1);
+	list->value = ft_itoa(2);
 	list->next = creat_env_list();
 	list = list->next;
 	list->variable = ft_strdup("_");

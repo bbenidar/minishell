@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/06 18:02:55 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/07 00:52:41 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+#include <stdint.h>
+
 
 int ft_strchr_sla(char *s, int c)
 {
@@ -152,6 +155,8 @@ int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
 {
 
     int i;
+    if(last->word[0])
+    {
         if (last->word[0] && !ft_strcmp(last->word[0], "exit"))
         {
             if(!last->next && !prv)
@@ -176,6 +181,8 @@ int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
                 ft_unset(&env, last->word[i]);
             return (0);
         }
+    }
+        
         return (1);
 }
 
@@ -199,6 +206,25 @@ void ft_rem_quo(t_last *last)
     }
 }
 
+char **ft_copy_tab(char **env)
+{
+    int i;
+    char **ret;
+
+    i = 0;
+    while(env[i])
+        i++;
+    ret = malloc(sizeof(char *) * i + 1);
+    i=0;
+    while(env[i])
+    {
+        ret[i] = ft_strdup(env[i]);
+        i++;
+    }
+    ret[i] = 0;
+    return (ret);
+}
+
 void ft_execution(t_last *last, char **env, t_envir *envr) {
     int prev_pipe_read = STDIN_FILENO;
     char **envire; // Read end of the previous pipe
@@ -208,14 +234,11 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
     while (last) {
         ret_toreal_v(last->word);
     //    printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
-            if(!ft_check_for_ex(last, prv, envr))
-            {
+        if(!ft_check_for_ex(last, prv, envr))
                 last = last->next;
-            }
-              else
-              {
-                 
-                  envire = ft_merge_envr(envr);
+        else
+        {
+                envire = ft_merge_envr(envr);
                 int pipe_fds[2];
 
             if (last->next) {
@@ -280,9 +303,9 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                     char *path = ft_getfile_name(last->word, envr);
                 // printf("cmnsssd : %s fd-out : %d fd-in : %d\n", path, last->output, last->input );
                 if (!path) {
-                    printf("kk\n");
+                    // printf("kk\n");
                     last->output = 2;
-                    ft_putstr_fd(ft_strjoin(ft_strjoin("minishell: command not found: ", last->word[0]), "\n"), last->output);
+                    ft_putstr_fd(ft_strjoin(ft_strjoin(ft_strdup("minishell: command not found: "), last->word[0]), "\n"), last->output);
                     exit(127);
                 }
                     // printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
@@ -308,14 +331,14 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
                 prv = last;
                 last = last->next;
               }  
-          
+                free_tab(envire);
             }
 
         // Handle output redirection
        
     }
+    
     while (wait(&g_flags.exit_stat) > 0)
         ;
-    
     // printf("ex : %d\n", exit_stat/256);
 }

@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:40:17 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/05 16:37:07 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/07 01:28:36 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ char	*ft_value_of_shlvl(char *str)
 {
 	g_flags.shlvl = ft_atoi(str);
 	++g_flags.shlvl;
+	if(g_flags.shlvl == 1000)
+		return(ft_strdup(""));
+	else if(g_flags.shlvl < 0)
+		return(ft_strdup("0"));
+	else if(g_flags.shlvl > 1000)
+		return(ft_strdup("1"));
 	return (ft_itoa(g_flags.shlvl++));
 }
 

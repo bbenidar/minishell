@@ -44,7 +44,7 @@ static int count_wrd(char const *s, char h)
 	return (i + c);
 }
 
-static int	count_split(char const *s, char c)
+static int count_split(char const *s, char c)
 {
 	int i;
 

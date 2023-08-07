@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 18:02:20 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/06 18:02:21 by sakarkal         ###   ########.fr       */
+/*   Created: 2023/07/15 14:22:09 by bbenidar          #+#    #+#             */
+/*   Updated: 2023/08/07 01:08:20 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char *get_logine(t_envir *env)
 {
 	while (env)
 	{
-		if (!ft_strcmp(env->variable, "USER"))
-			return (ft_strdup(env->value));
+		if (!ft_strcmp(env->variable, "HOME"))
+			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
@@ -28,7 +28,7 @@ char *get_path(t_envir *env)
 	while (env)
 	{
 		if (!ft_strcmp(env->variable, "OLDPWD"))
-			return (ft_strdup(env->value));
+			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
@@ -37,26 +37,22 @@ char *get_path(t_envir *env)
 void ft_cd(char *arg, t_envir *env)
 {
 	char *login;
-	char *path;
+	char *to_free;
 	char buffer[4096];
 	login = get_logine(env);
+	to_free = getcwd(buffer, sizeof(buffer));
 		if (!arg)
 		{
 			if(login)
-				chdir(ft_strjoin("/Users/", login));
+				chdir(login);
 			else
 				printf("minishell: cd: HOME not set\n");
-			// perror("minishell");
+			return ;
 		}
-	else if (getcwd(buffer, sizeof(buffer)) != NULL)
+	else
 	{
-		path = get_path(env);
-		if(access(ft_strjoin(ft_strjoin(buffer, "/"), arg), F_OK))
-			perror("minihell");
-
-		else 
-		chdir(ft_strjoin(ft_strjoin(buffer, "/"), arg));
-			
+		if(chdir(arg) == -1)
+			perror("minihell");	
 	}
-	// free(buffer);
+
 }

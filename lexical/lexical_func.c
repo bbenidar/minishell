@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/06 17:58:31 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:16:50 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_strlen_nospace(const char *str)
+static int ft_strlen_nospace(const char *str)
 {
 	int i;
 	int j;
@@ -76,6 +76,33 @@ char *dell_space(char *line)
 			str[j] *= -1;
 		j++;
 	}
+	return (str);
+}
+
+char *dell_qots(char *line)
+{
+	int i = 0;
+	char *str;
+	int j;
+
+	j = 0;
+	if(!line)
+		return (NULL);
+	i = ft_strlen_nospace(line);
+	str = (char *)malloc(sizeof(char) * i + 1);
+	if(!str)
+		return (NULL);
+	i = 0;
+	while (line[j])
+	{
+		if (line[j] != 34 && line[j] != 39)
+		{
+			str[i] = line[j];
+			i++;
+		}
+		j++;
+	}
+	str[i] = '\0';
 	return (str);
 }
 
@@ -328,7 +355,6 @@ void ft_remove_gv(char *str)
 void ft_option(t_stack *list, int i, t_last *str)
 {
 	t_stack *tmp;
-	(void)i;
 	char *src = ft_strdup("");
 	int j;
 
@@ -385,12 +411,12 @@ void ft_herd(int sig)
 	close(STDIN_FILENO);
 }
 
-int set_non_blocking_mode(int fd) 
-{
+int set_non_blocking_mode(int fd) {
     int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1) return -1;
     return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 }
+
 
 void	fd_herdoc(int fd[2])
 {
@@ -404,34 +430,33 @@ void	fd_herdoc(int fd[2])
 
 int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 {
-	int			fd;
-	static int	rand;
-	char		*her;
-	char		*name;
-	char		*tty;
-	
-	fd = 0;
+	int fd;
+	static int rand;
+	char *her;
+	char *name;
+	char *tty;
+
 	name = ttyname(1);
 	tty = ft_strchr(name,'0');
 	name = ft_itoa(rand++);
 	her = ft_strjoin(ft_strdup(tty),name);
 	free(name);
+	
 	name = ft_strjoin(ft_strdup("/tmp/heredoc"), her);
 		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	free(her);
 	if(list->next  && (!ft_strcmp(list->next->word, "\"\"") || !ft_strcmp(list->next->word, "\'\'")))
-	{
-		free(list->next->word);
-		list->next->word = ft_strdup("");
-	}
+			list->next->word = ft_strdup("");
 	signal(SIGINT, ft_herd);
+	tty = dell_qots(list->next->word);
+	free(list->next->word);
+	list->next->word = tty;
+	printf("nn : %s\n", list->next->word);
 	while (isatty(STDIN_FILENO))
 	{
-		her = readline("herdoc> ");
+		her = readline("> ");
 		if (!her)
 		{
-			// free(list->next->word); // kan 3andek double FREE 
-			// free(list->word);	// 		fhad joj friyat 9aleb fin kanti katfriyihom 9bel
 			break;
 		}
 		
@@ -442,25 +467,27 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 			return_space_to_real_value(list->next->word);
 			if (!ft_strcmp(her, list->next->word))
 			{
-				free(list->next->word);
-				free(list->word);
 				free(her);
 				break;
 			}	
 		}
 		if(g_flags.delim_flags == 0)
-			her = ft_add_variables(her, envr);
-		else
-			g_flags.delim_flags--;
+			her = ft_add_variables(her, envr, 1);
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
 		free(her);
 	}
+	if(g_flags.delim_flags != 0)
+		g_flags.delim_flags--;
 	signal(SIGINT, ft_sigint);
 	if (!isatty(STDIN_FILENO))
-		return (fd_herdoc(&fd), 0);
+		return (free(name), fd_herdoc(&fd), 0);
 	if(flag == 0)
+	{
+		free(list->word);
 		list->word = ft_strdup(name);
+	}
+		
 	else if(list->next && list->next->next)
 	{
 		list->word = list->next->next->word;
@@ -469,12 +496,14 @@ int ft_herdoc(t_stack *list, int flag, t_envir *envr)
 	}
 	if(list->next)
 	{
+		free(list->next->word);
 		list->next->word = ft_strdup(name);
 	 	list->next->key = FILE_IN;
 	}
 	free(name);
 	return (fd);
 }
+
 
 t_last *ft_last_list_get_ready(t_stack *head, t_envir *envr)
 {
@@ -492,26 +521,34 @@ t_last *ft_last_list_get_ready(t_stack *head, t_envir *envr)
 	i = option_len(head);
 	last = ft_new_last_list();
 	ret = last;
-
+	i = 0;
 	while (tmp)
 	{
 
 		flag = 1;
-		i = option_len(head);
+		// i = option_len(head);
 		while (tmp && tmp->key != PIPE)
 		{
-			if (tmp && (!ft_strcmp(tmp->word, "<<") || tmp->key == RED_HER))
+			if(!i)
 			{
-				last->input = ft_herdoc(tmp, flag, envr);
-				if (last->input < 0)
+				while (tmp)
 				{
-					if(last->input == -1)
+					if (tmp && (!ft_strcmp(tmp->word, "<<") && tmp->key == RED_HER))
 					{
-						perror(tmp->word);
+						last->input = ft_herdoc(tmp, flag, envr);
+						if (last->input < 0)
+						{
+							perror(tmp->word);
+							return (NULL);
+						}
+						free(tmp->word);
+						tmp->word = ft_strdup("");
+						tmp->key = OPTION;
 					}
-					return (NULL);
+					tmp= tmp->next;
 				}
-				tmp->key = OPTION;
+				i = 1;
+				tmp = head;
 			}
 			if (tmp && flag == 1 && ft_strcmp(tmp->word, "<<") )
 			{
@@ -556,7 +593,6 @@ t_last *ft_last_list_get_ready(t_stack *head, t_envir *envr)
 			last = last->next;
 		}
 	}
-	i = 0;
 
 	return (ret);
 }
@@ -572,7 +608,6 @@ char *find_value(char *str, t_envir *env)
 		{
 			if (!ft_strcmp(env->variable, str))
 			{
-				printf("env : %s\n", env->value);
 				ret = ft_strjoin(ret, env->value);
 				break;
 			}
@@ -601,29 +636,32 @@ void ft_check_delim(char *str)
 					g_flags.delim_flags++;
 				if (str[i] == '\"' && str[i+1] == '\"' && str[i + 2] == ' ')
 				{
-					 str[i] *= -1;
-						str[i + 1] *= -1;
+					str[i] *= -1;
+					str[i + 1] *= -1;
 				}
 				if (str[i] == '\'' && str[i+1] == '\'' && str[i + 2] == ' ')
 				{
 					 str[i] *= -1;
-						str[i + 1] *= -1;
+					str[i + 1] *= -1;
 				}
+				if (str[i] == '$')
+					str[i] *= -1;
 				i++;
 			}
 		}
 		i++;
 	}
-
+	g_flags.delim_flags /= 2;
 }
 
-char *ft_add_variables(char *line, t_envir *envr)
+char *ft_add_variables(char *line, t_envir *envr, int f)
 {
 	int i;
 	int j = 0;
 	char **src;
 	int len = 0;
-	ft_check_delim(line);
+	if(!f)
+		ft_check_delim(line);
 	while (line[len])
 	{
 		if (line[len] && line[len] == ' ')
@@ -673,8 +711,7 @@ char *ft_add_variables(char *line, t_envir *envr)
 		{
 			while(src[i + 1] && (src[i + 1][0] == (' ' * -2) || src[i + 1][0] == '\"' || src[i + 1][0] == '\''))	
 					i++;
-				
-			if(src[i + 1] && src[i + 1][0] == '$')
+			if(src[i + 1] && src[i + 1][0] == '$' && !f)
 				src[i + 1][0] *= -1;
 				
 		}
@@ -767,33 +804,17 @@ void lexical_function(char *line, char **env, t_envir *envr)
 		g_flags.exit_stat = 66048;
 		return;
 	}
-	// // while(head)
-	// // {
-	// // 	printf("wrd : %s | %d \n", head->word, head->key);
-	// // 	head = head->next;
-	// // }
-		
-	// // // printf("line : %s\n", line);
-	
 	last = ft_last_list_get_ready(head, envr);
+		if(!last)
+			return ;
+		if(last->word)
+			ft_execution(last, env, envr);
+		else
+		{
+			printf("minishell: :command not found\n");
+			g_flags.exit_stat = 127 * 256;
+		}
 	ft_free_stack(&head);
 	ft_free_last(&last);
-	
-	// // while(last)
-	// // {
-	// // 	printf("wrd : %s | %d \n", last->word[0], last->input);
-	// // 	last = last->next;
-	// // }
-	// // if(!last)
-	// // 	return ;
-	// // if(last->word)
-	 
-	// 	ft_execution(last, env, envr);
-	// else
-	// {
-	// 	printf("minishell: :command not found\n");
-	// 	g_flags.exit_stat = 127 * 256;
-	// }
-		
             
 	}

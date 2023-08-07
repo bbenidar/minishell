@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:23:52 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/07/28 00:00:09 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/06 21:57:37 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,26 @@ void	ft_exit(char **str)
 
 	if (str[1])
 	{
-		if (!str[2])
-		{
-			if (all_digits(str[1]) == 0)
+			if (str[2])
+			{
+				if (all_digits(str[1]))
+				{
+					printf("exit\nminishell: exit: %s: numeric argument required\n", str[1]);
+					exit(ft_atoll(str[1]) % 256);
+				}
+				printf("exit\nminishell: exit: too many arguments\n");
+			}	
+			else if (all_digits(str[1]) == 0)
 			{
 				printf("exit\n");
 				exit(ft_atoll(str[1]) % 256);
 			}
 			else
 			{
-				printf("exit\nminishell: exit: %s: numeric argument required", str[1]);
+				printf("exit\nminishell: exit: %s: numeric argument required\n", str[1]);
 				exit(255);
 			}
-		}
-		else
-			printf("exit\nminishell: exit: too many arguments\n");
+		
 	}
 	else
 	{
