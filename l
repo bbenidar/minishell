@@ -1,0 +1,14 @@
+Makefile
+envir
+execution
+garbage_lst.c
+garbage_lst.o
+k
+l
+lexical
+minishell
+minishell.c
+minishell.h
+minishell.o
+parsing
+utils
