@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/07 21:15:51 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/08 18:20:45 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int					ft_strcmp(char *s1, char *s2);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 char				*ft_strjoin(char const *s1, char const *s2);
+int	ft_isdigit(int c);
 //util/utils4.c
 int	ft_tolower(int c);
 char	*ft_strchr(const char *s, int c);
@@ -183,5 +184,8 @@ void	ft_grbgclear(t_grbg **lst);
 int		garbg_size(t_grbg *lst);
 void close_pipe(int pipe_fds[2]);
 void	ft_grbgadd_back(t_grbg **lst, t_grbg *new);
+int	create_herdoc_file(char **name);
+char	*generate_unique_filename(void);
+int	generate_random_number(void);
 t_var g_flags;
 #endif

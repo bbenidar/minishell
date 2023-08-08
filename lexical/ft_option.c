@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:42:53 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/07 20:54:45 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/08 18:24:57 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,20 @@ void	return_space_to_real_value(char *word)
 			*word *= -1;
 		word++;
 	}
+}
+
+int	ft_strlen_nospace(const char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] != 34 && str[i] != 39)
+			j++;
+		i++;
+	}
+	return (j);
 }

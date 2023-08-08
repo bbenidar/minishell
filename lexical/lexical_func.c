@@ -6,12 +6,11 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/07 21:32:46 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:36:42 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 char	*dell_space(char *line)
 {
@@ -64,7 +63,6 @@ char	*dell_space(char *line)
 	}
 	return (str);
 }
-
 
 char	*merge_str(char **str)
 {
@@ -219,8 +217,6 @@ int	open_fd_out(char *word, int key)
 	return (fd);
 }
 
-
-
 t_last	*ft_last_list_get_ready(t_stack *head, t_envir *envr)
 {
 	t_last	*last;
@@ -255,12 +251,6 @@ t_last	*ft_last_list_get_ready(t_stack *head, t_envir *envr)
 								perror(tmp->word);
 							return (NULL);
 						}
-						// if(flag == 0)
-						// {
-						// 	printf("| %s |\n", tmp->word);
-						// 	free(tmp->word);
-						// 	tmp->word = ft_strdup("");
-						// }
 						tmp->key = OPTION;
 					}
 					tmp = tmp->next;
@@ -329,7 +319,6 @@ char	*find_value(char *str, t_envir *env)
 	free(str);
 	return (ret);
 }
-
 
 char	*ft_add_variables(char *line, t_envir *envr, int f)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/07 16:46:20 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:37:28 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,6 @@ int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
         }
         else if (last->word[1] && !ft_strcmp(last->word[0], "export") )
         {
-            printf("KK\n");
             ft_export(env, last->word);
             return (0);
         }

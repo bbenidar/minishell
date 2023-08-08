@@ -97,6 +97,35 @@ int variable_exists(t_envir *env, char *variable) {
     return (0);
 }
 
+int check_expo(char **str)
+{
+    int i;
+    int j;
+    char *cmd;
+
+    i = 0;
+    j = 0;
+   
+    while(str[i])
+    {
+        j = 0;
+        cmd = ft_get_variable(str[i], &j);
+        j = 0;
+        while(cmd[j])
+        {
+            if((ft_isalpha(cmd[j]) || cmd[j] == '_') && j == 0)
+                j++;
+            else if((ft_isalpha(cmd[j]) || ft_isdigit(cmd[j]) || cmd[j] == '_') && j != 0)
+                j++;
+            else   
+                return (0);
+        }
+        free(cmd);
+        i++;
+    }
+    return (1);
+}
+
 void ft_export(t_envir *env, char **cmd) {
     int i = 0;
     int j = 0;
@@ -107,6 +136,10 @@ void ft_export(t_envir *env, char **cmd) {
         ft_env_ex(env);
         return;
     }
+    if(!check_expo(cmd))
+        return (ft_putendl_fd("minishell : export : not a valid identifier", 2));
+    i = 0;
+    j = 0;
     cmd++;
     if (!variable_exists(env, ft_get_variable(cmd[i], &j)))
     {
@@ -153,3 +186,86 @@ void ft_export(t_envir *env, char **cmd) {
         i++;
     }
 }
+
+// void add_new_var(t_envir *tmp, char *var_name, int j, char *cmd) {
+//     t_envir *new_node;
+
+//     tmp->value = ft_strdup("");
+//     new_node = creat_env_list();
+//     new_node->variable = ft_get_variable(var_name, &j);
+
+//     if (cmd[j] == '=') {
+//         new_node->equal = ft_strdup("=");
+//         j++;
+//         if (cmd[j]) {
+//             new_node->value = ft_get_value(cmd + j);
+//         }
+//     } else {
+//         new_node->value = NULL;
+//         new_node->equal = NULL;
+//     }
+
+//     new_node->next = NULL;
+//     while (tmp->next) {
+//         tmp = tmp->next;
+//     }
+//     tmp->next = new_node;
+// }
+// int validate_export(t_envir *env, char **cmd) {
+//     if (!cmd[1]) {
+//         ft_env_ex(env);
+//         return 0;
+//     }
+//     if (!check_expo(cmd)) {
+//         ft_putendl_fd("minishell : export : not a valid identifier", 2);
+//         return 0;
+//     }
+//     return 1;
+// }
+
+// void update_existing_var(t_envir *env, char *var_name, int j, char *cmd) {
+//     while (env) {
+//         if (ft_strcmp(env->variable, ft_get_variable(var_name, &j)) == 0) {
+//             if (cmd[j] == '=') {
+//                 j++;
+//                 if (cmd[j]) {
+//                     env->value = ft_get_value(cmd + j);
+//                 }
+//             }
+//             break;
+//         }
+//         env = env->next;
+//     }
+// }
+
+// void ft_export(t_envir *env, char **cmd)
+// {
+//     t_envir *tmp = return_back_ptr(env);
+//     int i = 0;
+//     int j = 0;
+// 	printf("____________________-\n");
+//     if (!validate_export(env, cmd)) {
+//         return;
+//     }
+    
+//     cmd++;
+//     if (!variable_exists(env, ft_get_variable(cmd[i], &j))) {
+//         tmp->next = creat_env_list();
+//         tmp = tmp->next;
+//     }
+    
+//     while (cmd[i]) {
+//         if (!ft_strcmp(cmd[i], "PATH")) {
+//             g_flags.path_fl = 0;
+//         }
+        
+//         if (variable_exists(env, ft_get_variable(cmd[i], &j))) {
+//             update_existing_var(env, cmd[i], j, cmd[i]);
+//         } else {
+//             add_new_var(tmp, cmd[i], j, cmd[i]);
+//             tmp = tmp->next;
+//         }
+        
+//         i++;
+//     }
+// }
