@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 00:05:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/09 01:20:27 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/09 04:53:25 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	normalize_special_chars(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i] == ' ' * -2)
 			line[i] = ' ';
