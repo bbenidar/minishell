@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/08 15:37:28 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/09 00:28:43 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,13 +149,27 @@ void ret_toreal_v(char **str)
         }
 
 }
-   
 
-int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env)
+int	ft_lstlast_size(t_last *lst)
+{
+	int		c;
+	t_last	*p;
+
+	c = 0;
+	p = lst;
+	while (p)
+	{
+		p = p -> next;
+		c++;
+	}
+	return (c);
+}
+
+int ft_check_for_ex(t_last *last, t_last *prv, t_envir *env, int size)
 {
 
     int i;
-    if(last->word[0])
+    if(last->word[0] && size <= 1)
     {
         if (last->word[0] && !ft_strcmp(last->word[0], "exit"))
         {
@@ -231,10 +245,11 @@ void ft_execution(t_last *last, char **env, t_envir *envr) {
     ft_rem_quo(last);
     t_last *prv = NULL;
     envire = env;
+    int size = ft_lstlast_size(last);
     while (last) {
         ret_toreal_v(last->word);
     //    printf("cmnd : %s fd-out : %d fd-in : %d\n", last->word[0], last->output, last->input );
-        if(!ft_check_for_ex(last, prv, envr))
+        if(!ft_check_for_ex(last, prv, envr, size))
                 last = last->next;
         else
         {

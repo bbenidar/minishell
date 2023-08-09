@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/08 18:20:45 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/09 01:20:19 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,5 +187,10 @@ void	ft_grbgadd_back(t_grbg **lst, t_grbg *new);
 int	create_herdoc_file(char **name);
 char	*generate_unique_filename(void);
 int	generate_random_number(void);
+char	*merge_tab(char **str);
+char	*find_value(char *str, t_envir *env);
+char	*merge_str(char **str);
+void	convert_special_chars(char *line);
+char	**merg_and_split_multiple_time_2(char *line);
 t_var g_flags;
 #endif

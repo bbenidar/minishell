@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/08 16:36:42 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/09 00:10:06 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,6 @@ char	*dell_space(char *line)
 		j++;
 	}
 	return (str);
-}
-
-char	*merge_str(char **str)
-{
-	int		i;
-	char	*line;
-
-	i = 0;
-	if (!str)
-		return (NULL);
-	line = ft_strdup("");
-	while (str[i])
-	{
-		line = ft_strjoin(line, str[i]);
-		line = ft_strjoin(line, " ");
-		i++;
-	}
-	return (line);
 }
 
 char	*merge_tab(char **str)
@@ -298,143 +280,6 @@ t_last	*ft_last_list_get_ready(t_stack *head, t_envir *envr)
 		}
 	}
 	return (ret);
-}
-
-char	*find_value(char *str, t_envir *env)
-{
-	char	*ret;
-
-	ret = ft_strdup("");
-	if (str[0] == '?')
-		ret = ft_strdup(ft_itoa(g_flags.exit_stat / 256));
-	while (env)
-	{
-		if (!ft_strcmp(env->variable, str))
-		{
-			ret = ft_strjoin(ret, env->value);
-			break ;
-		}
-		env = env->next;
-	}
-	free(str);
-	return (ret);
-}
-
-char	*ft_add_variables(char *line, t_envir *envr, int f)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	**src;
-
-	len = 0;
-	j = 0;
-	if (!f)
-		ft_check_delim(line);
-	while (line[len])
-	{
-		if (line[len] && line[len] == ' ')
-			line[len] *= -2;
-		len++;
-	}
-	i = 0;
-	src = ft_split_opera(line, '\"');
-	free(line);
-	line = merge_str(src);
-	free_tab(src);
-	src = ft_split_opera(line, '\'');
-	free(line);
-	line = merge_str(src);
-	free_tab(src);
-	src = ft_split_opera(line, '/');
-	free(line);
-	line = merge_str(src);
-	free_tab(src);
-	src = ft_split_opera(line, '$');
-	free(line);
-	line = merge_str(src);
-	free_tab(src);
-	src = ft_split_opera(line, '?');
-	free(line);
-	line = merge_str(src);
-	free_tab(src);
-	src = ft_split_opera(line, ' ' * -2);
-	free(line);
-	line = merge_str(src);
-	free_tab(src);
-	src = ft_split_opera(line, ' ' * -1);
-	free(line);
-	line = merge_str(src);
-	free_tab(src);
-	src = ft_split_opera(line, '<');
-	free(line);
-	line = merge_str(src);
-	free_tab(src);
-	src = ft_split(line, ' ');
-	while (src && src[i])
-	{
-		if (src[i + 1] && (!ft_strcmp(src[i], "<<")
-				|| !ft_strcmp(src[i], "\'")))
-		{
-			while (src[i + 1] && (src[i + 1][0] == (' ' * -2)
-				|| src[i + 1][0] == '\"' || src[i + 1][0] == '\''))
-				i++;
-			if (src[i + 1] && src[i + 1][0] == '$' && !f)
-				src[i + 1][0] *= -1;
-		}
-		else if (!ft_strcmp(src[i], "$") && (src[i + 1]))
-		{
-			if ((src[i + 1][0] != ' ' * -2 && src[i + 1][0] != ' ' * -1
-				&& src[i + 1][0] != '\"' && src[i + 1][0] != '\''))
-				src[i + 1] = find_value(src[i + 1], envr);
-			if (!ft_strcmp(src[i + 1], ""))
-			{
-				free(src[i]);
-				src[i] = ft_strdup("");
-			}
-		}
-		i++;
-	}
-	i = 0;
-	while (src && src[i])
-	{
-		if (src[i][0] == '$')
-		{
-			j = -1;
-			if (!src[i + 1])
-			{
-				while (src[i][++j])
-				{
-					if (src[i][j] != '?')
-						src[i][j] *= -1;
-				}
-			}
-			else if (!ft_strcmp(src[i + 1], "\"") || !ft_strcmp(src[i + 1], "\'")
-				|| src[i][1] == '$' || src[i + 1][0] == 32 * -2)
-			{
-				while (src[i][++j])
-					src[i][j] *= -1;
-			}
-		}
-		i++;
-	}
-	free(line);
-	line = merge_tab(src);
-	free_tab(src);
-	src = ft_split(line, '$');
-	free(line);
-	line = merge_tab(src);
-	i = 0;
-	while (line && line[i])
-	{
-		if (line[i] == 32 * -2)
-			line[i] = 32;
-		if (line[i] == '$' * -1)
-			line[i] = '$';
-		i++;
-	}
-	free_tab(src);
-	return (line);
 }
 
 void	lexical_function(char *line, char **env, t_envir *envr)
