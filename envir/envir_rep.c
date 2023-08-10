@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envir_rep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:40:17 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 10:22:11 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/10 01:25:58 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,33 @@ char	*ft_value(char *str)
 	return (ret);
 }
 
-void	repl_var(t_envir *list, char **env, int i)
+t_envir	*create_env_list_from_env(char **env, int i)
 {
+	t_envir	*list;
+	t_envir	*current;
 	char	*str;
 
+	list = creat_env_list();
+	current = list;
 	while (env[i])
 	{
-		list->variable = ft_variabl(env[i]);
-		if (!ft_strcmp(list->variable, "SHLVL"))
+		current->variable = ft_variabl(env[i]);
+		if (!ft_strcmp(current->variable, "SHLVL"))
 		{
 			str = ft_value(env[i]);
-			list->value = ft_value_of_shlvl(str);
+			current->value = ft_value_of_shlvl(str);
 			free(str);
 		}
 		else
-			list->value = ft_value(env[i]);
-		list->equal = ft_value("=");
+			current->value = ft_value(env[i]);
+		current->equal = ft_value("=");
 		if (env[++i])
 		{
-			list->next = creat_env_list();
-			list = list->next;
+			current->next = creat_env_list();
+			current = current->next;
 		}
 	}
+	return (list);
 }
 
 t_envir	*replace_variables(char **env, int i)
@@ -89,9 +94,8 @@ t_envir	*replace_variables(char **env, int i)
 
 	if (env[0])
 	{
-		list = creat_env_list();
+		list = create_env_list_from_env(env, i);
 		ret = list;
-		repl_var(list, env, i);
 	}
 	else
 		ret = ft_no_env();

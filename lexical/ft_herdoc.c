@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:55:36 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/08 18:59:14 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/09 06:21:28 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	process_herdoc_input(int fd, t_stack *list, t_envir *envr)
 	signal(SIGINT, ft_sigint);
 }
 
-int	ft_herdoc(t_stack *list, int flag, t_envir *envr)
+int	ft_herdoc(t_stack *list, t_envir *envr)
 {
 	int			fd;
 	char		*name;

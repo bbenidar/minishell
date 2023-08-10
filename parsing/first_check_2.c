@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checking_utl.c                                     :+:      :+:    :+:   */
+/*   first_check_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 10:38:29 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/10 10:38:30 by sakarkal         ###   ########.fr       */
+/*   Created: 2023/08/10 00:59:54 by bbenidar          #+#    #+#             */
+/*   Updated: 2023/08/10 01:00:37 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_check_quotes(char *str)
 			b *= -1;
 		if ((str[i] == ' ' || str[i] == '<' ) && (a != -1 || b != -1))
 			str[i] *= -1;
-		if ((str[i] == '\'' && a != -1 && b == 1) 
+		if ((str[i] == '\'' && a != -1 && b == 1)
 			|| (str[i] == '\"' && b != -1 && a == 1))
 			str[i] *= -1;
 		i++;
@@ -51,18 +51,4 @@ int	check_space(char *str)
 			return (1);
 	}
 	return (0);
-}
-
-int	ft_skip_qoutes(char *str)
-{
-	int		i;
-	char	c;
-
-	c = *str;
-	if (c != 34 && c != 39)
-		return (0);
-	i = 1;
-	while (str[i] && str[i] != c)
-		i++;
-	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 09:08:17 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/10 09:10:41 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:24:11 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,13 @@ char	**ft_merge_envr(t_envir *env)
 	return (str);
 }
 
-void	ft_unset(t_envir **env, char *cmd)
+void	ft_unset(t_envir **env, char **cmd)
 {
-	*env = rem_from_list(*env, cmd);
+	int	i;
+
+	if (!check_expo(cmd))
+		return (ft_putendl_fd("unset : not a valid identifier", 2));
+	i = 0;
+	while (cmd[++i])
+		*env = rem_from_list(*env, cmd[i]);
 }

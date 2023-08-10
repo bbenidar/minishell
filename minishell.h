@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 10:39:13 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:01:08 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <limits.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdint.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -31,8 +30,6 @@
 # include <unistd.h>
 # include <sys/ioctl.h>
 #include <string.h>
-
-
 
 enum				e_type
 {
@@ -85,6 +82,11 @@ typedef struct g_variables
 	int herd_flags;
 	t_grbg	*grbg;
 	t_grbg	*grbg_head;
+	int r_falg;
+	int j_falg;
+	int c_falg;
+	int i_splt_falg;
+	long long	n;
 }					t_var;
 
 typedef struct s_last
@@ -135,7 +137,7 @@ int	option_len(t_stack *list);
 void return_space_to_real_value(char *word);
 char *ft_add_variables(char *line, t_envir *envr, int f);
 void				ft_option(t_stack *list, t_last *str);
-void				lexical_function(char *line, char **env, t_envir *envr);
+void				lexical_function(char *line, char **env, t_envir **envr);
 char				**ft_split_opera(char *s, char h);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 t_stack				*ft_my_lstnew(char *content, int key);
@@ -143,18 +145,19 @@ t_last				*ft_new_last_list(void);
 t_envir				*creat_env_list(void);
 char				**ft_merge_envr(t_envir *env);
 void	ft_check_delim(char *str);
-int	ft_herdoc(t_stack *list, int flag, t_envir *envr);
+int	ft_herdoc(t_stack *list, t_envir *envr);
 void	fd_herdoc(int fd[2]);
 void	ft_herd(int sig);
 char	*dell_qots(char *line);
 int	ft_strlen_nospace(const char *str);
 int	check_any_redire(char *str, t_stack **wrd);
+int	check_expo(char **str);
 // ---------------------------------EXEC FUNCT-------------------------------//
 //execution/unset.c
 char				**remove_line_from_array(char **array, char *line);
 int					check_arg_unset(char *arg);
 char				**remove_unset(char **array, char *arg);
-void				ft_unset(t_envir **env, char *cmd);
+void				ft_unset(t_envir **env, char **cmd);
 //execution/pwd.c
 void				ft_pwd(void);
 //execution/cd.c
@@ -168,7 +171,7 @@ void				ft_env(t_envir *a, int i);
 int					ft_newline(char *arg);
 void				ft_echo(t_last *last, char **str);
 //execution/
-void				ft_execution(t_last *last, char **env, t_envir *envr);
+void				ft_execution(t_last *last, char **env, t_envir **envr);
 void				ft_export(t_envir *env, char **cmd);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 //envir
@@ -179,12 +182,8 @@ t_envir	*replace_variables(char **env, int i);
 t_grbg		*ft_get_new_node(void);
 void	ft_sigint(int sig);
 int	ft_checker(char *line);
-t_grbg	*ft_grbgnew(void *collector);
-void	ft_grbgadd_front(t_grbg **lst, t_grbg *new);
-void	ft_grbgclear(t_grbg **lst);
 int		garbg_size(t_grbg *lst);
 void close_pipe(int pipe_fds[2]);
-void	ft_grbgadd_back(t_grbg **lst, t_grbg *new);
 int	create_herdoc_file(char **name);
 char	*generate_unique_filename(void);
 int	generate_random_number(void);
@@ -193,24 +192,26 @@ char	*find_value(char *str, t_envir *env);
 char	*merge_str(char **str);
 void	convert_special_chars(char *line);
 char	**merg_and_split_multiple_time_2(char *line);
+char	*dell_space(char *line);
+t_stack	*split_in_list(char *str);
+t_last	*ft_last_list_get_ready(t_stack *head, t_envir *envr);
+int	open_fd_out(char *word, int key);
+int	handle_herdoc(t_stack *tmp, t_envir *envr, t_last *last, int i);
+void	handle_file_input(t_last *last, t_stack *tmp);
+int	handle_file_output(t_stack *tmp, int key);
+int	ft_check_for_herdoc(t_stack	*tmp, t_envir *envr, t_last	*last);
+void	ft_free_last(t_last **env);
+void	ft_free_stack(t_stack **env);
+char *split_for_lexical(char *line);
+int	ft_check_quotes(char *str);
 t_envir	*return_back_ptr(t_envir *env);
 void	ft_swap_node(t_envir *list);
 int	ft_strcasecmp(const char *s1, const char *s2);
 t_envir	*sort_env(t_envir *env);
 char	*ft_get_variable(char *str, int *i);
-
-//----------------------------------------------------
-int					ft_check_quotes(char *str);
-int					check_space(char *str);
-int					ft_skip_qoutes(char *str);
-char				**ft_copy_tab(char **env);
-int					ft_lstlast_size(t_last *lst);
-int					ft_check_for_ex(t_last *last, t_last *prv, t_envir *env, int size);
-int					ft_check_for_builting(t_last *last, t_envir *env);
-void				ft_rem_quo(t_last *last);
-void				ret_toreal_v(char **str);
-char				*ft_getfile_name(char **cammnd, t_envir *envr);
-//----------------------------------------------------
+char	*ft_get_value(char *str);
+int	variable_exists(t_envir *tmp, char *variable);
+void	ft_pros_two(t_envir *tmp, char *cmd, int j, int i);
 
 t_var g_flags;
 #endif

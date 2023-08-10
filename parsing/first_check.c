@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   first_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 10:40:10 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/10 01:05:20 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	ft_skip_qoutes(char *str)
+{
+	int		i;
+	char	c;
+
+	c = *str;
+	if (c != 34 && c != 39)
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
+}
 
 static int	check_pipe(char *str)
 {
@@ -35,7 +49,7 @@ static int	check_redir(char *str)
 {
 	while (*str)
 	{
-		if ((*str == 60 && *(str + 1) != 60) 
+		if ((*str == 60 && *(str + 1) != 60)
 			|| (*str == 62 && *(str + 1) != 62))
 		{
 			str++;
@@ -45,7 +59,7 @@ static int	check_redir(char *str)
 				return (1);
 		}
 		str += ft_skip_qoutes(str);
-		if (((*str == 60 && *(str + 1) == 60) 
+		if (((*str == 60 && *(str + 1) == 60)
 				|| (*str == 62 && *(str + 1) == 62)))
 		{
 			str += 2;
@@ -89,13 +103,13 @@ int	ft_first_check(char *str)
 		if (check_space(str))
 			return (1);
 		if (ft_check_quotes(str))
-			printf("\033[0;31mERROR :Unclosed quotes\033[0m\n");
+			printf("ERROR :Unclosed quotes\n");
 		else if (*str == 124 || *str == 38 || check_pipe(str))
-			printf("\033[0;31mminishell: syntax error near unexpected token `| or &`\033[0m\n");
+			printf("minishell: syntax error near unexpected token `| or &`\n");
 		else if (check_logical(str))
-			printf("\033[0;31mminishell: LOGICAL ERROR (logic operation not handled)\033[0m\n\n");
+			printf("minishell: LOGICAL ERROR (logic operation not handled)\n");
 		else if (check_redir(str))
-			printf("\033[0;31mminishell: syntax error near unexpected token `<'\033[0m\n\n");
+			printf("minishell: syntax error near unexpected token `<'\n");
 		else
 			return (0);
 	}
