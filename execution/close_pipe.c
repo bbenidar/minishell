@@ -1,22 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   close_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/26 15:23:57 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/10 09:08:05 by sakarkal         ###   ########.fr       */
+/*   Created: 2023/08/10 09:33:23 by sakarkal          #+#    #+#             */
+/*   Updated: 2023/08/10 09:33:26 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-void	ft_pwd(void)
+void	close_pipe(int pipe_fds[2])
 {
-	char	buffer[4096];
+	close(pipe_fds[0]);
+	close(pipe_fds[1]);
+}
 
-	if (!getcwd(buffer, sizeof(buffer)))
-		perror("minishell");
-	printf("%s\n", buffer);
+char	**ft_copy_tab(char **env)
+{
+	int		i;
+	char	**ret;
+
+	i = 0;
+	while (env[i])
+		i++;
+	ret = malloc(sizeof(char *) * i + 1);
+	i = 0;
+	while (env[i])
+	{
+		ret[i] = ft_strdup(env[i]);
+		i++;
+	}
+	ret[i] = 0;
+	return (ret);
 }

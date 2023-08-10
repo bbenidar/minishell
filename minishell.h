@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/09 01:20:19 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:39:13 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <stdint.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -192,5 +193,24 @@ char	*find_value(char *str, t_envir *env);
 char	*merge_str(char **str);
 void	convert_special_chars(char *line);
 char	**merg_and_split_multiple_time_2(char *line);
+t_envir	*return_back_ptr(t_envir *env);
+void	ft_swap_node(t_envir *list);
+int	ft_strcasecmp(const char *s1, const char *s2);
+t_envir	*sort_env(t_envir *env);
+char	*ft_get_variable(char *str, int *i);
+
+//----------------------------------------------------
+int					ft_check_quotes(char *str);
+int					check_space(char *str);
+int					ft_skip_qoutes(char *str);
+char				**ft_copy_tab(char **env);
+int					ft_lstlast_size(t_last *lst);
+int					ft_check_for_ex(t_last *last, t_last *prv, t_envir *env, int size);
+int					ft_check_for_builting(t_last *last, t_envir *env);
+void				ft_rem_quo(t_last *last);
+void				ret_toreal_v(char **str);
+char				*ft_getfile_name(char **cammnd, t_envir *envr);
+//----------------------------------------------------
+
 t_var g_flags;
 #endif

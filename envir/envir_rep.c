@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envir_rep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:40:17 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/07 20:23:47 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:22:11 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,34 +58,40 @@ char	*ft_value(char *str)
 	return (ret);
 }
 
+void	repl_var(t_envir *list, char **env, int i)
+{
+	char	*str;
+
+	while (env[i])
+	{
+		list->variable = ft_variabl(env[i]);
+		if (!ft_strcmp(list->variable, "SHLVL"))
+		{
+			str = ft_value(env[i]);
+			list->value = ft_value_of_shlvl(str);
+			free(str);
+		}
+		else
+			list->value = ft_value(env[i]);
+		list->equal = ft_value("=");
+		if (env[++i])
+		{
+			list->next = creat_env_list();
+			list = list->next;
+		}
+	}
+}
+
 t_envir	*replace_variables(char **env, int i)
 {
 	t_envir	*list;
 	t_envir	*ret;
-	char	*str;
 
 	if (env[0])
 	{
 		list = creat_env_list();
 		ret = list;
-		while (env[i])
-		{
-			list->variable = ft_variabl(env[i]);
-			if (!ft_strcmp(list->variable, "SHLVL"))
-			{
-				str = ft_value(env[i]);
-				list->value = ft_value_of_shlvl(str);
-				free(str);
-			}
-			else
-				list->value = ft_value(env[i]);
-			list->equal = ft_value("=");
-			if (env[++i])
-			{
-				list->next = creat_env_list();
-				list = list->next;
-			}
-		}
+		repl_var(list, env, i);
 	}
 	else
 		ret = ft_no_env();

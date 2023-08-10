@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:20:07 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/06 23:35:54 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:27:41 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,24 @@ int	ft_strlen_no_null(const char *str)
 	return (i);
 }
 
-char *ft_strdup(const char *s1)
+char	*ft_strdup(const char *s1)
 {
-    size_t i = 0;
-    size_t len = ft_strlen(s1);
-    char *p = (char *)malloc(sizeof(char) * (len + 1)); // Add +1 for the null-terminator
-    if (!p)
-        return (NULL);
-    while (i < len) // Use < instead of <= to avoid copying the null-terminator
-    {
-        p[i] = s1[i];
-        i++;
-    }
-    p[i] = '\0'; // Add the null-terminator at the end of the duplicated string
-    return (p);
+	size_t	i;
+	size_t	len;
+	char	*p;
+
+	len = ft_strlen(s1);
+	i = 0;
+	p = (char *)malloc(sizeof(char) * (len + 1));
+	if (!p)
+		return (NULL);
+	while (i < len)
+	{
+		p[i] = s1[i];
+		i++;
+	}
+	p[i] = '\0';
+	return (p);
 }
 
 int	ft_isalpha(int c)

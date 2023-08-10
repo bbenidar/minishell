@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:01:22 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/04 23:48:54 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:28:11 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ t_grbg	*ft_grbgnew(void *s)
 	node->next = 0;
 	return (node);
 }
-t_grbg *ft_get_new_node(void)
+
+t_grbg	*ft_get_new_node(void)
 {
 	t_grbg	*node;
 
 	node = malloc(sizeof(t_grbg));
 	node->collector = NULL;
 	node->next = NULL;
-	return(node);
+	return (node);
 }
-	
 
 void	ft_grbgadd_front(t_grbg **lst, t_grbg *new)
 {
@@ -41,8 +41,6 @@ void	ft_grbgadd_front(t_grbg **lst, t_grbg *new)
 	new -> next = *lst;
 	*lst = new;
 }
-
-
 
 int	garbg_size(t_grbg *lst)
 {

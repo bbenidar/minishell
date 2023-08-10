@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/15 14:22:09 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/07 01:08:20 by bbenidar         ###   ########.fr       */
+/*   Created: 2023/08/09 06:23:23 by sakarkal          #+#    #+#             */
+/*   Updated: 2023/08/09 06:24:06 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char *get_logine(t_envir *env)
+char	*get_logine(t_envir *env)
 {
 	while (env)
 	{
@@ -23,7 +23,7 @@ char *get_logine(t_envir *env)
 	return (NULL);
 }
 
-char *get_path(t_envir *env)
+char	*get_path(t_envir *env)
 {
 	while (env)
 	{
@@ -34,25 +34,25 @@ char *get_path(t_envir *env)
 	return (NULL);
 }
 
-void ft_cd(char *arg, t_envir *env)
+void	ft_cd(char *arg, t_envir *env)
 {
-	char *login;
-	char *to_free;
-	char buffer[4096];
+	char	*login;
+	char	*to_free;
+	char	buffer[4096];
+
 	login = get_logine(env);
 	to_free = getcwd(buffer, sizeof(buffer));
-		if (!arg)
-		{
-			if(login)
-				chdir(login);
-			else
-				printf("minishell: cd: HOME not set\n");
-			return ;
-		}
+	if (!arg)
+	{
+		if (login)
+			chdir(login);
+		else
+			printf("minishell: cd: HOME not set\n");
+		return ;
+	}
 	else
 	{
-		if(chdir(arg) == -1)
-			perror("minihell");	
+		if (chdir(arg) == -1)
+			perror("minihell :");
 	}
-
 }

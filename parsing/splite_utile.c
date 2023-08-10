@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   splite_utile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:27:38 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/07 17:59:47 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:25:19 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int count_wrd(char const *s, char h)
+static int	count_wrd(char const *s, char h)
 {
-	int i;
-	int j;
-	int b;
-	int r;
-	int c;
+	int	i;
+	int	j;
+	int	b;
+	int	r;
+	int	c;
 
 	i = 0;
 	r = 0;
@@ -44,18 +44,19 @@ static int count_wrd(char const *s, char h)
 	return (i + c);
 }
 
-static int count_split(char const *s, char c)
+static int	count_split(char const *s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] != '\0' && s[i] != c)
 		i++;
 	return (i);
 }
-static int count_split_inv(char const *s, char c)
+
+static int	count_split_inv(char const *s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] != '\0' && s[i] == c)
@@ -63,15 +64,14 @@ static int count_split_inv(char const *s, char c)
 	return (i);
 }
 
-char **ft_split_opera(char *s, char h)
+char	**ft_split_opera(char *s, char h)
 {
-	char **p;
-	char *tmp;
+	char	**p;
+	char	*tmp;
+	size_t	i;
+	int		r;
 
 	tmp = s;
-	size_t i;
-	int r;
-
 	i = 0;
 	r = 0;
 	if (!s)
@@ -103,6 +103,5 @@ char **ft_split_opera(char *s, char h)
 			s++;
 	}
 	p[i] = 0;
-	// free(tmp);
 	return (p);
 }
