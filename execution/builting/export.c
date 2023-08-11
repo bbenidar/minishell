@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:29:19 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/11 20:27:49 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 23:53:48 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	upd_va(t_envir *existing, char *value, int should_join)
 			existing->equal = ft_strdup("=");
 		}
 	}
+	free(value);
 }
 
 void	ft_pros_one(t_envir *existing, char *cmd, int j)
@@ -58,8 +59,10 @@ void	ft_pros_one(t_envir *existing, char *cmd, int j)
 				if (cmd[j])
 					upd_va(existing, ft_get_value(cmd + j), shld_jn);
 			}
+			free(variable);
 			break ;
 		}
+		free(variable);
 		existing = existing->next;
 	}
 }

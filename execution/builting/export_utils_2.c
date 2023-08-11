@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 18:56:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/11 20:28:16 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 23:58:05 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ int	variable_exists(t_envir *tmp, char *variable)
 	{
 		if (tmp->variable && ft_strcmp(tmp->variable, var_tmp) == 0)
 		{
+			free(variable);
+			free(var_tmp);
 			return (1);
 		}
 		tmp = tmp->next;
 	}
+	free(var_tmp);
+	free(variable);
 	return (0);
 }
 
@@ -78,11 +82,17 @@ void	ft_pros_two(t_envir *tmp, char **cmd, int j, int i)
 	{
 		tmp->equal = ft_strdup("=");
 		if (cmd[++j])
+		{
+			free(tmp->value);
 			tmp->value = ft_get_value(cmd[i] + j);
+		}
 	}
 	else
 	{
+		free(tmp->value);
+		free(tmp->equal);
 		tmp->value = NULL;
 		tmp->equal = NULL;
 	}
+
 }

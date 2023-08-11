@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 22:13:02 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/11 17:00:42 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 00:09:11 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	handle_file_input(t_last *last, t_stack **tmp)
 	last->input = open((*tmp)->word, O_RDONLY, 0777);
 	if (last->input < 0)
 	{
+		free_tab(last->word);
 		last->word = NULL;
 		perror((*tmp)->word);
 	}
