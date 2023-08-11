@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 22:39:50 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 16:03:13 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:29:38 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ char	*split_for_lexical(char *line)
 
 	str = dell_space(line);
 	src = ft_split_opera(str, '|');
+	free(str);
+	str = merge_str(src);
+	free_tab(src);
+	src = ft_split(str, '\t');
 	free(str);
 	str = merge_str(src);
 	free_tab(src);

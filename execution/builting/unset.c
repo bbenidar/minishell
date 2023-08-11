@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 09:08:17 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/10 17:24:11 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 20:28:42 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ t_envir	*rem_from_list(t_envir *env, char *cmd)
 		return (ret);
 	}
 	ret = env;
-	while (env->next)
+	while (env && env->next)
 	{
-		if (!ft_strcmp(env->next->variable, cmd))
+		if (env->next->variable && !ft_strcmp(env->next->variable, cmd))
 		{
 			tmp = env->next;
 			env->next = env->next->next;
@@ -67,8 +67,11 @@ char	**ft_merge_envr(t_envir *env)
 	{
 		str[i] = ft_strdup("");
 		str[i] = ft_strjoin(str[i], env->variable);
-		str[i] = ft_strjoin(str[i], "=");
-		str[i] = ft_strjoin(str[i], env->value);
+		if (env->value)
+		{
+			str[i] = ft_strjoin(str[i], "=");
+			str[i] = ft_strjoin(str[i], env->value);
+		}
 		env = env->next;
 		i++;
 	}
@@ -80,8 +83,13 @@ void	ft_unset(t_envir **env, char **cmd)
 {
 	int	i;
 
-	if (!check_expo(cmd))
-		return (ft_putendl_fd("unset : not a valid identifier", 2));
+	i = 0;
+	while (cmd[i])
+	{
+		if (!check_expo(cmd[i]))
+			return (ft_putendl_fd("unset : not a valid identifier", 2));
+		i++;
+	}
 	i = 0;
 	while (cmd[++i])
 		*env = rem_from_list(*env, cmd[i]);

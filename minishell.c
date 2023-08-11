@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 17:25:22 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 21:05:36 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,20 @@ void	begin(char **env)
 	while (1337)
 	{
 		line = readline("➜ minishell ✗ ");
-		if (!ft_checker(line))
-			exit(0);
+		if (!line)
+			return (printf("exit\n"), exit(0));
 		if (!check_space(line))
 			add_history(line);
 		if (!ft_first_check(line))
 		{
 			line = ft_add_variables(line, envr, 0);
 			if (line)
-				lexical_function(line, env, &envr);
+				lexical_function(line, &envr);
 		}
 		else 
 			g_flags.exit_stat = 66048;
 		free(line);
+		g_flags.herdo_c = 0;
 	}
 }
 
@@ -76,7 +77,7 @@ int	main(int ac, char **av, char **env)
 {
 	av[1] = 0;
 	if (ac != 1)
-		return (ft_putstr_fd("HOPLAAA, args are not alowed 🤡\n", 2), 1);
+		return (ft_putstr_fd("HOPLAAA, args are not allowed 🤡\n", 2), 1);
 	// rl_catch_signals = 0;
 	printf("\033[2J\033[1;1H");
 	printf("\n");

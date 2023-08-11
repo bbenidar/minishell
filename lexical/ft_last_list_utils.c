@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 22:13:02 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 16:10:33 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 17:00:42 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,18 @@ int	handle_file_output(t_stack *tmp, int key)
 	return (fd_out);
 }
 
-void	handle_file_input(t_last *last, t_stack *tmp)
+void	handle_file_input(t_last *last, t_stack **tmp)
 {
-	if (!ft_strcmp(tmp->word, "\"\"") || !ft_strcmp(tmp->word, "\'\'"))
+	if (!ft_strcmp((*tmp)->word, "\"\"") || !ft_strcmp((*tmp)->word, "\'\'"))
 	{
-		free(tmp->word);
-		tmp->word = ft_strdup("");
+		free((*tmp)->word);
+		(*tmp)->word = ft_strdup("");
 	}
-	last->input = open(tmp->word, O_RDONLY, 0777);
+	last->input = open((*tmp)->word, O_RDONLY, 0777);
 	if (last->input < 0)
 	{
-		last->output = 1;
-		last->input = 0;
 		last->word = NULL;
-		perror(tmp->word);
-		while (tmp && tmp->key != PIPE)
-			tmp = tmp->next;
-		if (tmp && tmp->next != NULL)
-			tmp = tmp->next;
+		perror((*tmp)->word);
 	}
 }
 

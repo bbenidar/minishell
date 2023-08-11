@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 17:24:40 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:52:54 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_stack	*prepare_lexical_analysis(char *line)
 	return (head);
 }
 
-void	lexical_function(char *line, char **env, t_envir **envr)
+void	lexical_function(char *line, t_envir **envr)
 {
 	t_stack	*head;
 	t_last	*last;
@@ -46,12 +46,9 @@ void	lexical_function(char *line, char **env, t_envir **envr)
 		cleanup_and_exit(&head, &last);
 		return ;
 	}
-	if (last->word)
-		ft_execution(last, env, envr);
-	else
-	{
-		printf("minishell: :command not found\n");
+	if (last->word && g_flags.herdo_c != 1)
+		ft_execution(last, envr);
+	else if (!last->word && g_flags.herdo_c != 1)
 		g_flags.exit_stat = 127 * 256;
-	}
 	cleanup_and_exit(&head, &last);
 }

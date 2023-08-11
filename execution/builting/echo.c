@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:24:27 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/09 06:25:34 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/11 17:35:36 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	chech_for_no_new_line(char *str)
 	int	i;
 
 	i = 1;
-	if (str[0] != '-')
+	if (str[0] != '-' || str[1] != 'n')
 		return (1);
 	while (str[i])
 	{

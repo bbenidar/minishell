@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 18:56:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 18:59:20 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 20:28:16 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,58 +46,43 @@ int	ft_is_valid(char c, int j)
 		return (0);
 }
 
-int	check_expo(char **str)
+int	check_expo(char *str)
 {
-	int		i;
 	int		j;
 	char	*cmd;
 
-	i = 0;
 	j = 0;
-	while (str[i])
+	cmd = ft_get_variable(str, &j);
+	if (cmd[ft_strlen(cmd) - 1] == '+')
+		cmd[ft_strlen(cmd) - 1] = '\0';
+	j = 0;
+	while (cmd[j])
 	{
-		j = 0;
-		cmd = ft_get_variable(str[i], &j);
-		if (cmd[ft_strlen(cmd) - 1] == '+')
-			cmd[ft_strlen(cmd) - 1] = '\0';
-		j = 0;
-		while (cmd[j])
-		{
-			if (!ft_is_valid(cmd[j], j))
-				return (0);
-			else
-				j++;
-		}
-		free(cmd);
-		i++;
+		if (!ft_is_valid(cmd[j], j))
+			return (0);
+		else
+			j++;
 	}
+	free(cmd);
 	return (1);
 }
 
-void	ft_pros_two(t_envir *tmp, char *cmd, int j, int i)
+void	ft_pros_two(t_envir *tmp, char **cmd, int j, int i)
 {
-	t_envir	*new_node;
-
 	tmp->value = ft_strdup("");
 	j = 0;
-	tmp->variable = ft_get_variable(cmd, &j);
+	tmp->variable = ft_get_variable(cmd[i], &j);
 	if (tmp->variable[ft_strlen(tmp->variable) - 1] == '+')
 		tmp->variable[ft_strlen(tmp->variable) - 1] = '\0';
-	if (cmd[j] == '=')
+	if (cmd[i][j] == '=')
 	{
 		tmp->equal = ft_strdup("=");
 		if (cmd[++j])
-			tmp->value = ft_get_value(cmd + j);
+			tmp->value = ft_get_value(cmd[i] + j);
 	}
 	else
 	{
 		tmp->value = NULL;
 		tmp->equal = NULL;
-	}
-	if (cmd[i + 1])
-	{
-		new_node = creat_env_list();
-		tmp->next = new_node;
-		tmp = new_node;
 	}
 }

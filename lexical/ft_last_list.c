@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:10:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 16:32:36 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/11 20:10:25 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,20 @@ int	handle_options(t_stack *tmp, t_last *last, int i)
 	return (i);
 }
 
-int	handle_file_in(t_stack *tmp, t_last *last)
+int	handle_file_in(t_stack **tmp, t_last *last)
 {
-	if (tmp->key == FILE_IN)
+	if ((*tmp)->key == FILE_IN)
 	{
 		handle_file_input(last, tmp);
 		if (last->input < 0)
+		{
+			last->output = 1;
+			while (*tmp && (*tmp)->key != PIPE)
+				*tmp = (*tmp)->next;
+			if (*tmp && (*tmp)->next != NULL)
+				*tmp = (*tmp)->next;
 			return (0);
+		}
 	}
 	return (1);
 }
@@ -57,12 +64,12 @@ t_stack	*prossecc_2(t_stack *tmp, t_last *last, t_envir *envr, int *flag)
 	while (tmp && tmp->key != PIPE)
 	{
 		i = handle_herdoc(tmp, envr, last, i);
-		if (i < 0)
+		if (i < 0 || g_flags.herdo_c == 1)
 			return (NULL);
 		*flag = handle_options(tmp, last, *flag);
-		if (!handle_file_in(tmp, last))
-			return (NULL);
-		if (!handle_file_ou(tmp, last))
+		if (!handle_file_in(&tmp, last))
+			return (tmp);
+		else if (!handle_file_ou(tmp, last))
 			return (NULL);
 		tmp = tmp->next;
 	}
@@ -83,7 +90,7 @@ t_last	*ft_last_list_get_ready(t_stack *head, t_envir *envr)
 	{
 		flag = 1;
 		tmp = prossecc_2(tmp, last, envr, &flag);
-		if (!tmp || tmp->next == NULL)
+		if (!tmp)
 			break ;
 		if (tmp && tmp->key == PIPE)
 		{

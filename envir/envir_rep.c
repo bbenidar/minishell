@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:40:17 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 01:25:58 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/10 23:06:38 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*ft_variabl(char *str)
 char	*ft_value_of_shlvl(char *str)
 {
 	g_flags.shlvl = ft_atoi(str);
+	free(str);
 	++g_flags.shlvl;
 	if (g_flags.shlvl == 1000)
 		return (ft_strdup(""));
@@ -53,6 +54,8 @@ char	*ft_value(char *str)
 	j = 0;
 	while (str[j] && str[j] != '=')
 		j++;
+	if (!str[j])
+		return (NULL);
 	j++;
 	ret = ft_strdup(str + j);
 	return (ret);
@@ -73,11 +76,11 @@ t_envir	*create_env_list_from_env(char **env, int i)
 		{
 			str = ft_value(env[i]);
 			current->value = ft_value_of_shlvl(str);
-			free(str);
 		}
 		else
 			current->value = ft_value(env[i]);
-		current->equal = ft_value("=");
+		if (current->value)
+			current->equal = ft_value("=");
 		if (env[++i])
 		{
 			current->next = creat_env_list();
