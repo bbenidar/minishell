@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 01:18:19 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/09 01:20:37 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 13:13:41 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,16 @@ char	*merge_str(char **str)
 char	*find_value(char *str, t_envir *env)
 {
 	char	*ret;
+	char	*num;
 
+	num = ft_itoa(g_flags.exit_stat / 256);
 	ret = ft_strdup("");
 	if (str[0] == '?')
-		ret = ft_strdup(ft_itoa(g_flags.exit_stat / 256));
+	{
+		free(ret);
+		ret = ft_strdup(num);
+	}
+	free(num);
 	while (env)
 	{
 		if (!ft_strcmp(env->variable, str))

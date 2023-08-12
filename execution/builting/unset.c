@@ -6,11 +6,22 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 09:08:17 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/11 20:28:42 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 13:29:23 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void ft_free_node(t_envir *tmp)
+{
+	if (tmp->variable)
+		free(tmp->variable);
+	if (tmp->value)
+		free(tmp->value);
+	if (tmp->equal)
+		free(tmp->equal);
+	free(tmp);
+}
 
 t_envir	*rem_from_list(t_envir *env, char *cmd)
 {
@@ -20,6 +31,7 @@ t_envir	*rem_from_list(t_envir *env, char *cmd)
 	if (!ft_strcmp(env->variable, cmd))
 	{
 		ret = env->next;
+		ft_free_node(env);
 		return (ret);
 	}
 	ret = env;
@@ -28,6 +40,7 @@ t_envir	*rem_from_list(t_envir *env, char *cmd)
 		if (env->next->variable && !ft_strcmp(env->next->variable, cmd))
 		{
 			tmp = env->next;
+			ft_free_node(tmp);
 			env->next = env->next->next;
 			return (ret);
 		}
@@ -83,14 +96,20 @@ void	ft_unset(t_envir **env, char **cmd)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (cmd[i])
 	{
 		if (!check_expo(cmd[i]))
-			return (ft_putendl_fd("unset : not a valid identifier", 2));
-		i++;
+		{
+			i++;
+			ft_putendl_fd("minishell : not a valid identifier", 2);
+			if (!cmd[i])
+				return ;
+		}
+		else
+		{
+			*env = rem_from_list(*env, cmd[i]);
+			i++;
+		}
 	}
-	i = 0;
-	while (cmd[++i])
-		*env = rem_from_list(*env, cmd[i]);
 }

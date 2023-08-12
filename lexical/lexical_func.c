@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 11:39:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 00:05:16 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 13:35:05 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ void	lexical_function(char *line, t_envir **envr)
 	if (last->word && g_flags.herdo_c != 1)
 		ft_execution(last, envr);
 	else if (!last->word && g_flags.herdo_c != 1)
-		g_flags.exit_stat = 127 * 256;
+		g_flags.exit_stat = 1 * 256;
 	cleanup_and_exit(&head, &last);
 }

@@ -1,0 +1,30 @@
+➜ minishell ✗ ls < b
+b: No such file or directory
+➜ minishell ✗ echo $?
+127     --> 1                                               #solved
+_________________________________________________________________________
+
+exit status --> cat     ctrl+\  --> exit status = 131
+_________________________________________________________________________
+
+exit status --> cat     ctrl+ c  --> exit status = 130
+_________________________________________________________________________
+
+➜ minishell ✗ <<  a cat leak                                  #solved
+_________________________________________________________________________
+
+exit 5 | exit 7
+➜ minishell ✗ echo $?
+7
+_________________________________________________________________________
+
+ls > $kdfh
+
+echo "'''"
+
+^C 
+
+➜ minishell ✗ "l"'s'""$ldhf
+minishell: command not found: ls$ldh
+
+/bin/ls without PATH

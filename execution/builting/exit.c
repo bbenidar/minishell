@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:23:52 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/09 06:31:21 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/12 12:55:41 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_ex(char **str)
 		{
 			printf("exit\nminishell: exit: %s: numeric argument required\n",
 				str[1]);
-			exit(ft_atoll(str[1]) % 256);
+			exit(255);
 		}
 		printf("exit\nminishell: exit: too many arguments\n");
 	}

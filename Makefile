@@ -6,7 +6,7 @@
 #    By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/08/11 23:15:07 by bbenidar         ###   ########.fr        #
+#    Updated: 2023/08/12 14:50:02 by bbenidar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,11 @@ HEAD="\n"\
 
 all : minishell
 
-minishell : ${OBG}
+minishell : ${OBG} minishell.h
 	cc $(FLAGS) ${OBG} -L $(shell brew --prefix readline)/lib -lreadline -o minishell
 	@echo $(HEAD)
 
-%.o : %.c 
+%.o : %.c minishell.h
 	${CC} ${FLAGS} -I $(shell brew --prefix readline)/include -c $< -o $@
 
 fclean : clean

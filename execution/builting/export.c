@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:29:19 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/11 23:53:48 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 12:46:14 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,8 @@ void	ft_pros_one(t_envir *existing, char *cmd, int j)
 		if (ft_strcmp(existing->variable, variable) == 0)
 		{
 			if (cmd[j] == '=')
-			{
-				j++;
-				if (cmd[j])
+				if (cmd[++j])
 					upd_va(existing, ft_get_value(cmd + j), shld_jn);
-			}
 			free(variable);
 			break ;
 		}
@@ -105,10 +102,13 @@ void	export_multiple_variables(t_envir *env, char **cmd)
 			if (!cmd[i])
 				return ;
 		}
-		if (!ft_strcmp(cmd[i], "PATH"))
+		else
+		{
+			if (!ft_strcmp(cmd[i], "PATH"))
 			g_flags.path_fl = 0;
-		export_single_variable(env, cmd, i);
-		i++;
+			export_single_variable(env, cmd, i);
+			i++;
+		}
 	}
 }
 

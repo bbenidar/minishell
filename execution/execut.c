@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/11 21:34:23 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:39:52 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,25 @@ void	ft_execution_helper(t_last **last,
 			exit(127);
 		}
 		execve(path, (*last)->word, g_flags.envire);
-		perror("misadasdasnishell");
+		perror("minishell");
 		exit(0);
 	}
 }
 
-void	process_exi(t_last **last, t_last **prv,
+int	process_exi(t_last **last, t_last **prv,
 		t_envir **envr, int pipe_fds[2])
 {
 	pid_t	pid;
 
 	if ((*last)->next)
 		if (pipe(pipe_fds) == -1) 
-			return (perror("pipe"), exit(0));
-	signal(SIGINT, SIG_IGN);
+			return (perror("pipe"), -1);
+
 	pid = fork();
 	if (pid == 0)
 		ft_execution_helper(&(*last), envr, pipe_fds);
 	else if (pid < 0)
-		return (perror("fork"));
+		return (perror("fork"), -1);
 	else
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -88,31 +88,34 @@ void	process_exi(t_last **last, t_last **prv,
 		*prv = (*last);
 		(*last) = (*last)->next;
 	}
+	return 0;
 }
 
 void	ft_execution(t_last *last, t_envir **envr)
 {
 	t_last	*prv;
 	int		pipe_fds[2];
-	int		size;
 
 	prv = NULL;
 	g_flags.prev_pipe_read = STDIN_FILENO;
 	ft_rem_quo(last);
 	g_flags.envire = NULL;
-	size = ft_lstlast_size(last);
+	g_flags.size = ft_lstlast_size(last);
+	signal(SIGINT, SIG_IGN);
 	while (last)
 	{
 		ret_toreal_v(last->word);
-		if (!ft_check_for_ex(last, prv, envr, size))
+		if (!ft_check_for_ex(last, prv, envr, g_flags.size))
 			last = last->next;
 		else
 		{
 			g_flags.envire = ft_merge_envr(*envr);
-			process_exi(&last, &prv, envr, pipe_fds);
+			if(process_exi(&last, &prv, envr, pipe_fds) == -1)
+				break; ;
 			free_tab(g_flags.envire);
 		}
 	}
 	while (wait(&g_flags.exit_stat) > 0)
 		;
+	signal(SIGINT, ft_sigint);
 }

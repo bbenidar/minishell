@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 23:45:02 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/11 19:40:44 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:42:44 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	ft_check_for_builting(t_last *last, t_envir *env)
 
 int	ft_check_for_ex(t_last *last, t_last *prv, t_envir **env, int size)
 {
-	if (last->word[0])
+	if (last->word && last->word[0])
 	{
 		if (last->word[0] && !ft_strcmp(last->word[0], "exit"))
 		{

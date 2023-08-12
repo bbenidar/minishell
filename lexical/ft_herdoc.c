@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:55:36 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/11 20:08:00 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:29:32 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	ft_herdoc(t_stack *list, t_envir *envr)
 	list->word = ft_strdup("");
 	if (list->next && list->next->next && list->next->next->key == COMMAND)
 	{
+		free(list->word);
 		list->word = list->next->next->word;
 		list->key = COMMAND;
 		list->next->next->word = ft_strdup("");
@@ -98,6 +99,5 @@ int	ft_herdoc(t_stack *list, t_envir *envr)
 		list->next->word = ft_strdup(name);
 		list->next->key = FILE_IN;
 	}
-	free(name);
-	return (fd);
+	return (free(name), fd);
 }

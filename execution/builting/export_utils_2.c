@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 18:56:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/11 23:58:05 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 12:45:54 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_expo(char *str)
 	while (cmd[j])
 	{
 		if (!ft_is_valid(cmd[j], j))
-			return (0);
+			return (free(cmd), 0);
 		else
 			j++;
 	}
@@ -81,7 +81,7 @@ void	ft_pros_two(t_envir *tmp, char **cmd, int j, int i)
 	if (cmd[i][j] == '=')
 	{
 		tmp->equal = ft_strdup("=");
-		if (cmd[++j])
+		if (cmd[i][++j])
 		{
 			free(tmp->value);
 			tmp->value = ft_get_value(cmd[i] + j);
@@ -94,5 +94,4 @@ void	ft_pros_two(t_envir *tmp, char **cmd, int j, int i)
 		tmp->value = NULL;
 		tmp->equal = NULL;
 	}
-
 }

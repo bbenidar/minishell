@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 21:31:21 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/11 21:34:29 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:42:10 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,14 @@ void	ft_rem_quo(t_last *last)
 	while (last)
 	{
 		i = 0;
-		while (last->word[i])
+		while (last->word && last->word[i])
 		{
 			if (!ft_strcmp(last->word[i], "\"\"" )
 				|| !ft_strcmp(last->word[i], "\'\'" ))
-				last->word[i] = ft_strdup(" ");
+				{
+					free(last->word[i]);
+					last->word[i] = ft_strdup(" ");
+				}
 			else
 				last->word[i] = dell_quots(last->word[i]);
 			i++;

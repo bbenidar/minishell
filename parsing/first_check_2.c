@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:59:54 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 01:00:37 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:28:04 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	ft_check_quotes(char *str)
 	int	i;
 
 	a = -1;
-	i = 0;
+	i = -1;
 	b = -1;
-	while (str && str[i])
+	while (str && str[++i])
 	{
 		if (str[i] == 34 && b == -1)
 			a *= -1;
@@ -29,12 +29,12 @@ int	ft_check_quotes(char *str)
 			str[i] *= -1;
 		if (str[i] == 39 && a == -1)
 			b *= -1;
-		if ((str[i] == ' ' || str[i] == '<' ) && (a != -1 || b != -1))
+		if ((str[i] == ' ' || str[i] == '<'
+				|| str[i] == '\t') && (a != -1 || b != -1))
 			str[i] *= -1;
 		if ((str[i] == '\'' && a != -1 && b == 1)
 			|| (str[i] == '\"' && b != -1 && a == 1))
 			str[i] *= -1;
-		i++;
 	}
 	if (a == 1 || b == 1)
 		return (1);

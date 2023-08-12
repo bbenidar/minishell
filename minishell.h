@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/11 21:40:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:50:13 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <unistd.h>
 # include <sys/ioctl.h>
 # include <string.h>
+
 
 enum				e_type
 {
@@ -63,6 +64,10 @@ typedef struct s_stack
 	struct s_stack	*next;
 }				t_stack;
 
+
+
+
+
 // global struct ----------------------------------
 typedef struct g_variables
 {
@@ -78,6 +83,7 @@ typedef struct g_variables
 	int			c_falg;
 	int			i_splt_falg;
 	int			herdo_c;
+	int			size;
 	int			prev_pipe_read;
 	char		**envire;
 	long long	n;
