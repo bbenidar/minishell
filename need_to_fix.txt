@@ -4,10 +4,10 @@ b: No such file or directory
 127     --> 1                                               #solved
 _________________________________________________________________________
 
-exit status --> cat     ctrl+\  --> exit status = 131
+exit status --> cat     ctrl+\  --> exit status = 131		#solved
 _________________________________________________________________________
 
-exit status --> cat     ctrl+ c  --> exit status = 130
+exit status --> cat     ctrl+ c  --> exit status = 130       #solved
 _________________________________________________________________________
 
 ➜ minishell ✗ <<  a cat leak                                  #solved
@@ -18,13 +18,33 @@ exit 5 | exit 7
 7
 _________________________________________________________________________
 
-ls > $kdfh
+ls > $kdfh                       				$not solved
 
-echo "'''"
+echo "'''"  									#solved
 
 ^C 
+_________________________________________________________________________
 
-➜ minishell ✗ "l"'s'""$ldhf
+➜ minishell ✗ "l"'s'""$ldhf						#solved
 minishell: command not found: ls$ldh
 
+_________________________________________________________________________
+
 /bin/ls without PATH
+_________________________________________________________________________
+
+echo $"asdas"				#solved
+
+export =+=+= 				#solved
+
+export =5					#solved
+
+dup2: Bad file descriptor   #SOLVED
+
+_________________________________________________________________________
+
+//
+_=/usr/bin/env
+➜ minishell ✗ unset PWD SHLVL _ PATH
+➜ minishell ✗ export a
+[1]    16348 segmentation fault  env -i ./minishell    #solved

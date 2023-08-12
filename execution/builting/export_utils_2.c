@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 18:56:12 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 12:45:54 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:52:14 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	check_expo(char *str)
 
 	j = 0;
 	cmd = ft_get_variable(str, &j);
+	if (!ft_strcmp(cmd, "") || !ft_strcmp(cmd, "+"))
+		return (free(cmd), 0);
 	if (cmd[ft_strlen(cmd) - 1] == '+')
 		cmd[ft_strlen(cmd) - 1] = '\0';
 	j = 0;

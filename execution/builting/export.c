@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:29:19 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/12 12:46:14 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:52:18 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,24 @@ void	export_single_variable(t_envir *env, char **cmd, int i)
 	else
 	{
 		tmp = return_back_ptr(env);
-		tmp->next = creat_env_list();
-		ft_pros_two(tmp->next, cmd, j, i);
+		if(!tmp)
+		{
+			tmp = creat_env_list();
+			ft_pros_two(tmp, cmd, j, i);
+		}
+		else
+		{
+			tmp->next = creat_env_list();
+			ft_pros_two(tmp->next, cmd, j, i);
+		}
 	}
 }
 
 void	export_multiple_variables(t_envir *env, char **cmd)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	cmd++;
 	while (cmd[i])
 	{

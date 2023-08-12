@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_option.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:42:53 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 12:15:44 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:51:12 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	return_space_to_real_value(char *word)
 {
 	while (*word)
 	{
+		if (*word == 39 * -2)
+			*word = '\'';
 		if (*word == 32 * -1 || *word == 60 * -1 || *word == 9 * -1
 			|| *word == '\'' * -1 || *word == '\"' * -1)
 			*word *= -1;

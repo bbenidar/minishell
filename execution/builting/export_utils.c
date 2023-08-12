@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 09:12:14 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/11 16:45:20 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:52:05 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_envir	*return_back_ptr(t_envir *env)
 {
-	while (env->next)
+	while (env && env->next)
 		env = env->next;
 	return (env);
 }

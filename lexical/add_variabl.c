@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_variabl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 00:05:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 13:01:29 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:51:41 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,16 @@ void	process_variable_subs(char **src, t_envir *envr, int f, int i)
 {
 	while (src && src[i])
 	{
+		
 		if (src[i + 1] && (!ft_strcmp(src[i], "<<")
 				|| !ft_strcmp(src[i], "\'")))
 		{
+			if(ft_strcmp(src[i], "\'"))
+				g_flags.qts_flgs *= -1;
 			while (src[i + 1] && (src[i + 1][0] == (' ' * -2)
-				|| src[i + 1][0] == '\"' || src[i + 1][0] == '\''))
+				|| src[i + 1][0] == '\"'))
 				i++;
-			if (src[i + 1] && src[i + 1][0] == '$' && !f)
+			if (src[i + 1] && src[i + 1][0] == '$' && !f && g_flags.qts_flgs == -1)
 				src[i + 1][0] *= -1;
 		}
 		else if (!ft_strcmp(src[i], "$") && (src[i + 1]))
@@ -104,6 +107,20 @@ static void	normalize_special_chars(char *line)
 		i++;
 	}
 }
+void ft_last_check(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i + 1] && line[i] == '$'
+			&& line[i + 1] == '\"')
+			line[i] = ' ';
+		i++;
+		
+	}
+}
 
 char	*ft_add_variables(char *line, t_envir *envr, int f)
 {
@@ -128,5 +145,6 @@ char	*ft_add_variables(char *line, t_envir *envr, int f)
 	line = merge_tab(src);
 	normalize_special_chars(line);
 	free_tab(src);
+	ft_last_check(line);
 	return (line);
 }
