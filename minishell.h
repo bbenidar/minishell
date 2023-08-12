@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 17:51:57 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:54:31 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include <unistd.h>
 # include <sys/ioctl.h>
 # include <string.h>
-
 
 enum				e_type
 {
@@ -63,10 +62,6 @@ typedef struct s_stack
 	int				key;
 	struct s_stack	*next;
 }				t_stack;
-
-
-
-
 
 // global struct ----------------------------------
 typedef struct g_variables
@@ -116,6 +111,7 @@ void				ft_putendl_fd(char *s, int fd);
 char				*ft_strjoin(char const *s1, char const *s2);
 int					ft_isdigit(int c);
 //util/utils4.c
+void				ft_last_check(char *line);
 int					ft_tolower(int c);
 char				*ft_strchr(const char *s, int c);
 int					ft_atoi(const char *str);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 09:08:17 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/12 17:50:12 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:44:58 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_free_node(t_envir *tmp)
+void	ft_free_node(t_envir *tmp)
 {
 	if (tmp->variable)
 		free(tmp->variable);

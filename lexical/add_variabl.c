@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_variabl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 00:05:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 17:51:41 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:53:59 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,17 @@ static char	**merg_and_split_multiple_time(char *line)
 
 void	process_variable_subs(char **src, t_envir *envr, int f, int i)
 {
-	while (src && src[i])
+	while (src && src[++i])
 	{
-		
-		if (src[i + 1] && (!ft_strcmp(src[i], "<<")
-				|| !ft_strcmp(src[i], "\'")))
+		if (src[i + 1] && (!ft_strcmp(src[i], "<<") || src[i][0] == '\''))
 		{
-			if(ft_strcmp(src[i], "\'"))
+			if (ft_strcmp(src[i], "\'"))
 				g_flags.qts_flgs *= -1;
 			while (src[i + 1] && (src[i + 1][0] == (' ' * -2)
 				|| src[i + 1][0] == '\"'))
 				i++;
-			if (src[i + 1] && src[i + 1][0] == '$' && !f && g_flags.qts_flgs == -1)
+			if (src[i + 1] && src[i + 1][0] == '$'
+				&& !f && g_flags.qts_flgs == -1)
 				src[i + 1][0] *= -1;
 		}
 		else if (!ft_strcmp(src[i], "$") && (src[i + 1]))
@@ -63,7 +62,6 @@ void	process_variable_subs(char **src, t_envir *envr, int f, int i)
 				src[i] = ft_strdup("");
 			}
 		}
-		i++;
 	}
 }
 
@@ -107,20 +105,6 @@ static void	normalize_special_chars(char *line)
 		i++;
 	}
 }
-void ft_last_check(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i + 1] && line[i] == '$'
-			&& line[i + 1] == '\"')
-			line[i] = ' ';
-		i++;
-		
-	}
-}
 
 char	*ft_add_variables(char *line, t_envir *envr, int f)
 {
@@ -136,7 +120,7 @@ char	*ft_add_variables(char *line, t_envir *envr, int f)
 	convert_special_chars(line);
 	i = 0;
 	src = merg_and_split_multiple_time(line);
-	process_variable_subs(src, envr, f, 0);
+	process_variable_subs(src, envr, f, -1);
 	process_variable_substitution_2(src, 0, 0);
 	line = merge_tab(src);
 	free_tab(src);

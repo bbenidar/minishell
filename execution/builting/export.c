@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:29:19 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/12 17:52:18 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:44:40 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	export_single_variable(t_envir *env, char **cmd, int i)
 	else
 	{
 		tmp = return_back_ptr(env);
-		if(!tmp)
+		if (!tmp)
 		{
 			tmp = creat_env_list();
 			ft_pros_two(tmp, cmd, j, i);
@@ -111,7 +111,7 @@ void	export_multiple_variables(t_envir *env, char **cmd)
 		else
 		{
 			if (!ft_strcmp(cmd[i], "PATH"))
-			g_flags.path_fl = 0;
+				g_flags.path_fl = 0;
 			export_single_variable(env, cmd, i);
 			i++;
 		}

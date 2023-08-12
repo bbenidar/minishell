@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/12 17:52:22 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:43:56 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	process_exi(t_last **last, t_last **prv,
 	if ((*last)->next)
 		if (pipe(pipe_fds) == -1) 
 			return (perror("pipe"), -1);
-
 	pid = fork();
 	if (pid == 0)
 		ft_execution_helper(&(*last), envr, pipe_fds);
@@ -88,24 +87,25 @@ int	process_exi(t_last **last, t_last **prv,
 		*prv = (*last);
 		(*last) = (*last)->next;
 	}
-	return pid;
+	return (pid);
 }
 
-void waiting_for_ex(pid_t pid)
+void	waiting_for_ex(pid_t pid)
 {
 	pid_t	wait_pid;
 	int		exit_status;
+
 	while (1)
 	{
 		wait_pid = wait(&exit_status);
 		if (wait_pid <= 0)
-			break;
+			break ;
 		if (wait_pid == pid)
 			g_flags.exit_stat = exit_status;
 	}
-	if(WTERMSIG(g_flags.exit_stat) == SIGINT)
+	if (WTERMSIG(g_flags.exit_stat) == SIGINT)
 		g_flags.exit_stat = 130 * 256;
-	if(WTERMSIG(g_flags.exit_stat) == SIGQUIT)
+	if (WTERMSIG(g_flags.exit_stat) == SIGQUIT)
 		g_flags.exit_stat = 131 * 256;
 	signal(SIGINT, ft_sigint);
 }
@@ -130,9 +130,9 @@ void	ft_execution(t_last *last, t_envir **envr)
 		else
 		{
 			g_flags.envire = ft_merge_envr(*envr);
-			pid =	process_exi(&last, &prv, envr, pipe_fds) ;
+			pid = process_exi(&last, &prv, envr, pipe_fds);
 			if (pid == -1)
-				break; ;
+				break ;
 			free_tab(g_flags.envire);
 		}
 	}
