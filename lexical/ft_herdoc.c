@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:55:36 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 14:29:32 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 21:44:38 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static void	process_herdoc_input(int fd, t_stack *list, t_envir *envr)
 		if (!process_and_write_input(her, list))
 			break ;
 		if (g_flags.delim_flags == 0)
-			her = ft_add_variables(her, envr, 1);
+			if (*her)
+				her = ft_add_variables(her, envr, 1);
 		ft_putstr_fd(her, fd);
 		ft_putstr_fd("\n", fd);
 		free(her);

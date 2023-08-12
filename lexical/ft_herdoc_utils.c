@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:08:02 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/10 19:55:08 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 21:45:22 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_herd(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
 	g_flags.herdo_c = 1;
 	close(STDIN_FILENO);
 }

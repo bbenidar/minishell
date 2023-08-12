@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 17:17:03 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 18:52:48 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 21:21:37 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_sigint(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 	if (g_flags.exit_flags != 130 * 256)
 		g_flags.exit_stat = 1 * 256;
@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **env)
 	av[1] = 0;
 	if (ac != 1)
 		return (ft_putstr_fd("HOPLAAA, args are not allowed 🤡\n", 2), 1);
-	// rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	g_flags.qts_flgs = 1;
 	printf("\033[2J\033[1;1H");
 	printf("\n");

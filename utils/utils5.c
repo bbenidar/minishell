@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:00 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 18:54:05 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 21:17:32 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_last_check(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i + 1] && line[i] == '$'
 			&& line[i + 1] == '\"')

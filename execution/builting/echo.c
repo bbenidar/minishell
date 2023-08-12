@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:24:27 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/11 17:35:36 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 21:04:08 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@ int	chech_for_no_new_line(char *str)
 		i++;
 	}
 	return (0);
-}
-
-void	ft_putstr(char *str, int fd)
-{
-	while (*str)
-		write(fd, str, 1);
-	{
-		str++;
-	}
 }
 
 void	ft_echo(t_last *last, char **str)

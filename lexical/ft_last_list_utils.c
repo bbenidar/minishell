@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 22:13:02 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 13:34:17 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 21:46:09 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	handle_file_input(t_last *last, t_stack **tmp)
 		free((*tmp)->word);
 		(*tmp)->word = ft_strdup("");
 	}
+	if (last->input != 0)
+		close(last->input);
 	last->input = open((*tmp)->word, O_RDONLY, 0777);
 	if (last->input < 0)
 	{

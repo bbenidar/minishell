@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:10:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 00:06:41 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 21:27:44 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	handle_file_ou(t_stack *tmp, t_last *last)
 {
 	if (tmp->key == FILE_OUT || tmp->key == FILE_APP)
 	{
+		if (last->output != 1)
+			close(last->output);
 		last->output = handle_file_output(tmp, tmp->key);
 		if (last->output < 0)
 		{

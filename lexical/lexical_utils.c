@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 22:39:50 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/11 15:29:38 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/12 21:46:23 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void	ft_free_last(t_last **env)
 {
 	while (*env)
 	{
+		if ((*env)->input != 0)
+			close((*env)->input);
+		if ((*env)->output != 1)
+			close((*env)->output);
 		free_tab((*env)->word);
 		free((*env));
 		(*env) = (*env)->next;
