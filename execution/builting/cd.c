@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:23:23 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/09 06:24:06 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/13 13:29:06 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void	ft_cd(char *arg, t_envir *env)
 		if (login)
 			chdir(login);
 		else
+		{
+			g_flags.exit_stat = 1;
 			printf("minishell: cd: HOME not set\n");
+		}
 		return ;
 	}
 	else

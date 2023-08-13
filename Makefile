@@ -6,14 +6,14 @@
 #    By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 14:11:37 by bbenidar          #+#    #+#              #
-#    Updated: 2023/08/12 17:51:26 by sakarkal         ###   ########.fr        #
+#    Updated: 2023/08/12 21:53:20 by bbenidar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = MINISHELL
+NAME = minishell
 
 CC	= cc
-FLAGS = -Wall -Wextra -g -Werror
+FLAGS = -Wall -Wextra -Werror
 
 SRC =  	./parsing/first_check.c ./parsing/first_check_2.c ./parsing/check_utils.c minishell.c ./utils/utils3.c ./lexical/ft_dell_space.c \
 		./lexical/lexical_func.c  ./lexical/checking_.c  ./lexical/ft_herdoc.c  ./lexical/ft_herdoc_utils.c ./lexical/ft_split_in_list.c \

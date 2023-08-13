@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/12 21:01:20 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/13 13:30:58 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_execution_helper(t_last **last,
 
 	execute_child_helper(*last, pipe_fds);
 	if (ft_check_for_builting((*last), *envr))
-		exit(0);
+		exit(g_flags.exit_stat);
 	else
 	{
 		path = ft_getfile_name((*last)->word, *envr);
@@ -125,7 +125,7 @@ void	ft_execution(t_last *last, t_envir **envr)
 	while (last)
 	{
 		ret_toreal_v(last->word);
-		if (!ft_check_for_ex(last, prv, envr, g_flags.size))
+		if (g_flags.size <= 1 && !ft_check_for_ex(last, prv, envr))
 			last = last->next;
 		else
 		{

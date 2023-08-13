@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 00:05:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 21:35:10 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:45:51 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ static char	**merg_and_split_multiple_time(char *line)
 	line = merge_str(src);
 	free_tab(src);
 	src = ft_split_opera(line, '$');
+	free(line);
+	line = merge_str(src);
+	free_tab(src);
+	src = ft_split_opera(line, '=');
 	free(line);
 	line = merge_str(src);
 	free_tab(src);

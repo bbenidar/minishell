@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_check_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:59:54 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 17:51:03 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/13 16:23:55 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@ void	ft_check_qu_helper(char *str, int i, int *a, int *b)
 {
 	if (str[i] == 34 && *b == -1)
 		*a *= -1;
-	if ((str[i] == '$') && *b != -1 && *a == -1)
+	if (((str[i] == '$') || (str[i] == '>')
+			|| (str[i] == '<')) && *b != -1 && *a == -1)
+		str[i] *= -1;
+	if (((str[i] == '>') || (str[i] == '<')) && *b == -1 && *a != -1)
 		str[i] *= -1;
 	if ((str[i] == '\'') && *b == -1 && *a != -1)
+		str[i] *= -2;
+	if ((str[i] == '\"') && *b != -1 && *a == -1)
 		str[i] *= -2;
 	if (str[i] == 39 && *a == -1)
 		*b *= -1;
@@ -27,6 +32,9 @@ void	ft_check_qu_helper(char *str, int i, int *a, int *b)
 		str[i] *= -1;
 	if ((str[i] == '\'' && *a != -1 && *b == 1)
 		|| (str[i] == '\"' && *b != -1 && *a == 1))
+		str[i] *= -1;
+	if ((str[i] == '|' && *a == 1 && *b == -1)
+		|| (str[i] == '|' && *b == 1 && *a == -1))
 		str[i] *= -1;
 }
 

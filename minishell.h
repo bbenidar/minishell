@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:34:27 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 21:21:17 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/13 16:35:41 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,13 +211,15 @@ int					variable_exists(t_envir *tmp, char *variable);
 void				ft_pros_two(t_envir *tmp, char **cmd, int j, int i);
 char				*ft_getfile_name(char **cammnd, t_envir *envr);
 int					ft_check_for_ex(t_last *last, t_last *prv,
-						t_envir **env, int size);
+						t_envir **env);
 int					ft_check_for_builting(t_last *last, t_envir *env);
 void				ret_toreal_v(char **str);
 void				free_add(t_envir *existing);
 void				ft_rem_quo(t_last *last);
 char				*dell_quots(char *line);
 int					ft_lstlast_size(t_last *lst);
+char				*getfile_name_helper(t_envir *envr);
+int					ft_strchr_sla(char *s, int c);
 
 t_var	g_flags;
 #endif

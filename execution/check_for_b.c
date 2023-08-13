@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 23:45:02 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 21:13:30 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/13 13:36:24 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,42 +42,37 @@ char	*getfile_name_helper(t_envir *envr)
 	return (str);
 }
 
-char	*ft_getfile_name(char **cammnd, t_envir *envr)
+int	ft_builting_2(t_last *last, t_envir *env)
 {
-	char	*str;
-	char	**paths;
-	int		i;
-
-	if (ft_strchr_sla(cammnd[0], '/') == 1)
-		return (cammnd[0]);
-	str = getfile_name_helper(envr);
-	if (!str)
-		return (NULL);
-	paths = ft_split(str, ':');
-	free(str);
-	str = ft_strjoin(ft_strjoin
-			(ft_strjoin(ft_strdup(""), paths[0]), "/"), cammnd[0]);
-	i = 0;
-	while (paths[++i])
+	if (g_flags.size)
 	{
-		if (!access(str, F_OK))
-			return (str);
-		free(str);
-		str = ft_strjoin(ft_strjoin(ft_strjoin
-					(ft_strdup(""), paths[i]), "/"), cammnd[0]);
+		if (last->word[0] && !ft_strcmp(last->word[0], "exit"))
+		{
+			if (!last->next)
+				ft_exit(last->word);
+			return (1);
+		}
+		else if (last->word[0] && !ft_strcmp(last->word[0], "cd"))
+			return (ft_cd(last->word[1], env), 1);
+		else if (last->word[1] && !ft_strcmp(last->word[0], "export"))
+		{
+			ft_export(&env, last->word);
+			return (1);
+		}
+		else if (last->word[0] && !ft_strcmp(last->word[0], "unset"))
+			return (ft_unset(&env, last->word), 1);
 	}
-	return (NULL);
+	return (0);
 }
 
 int	ft_check_for_builting(t_last *last, t_envir *env)
 {
-	if (last->word[0])
+	if (last->word && last->word[0])
 	{
-		if (!ft_strcmp(last->word[0], "echo"))
-		{
-			ft_echo(last, last->word);
+		if (ft_builting_2(last, env))
 			return (1);
-		}
+		else if (!ft_strcmp(last->word[0], "echo"))
+			return (ft_echo(last, last->word), 1);
 		else if (!ft_strcmp(last->word[0], "env"))
 		{
 			ft_env(env, 0, last->word);
@@ -97,31 +92,28 @@ int	ft_check_for_builting(t_last *last, t_envir *env)
 	return (0);
 }
 
-int	ft_check_for_ex(t_last *last, t_last *prv, t_envir **env, int size)
+int	ft_check_for_ex(t_last *last, t_last *prv, t_envir **env)
 {
 	if (last->word && last->word[0])
 	{
 		if (last->word[0] && !ft_strcmp(last->word[0], "exit"))
 		{
-			if (!last->next && !prv && size <= 1)
+			if (!last->next && !prv)
 				ft_exit(last->word);
 			return (0);
 		}
 		else if (last->word[0] && !ft_strcmp(last->word[0], "cd"))
 		{
-			if (size <= 1)
-				ft_cd(last->word[1], *env);
+			ft_cd(last->word[1], *env);
 			return (0);
 		}
 		else if (last->word[1] && !ft_strcmp(last->word[0], "export"))
 		{
-			if (size <= 1)
-				ft_export(env, last->word);
+			ft_export(env, last->word);
 			return (0);
 		}
 		else if (last->word[0] && !ft_strcmp(last->word[0], "unset"))
-			if (size <= 1)
-				return (ft_unset(env, last->word), 0);
+			return (ft_unset(env, last->word), 0);
 	}
 	return (1);
 }

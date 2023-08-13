@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_option.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:42:53 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 17:51:12 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/13 16:42:18 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	ft_option(t_stack *list, t_last *str)
 		if (tmp->key == COMMAND || tmp->key == OPTION)
 		{
 			src = ft_strjoin(src, tmp->word);
-			src = ft_strjoin(src, "&");
+			src = ft_strjoin(src, "`");
 		}
 		tmp = tmp->next;
 		j++;
 	}
 	ft_remove_gv(src);
-	str->word = ft_split(src, '&');
+	str->word = ft_split(src, '`');
 	free(src);
 }
 
@@ -69,6 +69,10 @@ void	return_space_to_real_value(char *word)
 	{
 		if (*word == 39 * -2)
 			*word = '\'';
+		if (*word == 34 * -2)
+			*word = '\"';
+		if (*word == 124 * -1 || *word == 62 * -1 || *word == 60 * -1)
+			*word *= -1;
 		if (*word == 32 * -1 || *word == 60 * -1 || *word == 9 * -1
 			|| *word == '\'' * -1 || *word == '\"' * -1)
 			*word *= -1;

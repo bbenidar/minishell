@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 13:26:45 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 17:50:53 by sakarkal         ###   ########.fr       */
+/*   Updated: 2023/08/13 15:52:22 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ int	ft_first_check(char *str)
 			printf("ERROR :Unclosed quotes\n");
 		else if (*str == 124 || *str == 38 || check_pipe(str))
 			printf("minishell: syntax error near unexpected token `| or &`\n");
-		else if (check_logical(str))
-			printf("minishell: LOGICAL ERROR (logic operation not handled)\n");
 		else if (check_redir(str))
 			printf("minishell: syntax error near unexpected token `<'\n");
 		else

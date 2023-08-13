@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:10:52 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 21:27:44 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/13 15:27:35 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	handle_options(t_stack *tmp, t_last *last, int i)
 {
-	if (tmp && i == 1 && ft_strcmp(tmp->word, "<<"))
+	if (tmp->word && tmp && i == 1 && ft_strcmp(tmp->word, "<<"))
 	{
 		ft_option(tmp, last);
 		i = 0;

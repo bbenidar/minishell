@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 21:31:21 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 18:44:17 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/13 13:37:13 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,31 @@ char	**ft_copy_tab(char **env)
 	}
 	ret[i] = 0;
 	return (ret);
+}
+
+char	*ft_getfile_name(char **cammnd, t_envir *envr)
+{
+	char	*str;
+	char	**paths;
+	int		i;
+
+	if (ft_strchr_sla(cammnd[0], '/') == 1)
+		return (cammnd[0]);
+	str = getfile_name_helper(envr);
+	if (!str)
+		return (NULL);
+	paths = ft_split(str, ':');
+	free(str);
+	str = ft_strjoin(ft_strjoin
+			(ft_strjoin(ft_strdup(""), paths[0]), "/"), cammnd[0]);
+	i = 0;
+	while (paths[++i])
+	{
+		if (!access(str, F_OK))
+			return (str);
+		free(str);
+		str = ft_strjoin(ft_strjoin(ft_strjoin
+					(ft_strdup(""), paths[i]), "/"), cammnd[0]);
+	}
+	return (NULL);
 }

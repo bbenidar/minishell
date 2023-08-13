@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 22:13:02 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/12 21:46:09 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/13 15:52:15 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_check_for_herdoc(t_stack	*tmp, t_envir *envr, t_last	*last)
 {
 	while (tmp)
 	{
-		if (tmp && (!ft_strcmp(tmp->word, "<<")
+		if (tmp && tmp->word && (!ft_strcmp(tmp->word, "<<")
 				&& tmp->key == RED_HER))
 		{
 			last->input = ft_herdoc(tmp, envr);
@@ -37,6 +37,7 @@ int	handle_file_output(t_stack *tmp, int key)
 {
 	int	fd_out;
 
+	return_space_to_real_value(tmp->word);
 	if (!ft_strcmp(tmp->word, "\"\"") || !ft_strcmp(tmp->word, "\'\'"))
 	{
 		free(tmp->word);
@@ -48,6 +49,7 @@ int	handle_file_output(t_stack *tmp, int key)
 
 void	handle_file_input(t_last *last, t_stack **tmp)
 {
+	return_space_to_real_value((*tmp)->word);
 	if (!ft_strcmp((*tmp)->word, "\"\"") || !ft_strcmp((*tmp)->word, "\'\'"))
 	{
 		free((*tmp)->word);
