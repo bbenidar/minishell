@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:29:19 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/13 13:29:48 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:56:25 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	export_multiple_variables(t_envir *env, char **cmd)
 			ft_putendl_fd("minishell : not a valid identifier", 2);
 			if (!cmd[i])
 			{
-				g_flags.exit_stat = 1;
+				g_flags.exit_stat = 1 * 256;
 				return ;
 			}
 		}

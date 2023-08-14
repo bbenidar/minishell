@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:23:23 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/13 13:29:06 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:18:57 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void	ft_cd(char *arg, t_envir *env)
 	else
 	{
 		if (chdir(arg) == -1)
-			perror("minihell :");
+		{
+			perror("minihell ");
+			g_flags.exit_stat = 1 * 256;
+		}
 	}
 }

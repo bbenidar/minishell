@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:24:13 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/13 13:30:58 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:31:57 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_execution_helper(t_last **last,
 		}
 		execve(path, (*last)->word, g_flags.envire);
 		perror("minishell");
-		exit(0);
+		exit(127);
 	}
 }
 

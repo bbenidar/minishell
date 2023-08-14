@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 22:13:02 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/13 15:52:15 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:29:55 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	handle_file_input(t_last *last, t_stack **tmp)
 	{
 		free_tab(last->word);
 		last->word = NULL;
-		g_flags.exit_stat = 1 * 256;
 		perror((*tmp)->word);
+		g_flags.exit_stat = 127 * 256;
 	}
 }
 
