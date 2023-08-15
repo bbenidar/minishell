@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 06:23:23 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/14 11:18:57 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/15 23:48:56 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_cd(char *arg, t_envir *env)
 	{
 		if (chdir(arg) == -1)
 		{
-			perror("minihell ");
+			perror("minishell ");
 			g_flags.exit_stat = 1 * 256;
 		}
 	}
