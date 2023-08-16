@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakarkal <sakarkal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:23:57 by sakarkal          #+#    #+#             */
-/*   Updated: 2023/08/11 20:28:28 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/15 23:50:56 by sakarkal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_pwd(void)
 {
 	char	buffer[4096];
 
-	if (!getcwd(buffer, sizeof(buffer)))
-		perror("minishell");
+	getcwd(buffer, sizeof(buffer));
 	printf("%s\n", buffer);
 }
