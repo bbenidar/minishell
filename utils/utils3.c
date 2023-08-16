@@ -6,7 +6,7 @@
 /*   By: bbenidar <bbenidar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:21:07 by bbenidar          #+#    #+#             */
-/*   Updated: 2023/08/06 23:38:43 by bbenidar         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:57:26 by bbenidar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = 0;
 	j = 0;
 	if (!s1 || !s2)
-		return (NULL);
+		return (free((char *)s1), NULL);
 	len = ft_strlen((char *)s1) + ft_strlen((char *)s2);
 	nstr = (char *)malloc(sizeof(char) * (len + 1));
 	if (!nstr)
